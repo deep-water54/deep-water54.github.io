@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>АкваДом — Мега-энциклопедия</title>
+  <title>АкваДом — полная энциклопедия</title>
   <style>
     :root {
       --ink: #222; --muted: #777; --red: #e63946; --red-dark: #c1121f;
@@ -17,6 +17,7 @@
     button { cursor: pointer; }
     .container { width: min(1200px, calc(100% - 40px)); margin-inline: auto; }
 
+    /* Шапка */
     .site-header { background: var(--red); color: white; padding: 15px 0; position: sticky; top: 0; z-index: 50; box-shadow: 0 4px 15px rgba(230,57,70,.3); }
     .nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
     .brand { font-size: 1.4rem; font-weight: 800; cursor: pointer; }
@@ -24,13 +25,23 @@
     .nav-links a { padding: 8px 12px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
     .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,.2); }
 
+    /* Страницы */
     .page { display: none; padding: 40px 0; animation: fadeIn 0.3s ease; }
     .page.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     .section-title { font-size: 2.2rem; color: var(--red); margin-top: 0; margin-bottom: 10px; }
-    .section-desc { color: var(--muted); font-size: 1.1rem; margin-bottom: 30px; max-width: 800px; }
+    .section-desc { color: var(--muted); font-size: 1.1rem; margin-bottom: 25px; max-width: 800px; }
 
+    /* Поиск и фильтры */
+    .controls { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px; background: white; padding: 15px; border-radius: var(--radius); box-shadow: 0 4px 15px rgba(0,0,0,.02); border: 1px solid var(--line); }
+    .search-input { flex-grow: 1; padding: 12px 15px; border: 1px solid var(--line); border-radius: 8px; font-size: 1rem; outline: none; transition: 0.2s; }
+    .search-input:focus { border-color: var(--red); }
+    .filter-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+    .filter-btn { padding: 10px 15px; border: 1px solid var(--line); background: white; border-radius: 8px; font-weight: 600; color: var(--muted); transition: 0.2s; }
+    .filter-btn:hover, .filter-btn.active { background: var(--red); color: white; border-color: var(--red); }
+
+    /* Сетка */
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
     .card { background: white; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: 0.2s; }
     .card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--red); }
@@ -40,12 +51,26 @@
     .card-desc { color: var(--muted); font-size: 0.9rem; flex-grow: 1; margin-bottom: 15px; }
     .btn-view { background: var(--red); color: white; border: 0; border-radius: 8px; padding: 10px 15px; font-weight: 600; align-self: flex-start; }
 
+    /* Блоки */
     .info-block { background: white; border: 1px solid var(--line); border-radius: var(--radius); padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,.02); }
     .info-block h3 { margin-top: 0; color: var(--ocean); border-bottom: 2px solid var(--aqua); padding-bottom: 10px; display: inline-block; font-size: 1.4rem; }
     .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 4px; margin: 15px 0; }
     
-    .sub-title { color: var(--ocean); margin-top: 30px; margin-bottom: 15px; font-size: 1.6rem; border-left: 4px solid var(--ocean); padding-left: 10px; }
+    /* Калькулятор */
+    .calc-box { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; background: #eaf6f3; padding: 20px; border-radius: var(--radius); border: 1px solid #ccebe2; margin-top: 20px; }
+    .calc-box input { padding: 10px; border: 1px solid var(--line); border-radius: 8px; width: 100px; font-size: 1rem; }
+    .calc-box button { background: var(--ocean); color: white; border: 0; padding: 10px 20px; border-radius: 8px; font-weight: 600; }
+    .calc-result { font-weight: 700; font-size: 1.2rem; color: var(--ocean); margin-left: 10px; }
 
+    /* Таблица совместимости */
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: white; }
+    table { width: 100%; min-width: 600px; border-collapse: collapse; }
+    th, td { padding: 15px; text-align: left; border-bottom: 1px solid var(--line); }
+    th { background: #f9f9f9; color: var(--ocean); font-weight: 700; }
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { font-weight: 600; }
+
+    /* Модалка */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); opacity: 0; pointer-events: none; transition: 0.3s; display: flex; align-items: flex-end; justify-content: center; z-index: 100; }
     .modal-overlay.open { opacity: 1; pointer-events: auto; }
     .modal { width: min(750px, 100%); background: white; border-radius: 20px 20px 0 0; padding: 30px; transform: translateY(100%); transition: 0.4s; max-height: 90vh; overflow-y: auto; position: relative; }
@@ -78,6 +103,7 @@
         <a onclick="showPage('plants')" id="link-plants">Растения</a>
         <a onclick="showPage('equipment')" id="link-equipment">Оборудование</a>
         <a onclick="showPage('disease')" id="link-disease">Болезни</a>
+        <a onclick="showPage('compatibility')" id="link-compatibility">Совместимость</a>
         <a onclick="showPage('start')" id="link-start">Запуск</a>
       </div>
     </div>
@@ -85,7 +111,18 @@
 
   <div id="page-fish" class="page active container">
     <h2 class="section-title">Каталог рыб</h2>
-    <p class="section-desc">Нажми на карточку, чтобы узнать параметры воды и как обустроить для неё идеальный аквариум.</p>
+    <p class="section-desc">Ищи нужную рыбу или фильтруй по категориям.</p>
+    
+    <div class="controls">
+      <input type="text" class="search-input" id="searchInput" placeholder="Поиск по названию...">
+      <div class="filter-buttons">
+        <button class="filter-btn active" onclick="filterFish('all')">Все</button>
+        <button class="filter-btn" onclick="filterFish('peaceful')">Мирные</button>
+        <button class="filter-btn" onclick="filterFish('bottom')">Донные</button>
+        <button class="filter-btn" onclick="filterFish('predator')">Хищники</button>
+      </div>
+    </div>
+    
     <div class="grid" id="fishGrid"></div>
   </div>
 
@@ -101,248 +138,106 @@
     <div class="info-block">
       <h3>Фильтры</h3>
       <p><strong>Правило подбора:</strong> Фильтр должен прокачивать 3–4 объема аквариума в час. Если у вас 100 литров, берите фильтр на 300–400 л/ч.</p>
-      <p><strong>Нюанс с населением:</strong> Если у вас много рыб или они крупные (например, золотые рыбки, которые сильно загрязняют воду), фильтр нужно брать с запасом — на 1.5–2 объема больше, чем требует аквариум.</p>
+      <p><strong>Нюанс с населением:</strong> Если у вас много рыб или они крупные (например, золотые рыбки), фильтр нужно брать с запасом — на 1.5–2 объема больше.</p>
       <ul>
         <li><strong>До 40–60 л:</strong> Внутренние фильтры (Aquael Fan, Tetra In Plus).</li>
         <li><strong>60–150 л:</strong> Внешние канистры (Tetra EX Plus, JBL CristalProfi).</li>
-        <li><strong>150+ л:</strong> Мощные внешние фильтры с большим объемом наполнителей.</li>
+        <li><strong>150+ л:</strong> Мощные внешние фильтры.</li>
       </ul>
     </div>
+    
     <div class="info-block">
-      <h3>Обогреватели</h3>
-      <p><strong>Мощность:</strong> Рассчитывается как 1 Ватт на 1 литр воды. На 100 литров — 100 Вт.</p>
-      <p><strong>Обязательно:</strong> Берите модели с терморегулятором, чтобы поддерживать стабильную температуру (особенно для тропических рыб).</p>
+      <h3>Калькулятор объема</h3>
+      <p>Введи размеры аквариума (в см), чтобы узнать его литраж.</p>
+      <div class="calc-box">
+        <input type="number" id="len" placeholder="Длина">
+        <input type="number" id="wid" placeholder="Ширина">
+        <input type="number" id="hei" placeholder="Высота">
+        <button onclick="calcVolume()">Рассчитать</button>
+        <span class="calc-result" id="calcResult"></span>
+      </div>
     </div>
   </div>
 
   <div id="page-disease" class="page container">
     <h2 class="section-title">Болезни и лечение</h2>
-    <p class="section-desc">Подробный разбор частых проблем, методы лечения и конкретные препараты.</p>
-    
-    <h3 class="sub-title">🐟 Болезни рыб</h3>
-    <div class="grid" style="margin-bottom: 40px;">
-      
+    <div class="grid">
       <div class="card" style="cursor: default; border-color: #e63946;">
         <div class="card-img">🦠</div>
         <div class="card-body">
-          <div class="card-title">Ихтиофтириоз («Манка»)</div>
-          <p><strong>Кто болеет:</strong> Неоны, тетры, петушки, гурами.</p>
-          <p><strong>Симптомы:</strong> Белые точки, похожие на манную крупу. Рыба чешется о камни.</p>
-          <p><strong>Лечение:</strong> Температура 28–30°C + <strong>Малахитовый зелёный</strong> (5 мл на 10 л) или <strong>Sera Omnipur</strong>.</p>
-          <p class="warning">Убрать уголь, выключить УФ!</p>
+          <div class="card-title">Ихтиофтириоз (Манка)</div>
+          <p><strong>Кто болеет:</strong> Неоны, тетры, петушки.</p>
+          <p><strong>Лечение:</strong> 28–30°C + Малахитовый зелёный или Sera Omnipur.</p>
         </div>
       </div>
-
       <div class="card" style="cursor: default; border-color: #e63946;">
         <div class="card-img">🍂</div>
         <div class="card-body">
           <div class="card-title">Плавниковая гниль</div>
-          <p><strong>Кто болеет:</strong> Петушки, гурами, макроподы.</p>
-          <p><strong>Симптомы:</strong> Плавники рвутся, белеют по краям и гниют.</p>
-          <p><strong>Лечение:</strong> Подмены воды, чистка фильтра. <strong>Sera Baktopur</strong> или <strong>Tetra General Tonic</strong>.</p>
+          <p><strong>Кто болеет:</strong> Петушки, гурами.</p>
+          <p><strong>Лечение:</strong> Подмены + Sera Baktopur.</p>
         </div>
       </div>
-
-      <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img">🌫️</div>
-        <div class="card-body">
-          <div class="card-title">Оодиниоз («Бархатная болезнь»)</div>
-          <p><strong>Кто болеет:</strong> Гуппи, меченосцы, данио.</p>
-          <p><strong>Симптомы:</strong> Мелкая золотистая пыль на теле, тяжелое дыхание.</p>
-          <p><strong>Лечение:</strong> Препараты с малахитовым зелёным и формалином. <strong>Sera Omnipur</strong>.</p>
-        </div>
-      </div>
-
-      <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img">☠️</div>
-        <div class="card-body">
-          <div class="card-title">Аммиачное отравление</div>
-          <p><strong>Кто болеет:</strong> Любые рыбы в новом или перекормленном аквариуме.</p>
-          <p><strong>Симптомы:</strong> Жабры красные, рыба висит у поверхности.</p>
-          <p><strong>Лечение:</strong> Срочная подмена 50% воды, кондиционер (Seachem Prime). Не кормить 2 дня.</p>
-        </div>
-      </div>
-
-      <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img">🫧</div>
-        <div class="card-body">
-          <div class="card-title">Грибок (Сапролегния)</div>
-          <p><strong>Кто болеет:</strong> Рыбы с травмами.</p>
-          <p><strong>Симптомы:</strong> Белые ватные комки на теле или плавниках.</p>
-          <p><strong>Лечение:</strong> <strong>Sera mycopur</strong> или соль (1 ст. ложка на 10 л) в карантине.</p>
-        </div>
-      </div>
-
-      <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img">🪱</div>
-        <div class="card-body">
-          <div class="card-title">Гельминты (Черви)</div>
-          <p><strong>Кто болеет:</strong> Дикие или новые рыбы.</p>
-          <p><strong>Симптомы:</strong> Тонкие белые нити из анального отверстия, худоба.</p>
-          <p><strong>Лечение:</strong> <strong>Sera med Professional Tremazol</strong> или <strong>API General Cure</strong>.</p>
-        </div>
-      </div>
-
-      <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img">👁️</div>
-        <div class="card-body">
-          <div class="card-title">Пучеглазие (Экзофтальм)</div>
-          <p><strong>Кто болеет:</strong> Золотые рыбки, цихлиды.</p>
-          <p><strong>Симптомы:</strong> Глаз вылезает из орбиты. Причина — бактерия или травма.</p>
-          <p><strong>Лечение:</strong> Антибиотики (например, <strong>API Melafix</strong> или <strong>Tetra General Tonic</strong>).</p>
-        </div>
-      </div>
-
-      <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img">⚪</div>
-        <div class="card-body">
-          <div class="card-title">Белые наросты (Лимфоцистоз)</div>
-          <p><strong>Кто болеет:</strong> Гуппи, пецилии, золотые рыбки.</p>
-          <p><strong>Симптомы:</strong> Белые бугорки на плавниках, похожие на цветную капусту.</p>
-          <p><strong>Лечение:</strong> Вирусное. Лекарств нет. Стабилизировать воду, поднять температуру.</p>
-        </div>
-      </div>
-
-      <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img">🎈</div>
-        <div class="card-body">
-          <div class="card-title">Водянка (Асцит)</div>
-          <p><strong>Кто болеет:</strong> Петушки, золотые рыбки.</p>
-          <p><strong>Симптомы:</strong> Раздутый живот, ерошение чешуи.</p>
-          <p><strong>Лечение:</strong> Часто смертельно. Антибиотики (API Erythromycin) + соль.</p>
-        </div>
-      </div>
-
-      <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img">💨</div>
-        <div class="card-body">
-          <div class="card-title">Плавательный пузырь</div>
-          <p><strong>Кто болеет:</strong> Золотые рыбки, петушки.</p>
-          <p><strong>Симптомы:</strong> Рыба плавает кверху брюхом или тонет.</p>
-          <p><strong>Лечение:</strong> Не кормить 3 дня (голодная диета), затем давать размоченный горошек.</p>
-        </div>
-      </div>
-
-    </div>
-
-    <h3 class="sub-title">🌿 Болезни растений</h3>
-    <div class="grid">
-
       <div class="card" style="cursor: default; border-color: #2a9d8f;">
         <div class="card-img">🪨</div>
         <div class="card-body">
-          <div class="card-title">Черные пятна на листьях</div>
-          <p><strong>Причина:</strong> Часто это <strong>повреждение корневой системы</strong> (неаккуратная посадка), либо грибок.</p>
-          <p><strong>Лечение:</strong> Не трогать корни, дать растению адаптироваться. Если грибок — затемнение на 3 дня.</p>
+          <div class="card-title">Черные пятна на растениях</div>
+          <p><strong>Причина:</strong> Повреждение корней или грибок.</p>
+          <p><strong>Лечение:</strong> Не трогать корни, затемнение.</p>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div class="card" style="cursor: default; border-color: #2a9d8f;">
-        <div class="card-img">🌿</div>
-        <div class="card-body">
-          <div class="card-title">Черная борода (водоросли)</div>
-          <p><strong>Причина:</strong> Избыток органики (перекорм), сильное течение и яркий свет.</p>
-          <p><strong>Лечение:</strong> <strong>Сайдекс (глутаровый альдегид)</strong> точечно шприцем. Уменьшить свет.</p>
-        </div>
-      </div>
-
-      <div class="card" style="cursor: default; border-color: #2a9d8f;">
-        <div class="card-img">🟢</div>
-        <div class="card-body">
-          <div class="card-title">Нитчатка (зеленая тина)</div>
-          <p><strong>Причина:</strong> Избыток света и питательных веществ.</p>
-          <p><strong>Лечение:</strong> Убрать руками, добавить быстрорастущие растения (роголистник). <strong>Algumin</strong> или <strong>Сайдекс</strong>.</p>
-        </div>
-      </div>
-
-      <div class="card" style="cursor: default; border-color: #2a9d8f;">
-        <div class="card-img">🟡</div>
-        <div class="card-body">
-          <div class="card-title">Пожелтение листьев</div>
-          <p><strong>Причина:</strong> Нехватка железа или калия.</p>
-          <p><strong>Лечение:</strong> Добавить микроудобрения (например, <strong>Tetra PlantaMin</strong>).</p>
-        </div>
-      </div>
-
-      <div class="card" style="cursor: default; border-color: #2a9d8f;">
-        <div class="card-img">💧</div>
-        <div class="card-body">
-          <div class="card-title">«Криптокориновая болезнь»</div>
-          <p><strong>Кто болеет:</strong> Криптокорины.</p>
-          <p><strong>Симптомы:</strong> Резко сбрасывает все листья, они становятся стеклянными.</p>
-          <p><strong>Лечение:</strong> Не выкапывать! Стабилизировать воду. Через 2–3 недели даст новые листья.</p>
-        </div>
-      </div>
-
-      <div class="card" style="cursor: default; border-color: #2a9d8f;">
-        <div class="card-img">🦠</div>
-        <div class="card-body">
-          <div class="card-title">Гниль корней</div>
-          <p><strong>Причина:</strong> Закисание грунта (слишком толстый слой или нет сифонки).</p>
-          <p><strong>Лечение:</strong> Аккуратно промыть корни, подменить грунт (тонкий слой 2-3 см), добавить улиток меланий для рыхления.</p>
-        </div>
-      </div>
-
-      <div class="card" style="cursor: default; border-color: #2a9d8f;">
-        <div class="card-img">🔴</div>
-        <div class="card-body">
-          <div class="card-title">Красные водоросли</div>
-          <p><strong>Причина:</strong> Избыток фосфатов.</p>
-          <p><strong>Лечение:</strong> Подмены воды, использование тестов на фосфаты. Уменьшить кормление.</p>
-        </div>
-      </div>
-
-      <div class="card" style="cursor: default; border-color: #2a9d8f;">
-        <div class="card-img">🌵</div>
-        <div class="card-body">
-          <div class="card-title">Замедление роста</div>
-          <p><strong>Причина:</strong> Нехватка CO2 или света.</p>
-          <p><strong>Лечение:</strong> Увеличить световой день, добавить подачу CO2 (брага или баллон).</p>
-        </div>
-      </div>
-
+  <div id="page-compatibility" class="page container">
+    <h2 class="section-title">Таблица совместимости</h2>
+    <p class="section-desc">Кто с кем уживается, а кого лучше не сажать вместе.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Вид</th>
+            <th>С кем можно</th>
+            <th>С кем нельзя</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Гуппи</td><td>Неоны, коридорасы, данио</td><td>Крупные цихлиды, барбусы</td></tr>
+          <tr><td>Неоны</td><td>Гуппи, тетры, сомики</td><td>Крупные хищники (астронотус)</td></tr>
+          <tr><td>Петушок</td><td>Коридорасы, улитки</td><td>Другие петушки, гурами, барбусы</td></tr>
+          <tr><td>Золотая рыбка</td><td>Холодноводные (караси)</td><td>Тропические рыбы (неоны, гурами)</td></tr>
+          <tr><td>Скалярия</td><td>Гурами, крупные тетры</td><td>Мелкие неоны (съест)</td></tr>
+          <tr><td>Астронотус</td><td>Только крупные рыбы</td><td>Все, кто меньше 10 см</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
   <div id="page-start" class="page container">
     <h2 class="section-title">Как запустить аквариум</h2>
-    <p class="section-desc">Пошаговая инструкция, чтобы рыбы не погибли в первую неделю.</p>
-
     <div class="info-block">
       <h3>Шаг 1. Подготовка</h3>
-      <p>Выбери место без прямого солнца и сквозняков. Промой грунт под проточной водой, пока вода не станет прозрачной. Уложи его в аквариум слоем 3–5 см.</p>
+      <p>Промой грунт, уложи слоем 3–5 см.</p>
     </div>
-
     <div class="info-block">
-      <h3>Шаг 2. Вода и оборудование</h3>
-      <p>Залей воду. Чтобы не размыть грунт, поставь на дно тарелку и лей на неё. Обязательно добавь <strong>кондиционер</strong> (например, Tetra AquaSafe), чтобы нейтрализовать хлор. Включи фильтр и обогреватель.</p>
+      <h3>Шаг 2. Вода</h3>
+      <p>Залей отстоянную воду, добавь кондиционер (Tetra AquaSafe).</p>
     </div>
-
     <div class="info-block">
-      <h3>Шаг 3. Азотный цикл (Самый важный этап)</h3>
-      <p><strong>Нельзя запускать рыб сразу!</strong> Первые 2–4 недели в аквариуме устанавливается биологический баланс. Бактерии должны перерабатывать аммиак (яд) в нитраты. </p>
-      <p>Добавь в воду специальные бактерии (например, Tetra SafeStart) и брось щепотку корма. Жди, пока тесты не покажут 0 аммиака и 0 нитритов.</p>
+      <h3>Шаг 3. Азотный цикл</h3>
+      <p>Жди 2–4 недели. Добавь бактерии (Tetra SafeStart).</p>
     </div>
-
     <div class="info-block">
       <h3>Шаг 4. Заселение</h3>
-      <p>Опусти пакет с рыбами в аквариум на 15 минут, чтобы температура сравнялась. Затем постепенно добавляй в пакет воду из аквариума (каждые 10 минут по чуть-чуть). Только потом выпускай рыб.</p>
+      <p>Опусти пакет с рыбами на 15 минут, потом постепенно добавляй воду.</p>
     </div>
-
     <div class="info-block">
-      <h3>Шаг 5. Первые недели</h3>
-      <p>В первые дни <strong>корми рыб очень мало</strong> — ровно столько, чтобы они съели всё за <strong>30–60 секунд</strong>. Если корм падает на дно — ты даешь слишком много. В новом аквариуме перекорм смертельно опасен!</p>
-      <p>Раз в неделю подменивай 20–25% воды. Не трогай фильтр (только промывай губку в слитой воде). Наблюдай за поведением.</p>
+      <h3>Шаг 5. Кормление</h3>
+      <p>Корми мало — чтобы съели за 30–60 секунд. Перекорм смертелен!</p>
     </div>
-
     <div class="info-block">
-      <h3>Что делать, если коряга всплывает?</h3>
-      <p>Дерево впитывает воду медленно. Чтобы коряга не всплывала:</p>
-      <ul>
-        <li>Провари её в кастрюле 1–2 часа.</li>
-        <li>Замочи в тазу на 3–5 дней (придави грузом).</li>
-        <li>Прикрути саморезом к тяжелому камню или привяжи леской.</li>
-      </ul>
+      <h3>Коряга всплывает?</h3>
+      <p>Провари 1–2 часа или прикрути к камню.</p>
     </div>
   </div>
 
@@ -359,6 +254,8 @@
         <div class="info-box"><strong>Температура</strong><span id="modalTemp"></span></div>
         <div class="info-box"><strong>pH / GH</strong><span id="modalWater"></span></div>
         <div class="info-box"><strong>Совместимость</strong><span id="modalCompat"></span></div>
+        <div class="info-box"><strong>Корм</strong><span id="modalFood"></span></div>
+        <div class="info-box"><strong>Слой воды</strong><span id="modalLayer"></span></div>
       </div>
       <div class="setup-box">
         <h4>🛠 Как обустроить</h4>
@@ -371,7 +268,7 @@
   </div>
 
   <script>
-    // Генератор рыб
+    // Генератор рыб с добавлением категорий
     const baseFishNames = ["Гуппи", "Неон", "Коридорас", "Петушок", "Золотая рыбка", "Данио", "Анциструс", "Пецилия", "Расбора", "Тернеция", "Молинезия", "Меченосец", "Скалярия", "Гурами", "Лялиус", "Барбус", "Боция", "Апистограмма", "Дискус", "Астронотус", "Арована", "Пиранья", "Аксолотль", "Креветка", "Тетра", "Сом", "Цихлида", "Вьюн", "Радужница", "Нож"];
     const variants = ["обыкновенный", "красный", "синий", "зеленый", "золотой", "мраморный", "альбинос", "карликовый", "гигантский", "полосатый"];
     
@@ -381,17 +278,24 @@
     for (let i = 0; i < baseFishNames.length; i++) {
       for (let j = 0; j < variants.length; j++) {
         if (Math.random() > 0.2) {
+            let category = "peaceful";
+            if (baseFishNames[i].includes("Сом") || baseFishNames[i].includes("Коридорас") || baseFishNames[i].includes("Анциструс")) category = "bottom";
+            if (baseFishNames[i].includes("Пиранья") || baseFishNames[i].includes("Астронотус") || baseFishNames[i].includes("Арована")) category = "predator";
+
             fishData.push({
               name: baseFishNames[i] + " " + variants[j],
               latin: "Species " + idCounter,
               icon: Math.random() > 0.5 ? "🐟" : "🐠",
               desc: "Популярная аквариумная рыба.",
+              category: category,
               volume: (20 + Math.floor(Math.random() * 200)) + " л",
               temp: (20 + Math.floor(Math.random() * 8)) + "–" + (26 + Math.floor(Math.random() * 6)) + "°C",
               water: "pH 6.5–7.5, GH 5–15",
               compat: "С мирными рыбами",
-              setupGround: "Темный гравий или песок",
-              setupPlants: "Живые растения для укрытия",
+              food: "Хлопья, мотыль",
+              layer: "Средний",
+              setupGround: "Темный гравий",
+              setupPlants: "Живые растения",
               setupDecor: "Коряги и камни",
               setupTech: "Стандартный фильтр"
             });
@@ -406,38 +310,33 @@
       { name: "Криптокорина", light: "Слабый", desc: "Любит тень, может сбрасывать листья." },
       { name: "Валлиснерия", light: "Средний", desc: "Длинные ленты, быстро растет." },
       { name: "Ротала", light: "Сильный", desc: "Краснеет при хорошем свете." },
-      { name: "Людвигия", light: "Средний", desc: "Красноватые листья, требует CO2." },
-      { name: "Мох яванский", light: "Слабый", desc: "Укрытие для креветок и мальков." },
-      { name: "Папоротник тайландский", light: "Слабый", desc: "Растет медленно, не любит пересадок." },
-      { name: "Буцефаландра", light: "Средний", desc: "Редкое растение, растет на коряге." },
-      { name: "Эхинодорус", light: "Сильный", desc: "Крупное растение для заднего плана." },
-      { name: "Пистия", light: "Средний", desc: "Плавает на поверхности, чистит воду." },
-      { name: "Ряска", light: "Любой", desc: "Быстро размножается, нужен контроль." },
-      { name: "Сальвиния", light: "Средний", desc: "Плавающий папоротник." },
-      { name: "Хемиантус", light: "Сильный", desc: "Ковровое растение для переднего плана." },
-      { name: "Гидрокотила", light: "Средний", desc: "Ползучее растение, хороший ковер." },
-      { name: "Бакопа", light: "Средний", desc: "Неприхотливое растение для новичков." },
-      { name: "Кабомба", light: "Средний", desc: "Кружевные листья, боится течения." },
-      { name: "Альтернантера", light: "Сильный", desc: "Красные листья, для опытных." },
-      { name: "Аммания", light: "Средний", desc: "Быстрорастущий фон." },
-      { name: "Лимнофила", light: "Средний", desc: "Пушистые листья." },
-      { name: "Прозерпинака", light: "Средний", desc: "Медленный рост, нужен грунт." }
+      { name: "Людвигия", light: "Средний", desc: "Красноватые листья." },
+      { name: "Мох яванский", light: "Слабый", desc: "Укрытие для креветок." }
     ];
 
     let plantData = plantNames.map(p => ({
       name: p.name,
       desc: p.desc,
       light: p.light,
-      care: "Не забывать про подмены воды."
+      care: "Подмены воды."
     }));
 
     const fishGrid = document.getElementById("fishGrid");
     const plantGrid = document.getElementById("plantGrid");
     const overlay = document.getElementById("modalOverlay");
+    
+    let currentFilter = "all";
+    let currentSearch = "";
 
-    function renderGrid() {
-      fishGrid.innerHTML = fishData.map((fish, i) => `
-        <article class="card" onclick="openModal(${i})">
+    function renderFish() {
+      let filtered = fishData.filter(f => {
+        const matchSearch = f.name.toLowerCase().includes(currentSearch.toLowerCase());
+        const matchFilter = currentFilter === "all" || f.category === currentFilter;
+        return matchSearch && matchFilter;
+      });
+
+      fishGrid.innerHTML = filtered.map((fish, i) => `
+        <article class="card" onclick="openModal(${fishData.indexOf(fish)})">
           <div class="card-img">${fish.icon}</div>
           <div class="card-body">
             <div class="card-title">${fish.name}</div>
@@ -446,7 +345,9 @@
           </div>
         </article>
       `).join("");
+    }
 
+    function renderPlants() {
       plantGrid.innerHTML = plantData.map((plant, i) => `
         <article class="card" onclick="openPlantModal(${i})">
           <div class="card-img">🌿</div>
@@ -470,6 +371,8 @@
       document.getElementById("modalTemp").textContent = f.temp;
       document.getElementById("modalWater").textContent = f.water;
       document.getElementById("modalCompat").textContent = f.compat;
+      document.getElementById("modalFood").textContent = f.food;
+      document.getElementById("modalLayer").textContent = f.layer;
       document.getElementById("setupGround").textContent = f.setupGround;
       document.getElementById("setupPlants").textContent = f.setupPlants;
       document.getElementById("setupDecor").textContent = f.setupDecor;
@@ -489,6 +392,8 @@
       document.getElementById("modalTemp").textContent = "22–28°C";
       document.getElementById("modalWater").textContent = "pH 6.0–7.5";
       document.getElementById("modalCompat").textContent = "Со всеми";
+      document.getElementById("modalFood").textContent = "Свет и CO2";
+      document.getElementById("modalLayer").textContent = "На дне/плавает";
       document.getElementById("setupGround").textContent = p.light + " свет";
       document.getElementById("setupPlants").textContent = "Питательный грунт";
       document.getElementById("setupDecor").textContent = "Камни/коряги";
@@ -506,6 +411,28 @@
     overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(); });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 
+    // Логика поиска и фильтров
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      currentSearch = e.target.value;
+      renderFish();
+    });
+
+    function filterFish(category) {
+      currentFilter = category;
+      document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+      event.target.classList.add("active");
+      renderFish();
+    }
+
+    // Калькулятор
+    function calcVolume() {
+      const l = parseFloat(document.getElementById("len").value) || 0;
+      const w = parseFloat(document.getElementById("wid").value) || 0;
+      const h = parseFloat(document.getElementById("hei").value) || 0;
+      const res = (l * w * h) / 1000;
+      document.getElementById("calcResult").textContent = res > 0 ? res.toFixed(1) + " литров" : "";
+    }
+
     function showPage(pageId) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
@@ -514,7 +441,8 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    renderGrid();
+    renderFish();
+    renderPlants();
   </script>
 </body>
 </html>
