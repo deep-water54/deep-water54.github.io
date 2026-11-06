@@ -1,683 +1,679 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Аквариумная энциклопедия для начинающих и опытных аквариумистов.">
-  <title>Аквариум — большая энциклопедия</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eaf8f8">
+  <title>АкваДом — справочник аквариумиста</title>
   <style>
     :root {
-      --ink: #183331;
-      --muted: #637774;
-      --paper: #f5f7f2;
-      --card: #ffffff;
-      --green: #267263;
-      --green-dark: #174e46;
-      --mint: #dceee5;
-      --line: #dbe5df;
-      --sand: #f1e6d2;
-      --shadow: 0 14px 40px rgba(25, 61, 53, .09);
+      --ink: #173b47;
+      --muted: #607d85;
+      --ocean: #087f8c;
+      --ocean-dark: #075b68;
+      --aqua: #dff5f2;
+      --paper: #fff;
+      --bg: #f4fbfa;
+      --line: #dcecea;
+      --yellow: #f4c96b;
+      --shadow: 0 18px 50px rgba(15, 75, 85, .09);
       --radius: 22px;
     }
-
-    * { box-sizing: border-box; scroll-behavior: smooth; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
     body {
       margin: 0;
-      background: var(--paper);
       color: var(--ink);
-      font-family: Georgia, "Times New Roman", serif;
-      line-height: 1.65;
+      background: var(--bg);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
     }
     a { color: inherit; text-decoration: none; }
     button, input { font: inherit; }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: rgba(245, 247, 242, .92);
-      border-bottom: 1px solid rgba(219, 229, 223, .9);
-      backdrop-filter: blur(12px);
+    button { cursor: pointer; }
+    .container { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+    .site-header {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(244, 251, 250, .9);
+      border-bottom: 1px solid rgba(220, 236, 234, .8);
+      backdrop-filter: blur(14px);
     }
-    .nav {
-      max-width: 1180px;
-      min-height: 72px;
-      margin: auto;
-      padding: 12px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 22px;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      font-weight: bold;
-      font-size: 1.15rem;
-      white-space: nowrap;
-    }
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      display: grid;
-      place-items: center;
-      color: white;
-      background: var(--green);
-      border-radius: 50% 50% 45% 55%;
-      font-family: sans-serif;
-      font-size: 1.3rem;
-    }
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 18px;
-      color: var(--muted);
-      font-family: Arial, sans-serif;
-      font-size: .9rem;
-    }
-    .nav-links a { transition: color .25s ease; }
-    .nav-links a:hover { color: var(--green); }
-
-    .hero {
-      position: relative;
-      overflow: hidden;
-      padding: 82px 24px 74px;
-      background:
-        radial-gradient(ellipse at 85% 20%, rgba(191, 224, 204, .7), transparent 34%),
-        radial-gradient(ellipse at 10% 100%, rgba(221, 234, 214, .8), transparent 38%),
-        linear-gradient(135deg, #edf5ed, #f8f7ef);
-    }
-    .hero-inner {
-      max-width: 1180px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: 1.15fr .85fr;
-      align-items: center;
-      gap: 50px;
-    }
-    .eyebrow {
-      color: var(--green);
-      font: 700 .76rem/1.3 Arial, sans-serif;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
+    .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ocean-dark); font-size: 1.2rem; font-weight: 850; letter-spacing: -.04em; }
+    .brand-mark { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 14px; background: var(--ocean); color: white; font-size: 1.2rem; }
+    .nav-links { display: flex; align-items: center; gap: 22px; }
+    .nav-links a { color: var(--muted); font-size: .92rem; font-weight: 650; }
+    .nav-links a:hover { color: var(--ocean); }
+    .menu-button { display: none; border: 1px solid var(--line); background: white; color: var(--ink); border-radius: 12px; padding: 8px 12px; }
+    .hero { padding: 68px 0 54px; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 38px; align-items: center; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--ocean); font-weight: 800; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; }
     h1, h2, h3, p { margin-top: 0; }
-    h1 {
-      max-width: 750px;
-      margin-bottom: 20px;
-      font-size: clamp(2.6rem, 6vw, 5.2rem);
-      line-height: .99;
-      letter-spacing: -.045em;
-    }
-    .hero p {
-      max-width: 650px;
-      color: var(--muted);
-      font: 1.08rem/1.75 Arial, sans-serif;
-    }
-    .hero-note {
-      display: inline-flex;
-      margin-top: 12px;
-      padding: 9px 14px;
-      border: 1px solid #cfe0d4;
-      border-radius: 999px;
-      color: var(--green-dark);
-      background: rgba(255,255,255,.55);
-      font: .82rem Arial, sans-serif;
-    }
-    .hero-art {
-      min-height: 300px;
-      position: relative;
-      display: grid;
-      place-items: center;
-    }
-    .bubble {
-      position: absolute;
-      border: 1px solid rgba(38,114,99,.18);
-      border-radius: 50%;
-      animation: float 6s ease-in-out infinite;
-    }
-    .bubble.one { width: 245px; height: 245px; background: rgba(255,255,255,.46); }
-    .bubble.two { width: 180px; height: 180px; transform: translate(75px, 45px); animation-delay: -2s; }
-    .fish-art {
-      position: relative;
-      z-index: 1;
-      font-size: clamp(7rem, 18vw, 12rem);
-      filter: drop-shadow(0 22px 18px rgba(34, 89, 75, .18));
-      animation: swim 5s ease-in-out infinite;
-    }
-
-    @keyframes float { 50% { transform: translateY(-12px); } }
-    @keyframes swim { 50% { transform: translate(10px, -7px) rotate(-2deg); } }
-
-    .search-wrap {
-      max-width: 1180px;
-      margin: -27px auto 0;
-      padding: 0 24px;
-      position: relative;
-      z-index: 3;
-    }
-    .search-box {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 16px;
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-    }
-    .search-box span { font-family: Arial, sans-serif; font-size: 1.2rem; }
-    .search-box input {
-      width: 100%;
-      border: 0;
-      outline: 0;
-      padding: 9px 2px;
-      color: var(--ink);
-      background: transparent;
-      font: 1rem Arial, sans-serif;
-    }
-
-    main { max-width: 1180px; margin: auto; padding: 68px 24px 90px; }
-    .section { margin-bottom: 78px; scroll-margin-top: 100px; }
-    .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 25px;
-      margin-bottom: 25px;
-    }
-    .section-head h2 {
-      margin: 7px 0 0;
-      font-size: clamp(2rem, 4vw, 3.1rem);
-      line-height: 1.08;
-      letter-spacing: -.03em;
-    }
-    .section-head p {
-      max-width: 480px;
-      margin-bottom: 2px;
-      color: var(--muted);
-      font: .96rem/1.6 Arial, sans-serif;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-    .card {
-      padding: 23px;
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: 0 6px 20px rgba(25,61,53,.035);
-      transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
-    }
-    .card:hover {
-      transform: translateY(-6px);
-      border-color: #b6d4c3;
-      box-shadow: var(--shadow);
-    }
-    .card-icon {
-      width: 54px;
-      height: 54px;
-      display: grid;
-      place-items: center;
-      margin-bottom: 17px;
-      border-radius: 17px;
-      background: var(--mint);
-      font-size: 1.7rem;
-    }
-    .card h3 { margin-bottom: 8px; font-size: 1.35rem; line-height: 1.2; }
-    .card p {
-      margin-bottom: 14px;
-      color: var(--muted);
-      font: .93rem/1.6 Arial, sans-serif;
-    }
-    .tags { display: flex; flex-wrap: wrap; gap: 7px; }
-    .tag {
-      padding: 5px 9px;
-      color: var(--green-dark);
-      background: #edf5ef;
-      border-radius: 999px;
-      font: .75rem Arial, sans-serif;
-    }
-    .read-more {
-      display: inline-block;
-      margin-top: 15px;
-      color: var(--green);
-      font: 700 .88rem Arial, sans-serif;
-    }
-    .read-more:hover { text-decoration: underline; }
-    .empty {
-      display: none;
-      padding: 24px;
-      color: var(--muted);
-      background: white;
-      border: 1px dashed var(--line);
-      border-radius: 16px;
-      font-family: Arial, sans-serif;
-    }
-
-    .guide {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      counter-reset: guide;
-    }
-    .guide-step {
-      position: relative;
-      min-height: 160px;
+    h1 { max-width: 680px; margin: 14px 0 18px; font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1.02; letter-spacing: -.065em; }
+    .hero-copy { max-width: 580px; color: var(--muted); font-size: 1.12rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 25px; }
+    .button { display: inline-flex; justify-content: center; align-items: center; gap: 8px; min-height: 48px; padding: 12px 18px; border: 1px solid transparent; border-radius: 14px; font-weight: 750; transition: transform .2s, background .2s; }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { color: #fff; background: var(--ocean); }
+    .button-primary:hover { background: var(--ocean-dark); }
+    .button-light { color: var(--ocean-dark); background: white; border-color: var(--line); }
+    .hero-art { min-height: 390px; position: relative; display: grid; place-items: center; border-radius: 40% 60% 56% 44% / 47% 42% 58% 53%; background: linear-gradient(145deg, #c8f1eb, #e6f5cf); box-shadow: var(--shadow); overflow: hidden; }
+    .fish-emoji { z-index: 1; font-size: clamp(8rem, 18vw, 13rem); filter: drop-shadow(0 16px 10px rgba(20, 78, 80, .14)); }
+    .quick-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 30px; }
+    .fact { padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.75); }
+    .fact strong { display: block; color: var(--ocean-dark); font-size: 1.05rem; }
+    .fact span { color: var(--muted); font-size: .82rem; }
+    section { padding: 66px 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 25px; }
+    .section-head h2 { margin: 7px 0 0; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.12; letter-spacing: -.05em; }
+    .section-head p { max-width: 510px; margin: 0; color: var(--muted); }
+    .search-box { display: flex; align-items: center; gap: 10px; margin: 20px 0 22px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 15px; background: white; }
+    .search-box input { width: 100%; padding: 7px 0; border: 0; outline: 0; color: var(--ink); background: transparent; }
+    .filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .filter-button { padding: 8px 13px; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--muted); font-size: .88rem; font-weight: 700; }
+    .filter-button.active, .filter-button:hover { border-color: var(--ocean); background: var(--ocean); color: white; }
+    .fish-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card { padding: 21px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); box-shadow: 0 8px 26px rgba(15, 75, 85, .04); }
+    .fish-card { display: flex; flex-direction: column; min-height: 100%; cursor: pointer; transition: transform .2s, box-shadow .2s, border-color .2s; }
+    .fish-card:hover { transform: translateY(-4px); border-color: var(--ocean); box-shadow: var(--shadow); }
+    .fish-top { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .fish-icon { width: 60px; height: 60px; flex: 0 0 60px; display: grid; place-items: center; border-radius: 18px; background: var(--aqua); font-size: 2rem; }
+    .fish-card h3 { margin: 0 0 3px; font-size: 1.18rem; }
+    .latin { color: var(--muted); font-size: .82rem; font-style: italic; }
+    .fish-card p { color: var(--muted); font-size: .93rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 5px 0 15px; }
+    .tag { padding: 5px 9px; border-radius: 999px; background: #eff8f6; color: var(--ocean-dark); font-size: .76rem; font-weight: 750; }
+    .fish-details { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: auto; padding-top: 13px; border-top: 1px solid var(--line); }
+    .detail { color: var(--muted); font-size: .8rem; }
+    .detail strong { display: block; color: var(--ink); font-size: .86rem; }
+    .notice { margin-top: 18px; padding: 15px 17px; border-left: 4px solid var(--yellow); border-radius: 12px; background: #fff9e9; color: #655634; font-size: .9rem; }
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; counter-reset: step; }
+    .step { position: relative; padding: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: white; counter-increment: step; }
+    .step::before { content: "0" counter(step); display: inline-grid; place-items: center; width: 38px; height: 38px; margin-bottom: 14px; border-radius: 13px; color: white; background: var(--ocean); font-weight: 850; }
+    .step h3 { margin-bottom: 7px; font-size: 1.05rem; }
+    .step p { margin: 0; color: var(--muted); font-size: .88rem; }
+    .soft-section { background: #eaf6f3; }
+    .plant-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .plant-icon { width: 48px; height: 48px; display: grid; place-items: center; margin-bottom: 14px; border-radius: 15px; background: var(--aqua); font-size: 1.5rem; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; background: white; }
+    table { width: 100%; min-width: 670px; border-collapse: collapse; }
+    th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--line); }
+    th { color: var(--ocean-dark); background: #eff8f6; font-size: .88rem; }
+    td { color: var(--muted); font-size: .9rem; }
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { color: var(--ink); font-weight: 750; }
+    .care-panel { display: grid; grid-template-columns: .85fr 1.15fr; gap: 24px; align-items: start; }
+    .care-intro { padding: 26px; border-radius: var(--radius); background: var(--ocean-dark); color: white; }
+    .care-intro p { margin: 0; color: rgba(255,255,255,.8); }
+    .checklist { display: grid; gap: 10px; }
+    .check-item { display: flex; gap: 12px; padding: 14px; border: 1px solid var(--line); border-radius: 15px; background: white; }
+    .check { color: var(--ocean); font-weight: 900; }
+    .footer { padding: 30px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    .footer strong { color: var(--ink); }
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: center;
       padding: 20px;
-      overflow: hidden;
-      background: #e8f1e9;
-      border-radius: 18px;
+      background: rgba(10, 40, 45, .55);
+      backdrop-filter: blur(6px);
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s ease;
     }
-    .guide-step:nth-child(even) { background: var(--sand); }
-    .guide-step::before {
-      counter-increment: guide;
-      content: "0" counter(guide);
-      display: block;
-      margin-bottom: 17px;
-      color: var(--green);
-      font: 700 .8rem Arial, sans-serif;
-      letter-spacing: .1em;
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .modal {
+      width: min(560px, 100%);
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 26px;
+      background: var(--paper);
+      border-radius: var(--radius);
+      box-shadow: 0 30px 80px rgba(0,0,0,.25);
+      transform: translateY(24px) scale(.97);
+      transition: transform .35s cubic-bezier(.2,.9,.3,1.2);
     }
-    .guide-step h3 { margin-bottom: 6px; font-size: 1.1rem; }
-    .guide-step p { margin: 0; color: var(--muted); font: .88rem/1.5 Arial, sans-serif; }
-
-    .notice {
-      padding: 23px 25px;
-      background: #fff9e9;
-      border: 1px solid #eee0b6;
-      border-radius: 17px;
-      color: #61522d;
-      font: .94rem/1.65 Arial, sans-serif;
+    .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+    .modal-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+    .modal-icon { width: 64px; height: 64px; flex: 0 0 64px; display: grid; place-items: center; border-radius: 18px; background: var(--aqua); font-size: 2.2rem; }
+    .modal-head h3 { margin: 0 0 4px; font-size: 1.5rem; line-height: 1.15; }
+    .modal-close { margin-left: auto; width: 38px; height: 38px; flex: 0 0 38px; border: 1px solid var(--line); border-radius: 50%; background: white; color: var(--muted); font-size: 1.2rem; line-height: 1; }
+    .modal-close:hover { color: var(--ocean); border-color: var(--ocean); }
+    .modal-desc { color: var(--muted); margin: 0 0 14px; }
+    .modal-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 18px; }
+    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .modal-row { padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: #f9fdfc; }
+    .modal-row strong { display: block; color: var(--ocean-dark); font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 3px; }
+    .modal-row span { color: var(--ink); font-size: .93rem; }
+    @media (max-width: 800px) {
+      .nav-links { display: none; position: absolute; top: 72px; left: 20px; right: 20px; padding: 14px; border: 1px solid var(--line); border-radius: 16px; background: white; box-shadow: var(--shadow); }
+      .nav-links.open { display: grid; gap: 0; }
+      .nav-links a { padding: 11px 8px; }
+      .menu-button { display: inline-block; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .fish-grid, .plant-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps { grid-template-columns: repeat(2, 1fr); }
+      .care-panel { grid-template-columns: 1fr; }
+      .section-head { align-items: start; flex-direction: column; }
     }
-    .notice strong { color: #433719; }
-
-    footer {
-      padding: 28px 24px;
-      color: #dcebe4;
-      background: #173c37;
-      font: .88rem/1.6 Arial, sans-serif;
-    }
-    .footer-inner {
-      max-width: 1180px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity .65s ease, transform .65s ease;
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    .fish-card {
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .fish-card .card-details {
-      display: none;
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px solid #e0e0e0;
-      font-size: 0.9rem;
-      color: #555;
-      line-height: 1.6;
-      animation: slideDown 0.3s ease;
-    }
-    .fish-card .card-details p {
-      margin-bottom: 8px;
-    }
-    .fish-card.active .card-details {
-      display: block;
-    }
-    .fish-card.active {
-      border-color: #267263;
-      box-shadow: 0 10px 30px rgba(38, 114, 99, 0.15);
-    }
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 850px) {
-      .hero-inner { grid-template-columns: 1fr; gap: 10px; }
-      .hero-art { min-height: 210px; }
-      .fish-art { font-size: 8rem; }
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .guide { grid-template-columns: repeat(2, 1fr); }
-      .section-head { align-items: start; flex-direction: column; gap: 9px; }
-    }
-    @media (max-width: 560px) {
-      .nav { align-items: flex-start; flex-direction: column; gap: 10px; }
-      .nav-links { gap: 8px 14px; }
-      .hero { padding-top: 55px; }
-      .grid { grid-template-columns: 1fr; }
-      .guide { grid-template-columns: 1fr 1fr; }
-      main { padding-top: 50px; }
-      .footer-inner { flex-direction: column; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        scroll-behavior: auto !important;
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-      }
-      .reveal { opacity: 1; transform: none; }
+    @media (max-width: 540px) {
+      .container { width: min(100% - 28px, 1160px); }
+      .hero { padding-top: 42px; }
+      .quick-facts { grid-template-columns: 1fr; }
+      .fish-grid, .plant-grid, .steps { grid-template-columns: 1fr; }
+      section { padding: 48px 0; }
+      .modal-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <nav class="nav" aria-label="Главная навигация">
-      <a class="brand" href="#top">
-        <span class="brand-mark">≈</span>
-        <span>Аквариумная энциклопедия</span>
-      </a>
-      <div class="nav-links">
-        <a href="#start">С чего начать</a>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#home"><span class="brand-mark">🐠</span><span>АкваДом</span></a>
+      <nav class="nav-links" id="navLinks">
         <a href="#fish">Рыбы</a>
-        <a href="#ponds">Пруды</a>
-        <a href="#invertebrates">Беспозвоночные</a>
+        <a href="#start">Запуск</a>
         <a href="#plants">Растения</a>
-      </div>
-    </nav>
-  </header>
-
-  <section class="hero" id="top">
-    <div class="hero-inner">
-      <div>
-        <div class="eyebrow">Большая база знаний об аквариуме</div>
-        <h1>Подводный мир — без загадок</h1>
-        <p>
-          Понятная энциклопедия для тех, кто только начинает, и тех, кто хочет разобраться глубже:
-          рыбы, растения, грунт, оборудование, запуск и ежедневный уход.
-        </p>
-        <span class="hero-note">Материалы проекта подготовлены при участии DeepSeek</span>
-      </div>
-      <div class="hero-art" aria-hidden="true">
-        <div class="bubble one"></div>
-        <div class="bubble two"></div>
-        <div class="fish-art">🐠</div>
-      </div>
+        <a href="#invertebrates">Беспозвоночные</a>
+        <a href="#compatibility">Совместимость</a>
+        <a href="#care">Уход</a>
+        <a href="#disease">Болезни</a>
+        <a href="#equipment">Оборудование</a>
+        <a href="#pond">Пруд</a>
+      </nav>
+      <button class="menu-button" id="menuButton">Меню</button>
     </div>
-  </section>
-
-  <div class="search-wrap">
-    <label class="search-box">
-      <span aria-hidden="true">⌕</span>
-      <input id="search" type="search" placeholder="Найти рыбу, растение или тему…" aria-label="Поиск по энциклопедии">
-    </label>
-  </div>
-
-  <main>
-    <section class="section reveal" id="start">
-      <div class="section-head">
+  </header>
+  <main id="home">
+    <section class="hero">
+      <div class="container hero-grid">
         <div>
-          <div class="eyebrow">Путеводитель</div>
-          <h2>С чего начинается аквариум</h2>
+          <div class="eyebrow">Справочник аквариумиста</div>
+          <h1>Подводный мир <span style="color:var(--ocean)">без ошибок</span></h1>
+          <p class="hero-copy">Понятная база знаний для новичков: как запустить аквариум, кого поселить, чем кормить и как поддерживать чистоту без лишних хлопот.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#start">Начать с основ</a>
+            <a class="button button-light" href="#fish">Смотреть рыб</a>
+          </div>
+          <p class="hero-note">Материалы подготовлены при участии DeepSeek</p>
         </div>
-        <p>Порядок важен: сначала подготавливают систему и воду, а уже потом заселяют рыб.</p>
+        <div class="hero-art"><span class="fish-emoji">🐠</span></div>
       </div>
-      <div class="guide">
-        <article class="guide-step">
-          <h3>Выбери объём</h3>
-          <p>Продумай место и размер. В устойчивом аквариуме проще поддерживать параметры воды.</p>
-        </article>
-        <article class="guide-step">
-          <h3>Подготовь оборудование</h3>
-          <p>Обычно нужны фильтр, освещение и обогреватель — в зависимости от обитателей.</p>
-        </article>
-        <article class="guide-step">
-          <h3>Запусти систему</h3>
-          <p>Дай фильтру и полезным бактериям время сформировать биологическое равновесие.</p>
-        </article>
-        <article class="guide-step">
-          <h3>Заселяй постепенно</h3>
-          <p>Подбирай виды по параметрам воды, поведению и взрослому размеру рыб.</p>
-        </article>
+      <div class="container">
+        <div class="quick-facts">
+          <div class="fact"><strong>Запуск</strong><span>Без спешки и мутной воды</span></div>
+          <div class="fact"><strong>Совместимость</strong><span>Кто с кем уживается</span></div>
+          <div class="fact"><strong>Уход</strong><span>Что делать каждый день</span></div>
+        </div>
       </div>
     </section>
 
-    <section class="section reveal" id="fish">
-      <div class="section-head">
-        <div>
-          <div class="eyebrow">Каталог видов</div>
-          <h2>Рыбы: полная информация</h2>
+    <section id="fish">
+      <div class="container">
+        <div class="section-head">
+          <div><div class="eyebrow">Обитатели</div><h2>Рыбы для аквариума</h2></div>
+          <p>Карточки с полной информацией. Нажми на карточку — откроется подробное окно.</p>
         </div>
-        <p>Нажми на карточку, чтобы раскрыть происхождение, параметры воды и инструкцию по разведению.</p>
+        <div class="search-box"><span>🔍</span><input type="text" id="searchInput" placeholder="Поиск по названию, латыни или тегу..."></div>
+        <div class="filter-row" id="filterRow">
+          <button class="filter-button active" data-filter="all">Все</button>
+          <button class="filter-button" data-filter="beginner">Для новичков</button>
+          <button class="filter-button" data-filter="peaceful">Мирные</button>
+          <button class="filter-button" data-filter="schooling">Стайные</button>
+          <button class="filter-button" data-filter="bottom">Донные</button>
+        </div>
+        <div class="fish-grid" id="fishGrid"></div>
       </div>
-      <div class="grid searchable">
+    </section>
 
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐠</div>
-          <h3>Дискус (Symphysodon)</h3>
-          <p>«Король аквариума». Требует тепла и мягкой воды.</p>
-          <div class="tags"><span class="tag">Цихлида</span><span class="tag">Сложная</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Бассейн Амазонки. Живут в «чёрной воде».</p>
-            <p><strong>Размер:</strong> До 20 см в природе, 13–15 см в аквариуме.</p>
-            <p><strong>Температура:</strong> 28–30°C.</p>
-            <p><strong>Разведение:</strong> Нерестовик 100–150 л с глиняной трубкой, 30–32°C, pH 5.5–6.5. Родители ухаживают за икрой.</p>
+    <section id="start" class="soft-section">
+      <div class="container">
+        <div class="section-head">
+          <div><div class="eyebrow">Первый запуск</div><h2>Как запустить аквариум</h2></div>
+          <p>Четыре шага, которые уберегут от гибели рыб и мутной воды.</p>
+        </div>
+        <div class="steps">
+          <div class="step"><h3>Подготовка</h3><p>Установи аквариум на ровную поверхность. Промой грунт и засыпь его.</p></div>
+          <div class="step"><h3>Вода и фильтр</h3><p>Залей отстоянную воду, добавь кондиционер. Включи фильтр и обогреватель.</p></div>
+          <div class="step"><h3>Биология</h3><p>Добавь бактерии и щепотку корма. Жди 2-4 недели, пока не установится баланс.</p></div>
+          <div class="step"><h3>Заселение</h3><p>Запускай рыбу постепенно, по 2-3 штуки, не перекармливай.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="plants">
+      <div class="container">
+        <div class="section-head">
+          <div><div class="eyebrow">Флора</div><h2>Растения</h2></div>
+          <p>Простые растения, которые помогут очищать воду и дадут укрытие рыбам.</p>
+        </div>
+        <div class="plant-grid">
+          <article class="card"><div class="plant-icon">🌿</div><h3>Анубиас</h3><span class="latin">Anubias</span><p>Медленный рост, не требует много света. Крепится к камням или корягам.</p><div class="tags"><span class="tag">Неприхотливый</span></div></article>
+          <article class="card"><div class="plant-icon">🌱</div><h3>Элодея</h3><span class="latin">Elodea</span><p>Быстро растет, активно забирает нитраты. Идеальна для новых аквариумов.</p><div class="tags"><span class="tag">Быстрый рост</span></div></article>
+          <article class="card"><div class="plant-icon">🍃</div><h3>Мох</h3><span class="latin">Java Moss</span><p>Создает густые заросли, в которых прячутся мальки и креветки.</p><div class="tags"><span class="tag">Укрытие</span></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="invertebrates" class="soft-section">
+      <div class="container">
+        <div class="section-head">
+          <div><div class="eyebrow">Чистильщики</div><h2>Беспозвоночные</h2></div>
+          <p>Креветки, улитки и раки — полезные помощники, но со своими требованиями.</p>
+        </div>
+        <div class="plant-grid">
+          <article class="card"><div class="plant-icon">🦐</div><h3>Креветки</h3><span class="latin">Neocaridina</span><p>Мирные чистильщики. Не переносят медь и резкие скачки параметров.</p><div class="tags"><span class="tag">Креветка</span><span class="tag">Новичкам</span></div></article>
+          <article class="card"><div class="plant-icon">🐌</div><h3>Улитки</h3><span class="latin">Ampullaria, Planorbis</span><p>Помогают с водорослями и остатками корма. Следят за численностью.</p><div class="tags"><span class="tag">Улитка</span><span class="tag">Чистильщик</span></div></article>
+          <article class="card"><div class="plant-icon">🦞</div><h3>Раки</h3><span class="latin">Procambarus</span><p>Интересные, но требуют стабильной воды и укрытий.</p><div class="tags"><span class="tag">Ракообразные</span><span class="tag">Средняя сложность</span></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="compatibility">
+      <div class="container">
+        <div class="section-head">
+          <div><div class="eyebrow">Совместимость</div><h2>Кто с кем уживается</h2></div>
+          <p>Помни: совместимость зависит не только от вида, но и от объема и характера рыбы.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Вид</th><th>Мин. объем</th><th>Температура</th><th>С кем нельзя</th></tr></thead>
+            <tbody>
+              <tr><td>Гуппи</td><td>40 л на стаю</td><td>22–26°C</td><td>Крупные хищники</td></tr>
+              <tr><td>Неон</td><td>40 л на стаю</td><td>22–26°C</td><td>Крупные хищники</td></tr>
+              <tr><td>Коридорас</td><td>40 л на стаю</td><td>22–26°C</td><td>Крупные хищники</td></tr>
+              <tr><td>Петушок</td><td>20 л на одного</td><td>24–28°C</td><td>Два самца, барбусы</td></tr>
+              <tr><td>Золотая рыбка</td><td>50 л на рыбу</td><td>18–24°C</td><td>Тропические</td></tr>
+              <tr><td>Данио</td><td>40 л на стаю</td><td>22–26°C</td><td>Крупные хищники</td></tr>
+              <tr><td>Анциструс</td><td>60 л на одного</td><td>24–28°C</td><td>Агрессивные цихлиды</td></tr>
+              <tr><td>Пецилия</td><td>40 л на стаю</td><td>22–26°C</td><td>Крупные хищники</td></tr>
+              <tr><td>Расбора</td><td>40 л на стаю</td><td>24–28°C</td><td>Крупные хищники</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="notice">Совместимость зависит от объема аквариума, количества укрытий и характера конкретной рыбы. Даже «мирные» виды могут конфликтовать.</div>
+      </div>
+    </section>
+
+    <section id="care" class="soft-section">
+      <div class="container">
+        <div class="section-head">
+          <div><div class="eyebrow">Уход</div><h2>Как поддерживать порядок</h2></div>
+          <p>Стабильность важнее резких действий.</p>
+        </div>
+        <div class="care-panel">
+          <div class="care-intro"><h2>Главное правило</h2><p>Не трогай фильтр без необходимости. Бактерии живут в губке и керамике.</p></div>
+          <div class="checklist">
+            <div class="check-item"><span class="check">✓</span> Подмены воды 20-30% раз в неделю</div>
+            <div class="check-item"><span class="check">✓</span> Кормление малыми порциями</div>
+            <div class="check-item"><span class="check">✓</span> Промывка губки в старой воде</div>
+            <div class="check-item"><span class="check">✓</span> Наблюдение за рыбами</div>
+            <div class="check-item"><span class="check">✓</span> Карантин для новых рыб</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="disease">
+      <div class="container">
+        <div class="section-head">
+          <div><div class="eyebrow">Здоровье</div><h2>Болезни и лечение</h2></div>
+          <p>Лучшее лечение — карантин и стабильная вода.</p>
+        </div>
+        <div class="fish-grid">
+          <article class="card"><h3>Ихтиофтириоз</h3><p>Белые точки на теле. Поднять температуру до 28–30°C, добавить соль или лекарство.</p><div class="tags"><span class="tag">Точки</span></div></article>
+          <article class="card"><h3>Плавниковая гниль</h3><p>Плавники рвутся и гниют. Причина — плохая вода. Подмены и антибактериальное средство.</p><div class="tags"><span class="tag">Плавники</span></div></article>
+          <article class="card"><h3>Оодиниоз</h3><p>Мелкая «манка» на коже. Лечится препаратами на основе малахитового зелёного.</p><div class="tags"><span class="tag">Кожа</span></div></article>
+        </div>
+        <div class="notice">Не лечи рыбу «на глаз». Сначала проверь параметры воды: аммиак, нитриты, нитраты.</div>
+      </div>
+    </section>
+
+    <section id="equipment" class="soft-section">
+      <div class="container">
+        <div class="section-head">
+          <div><div class="eyebrow">Техника</div><h2>Оборудование</h2></div>
+          <p>Без чего аквариум не будет работать стабильно.</p>
+        </div>
+        <div class="plant-grid">
+          <article class="card"><div class="plant-icon">🧽</div><h3>Фильтр</h3><p>Сердце аквариума. Внешний или внутренний, но с био-наполнителем.</p></article>
+          <article class="card"><div class="plant-icon">💡</div><h3>Свет</h3><p>Нужен растениям и рыбам. 8–10 часов в день, без прямого солнца.</p></article>
+          <article class="card"><div class="plant-icon">🌡️</div><h3>Обогреватель</h3><p>Держит температуру стабильной. Особенно важен для тропических рыб.</p></article>
+          <article class="card"><div class="plant-icon">💨</div><h3>Компрессор</h3><p>Аэрация. Ночью особенно важна — растения не выделяют кислород.</p></article>
+          <article class="card"><div class="plant-icon">🧪</div><h3>Тесты</h3><p>Аммиак, нитриты, нитраты, pH. Без них ты не знаешь, что с водой.</p></article>
+          <article class="card"><div class="plant-icon">🪣</div><h3>Сифон</h3><p>Чистка грунта и подмены воды. Обязательный инструмент.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="pond">
+      <div class="container">
+        <div class="section-head">
+          <div><div class="eyebrow">Садовый водоём</div><h2>Пруд и кои</h2></div>
+          <p>Кои растут всю жизнь. Объём, фильтрация и зимовка — три вещи, без которых пруд не пруд.</p>
+        </div>
+        <div class="fish-grid">
+          <article class="card"><h3>Объём</h3><p>На пару кои — от 3–5 тонн. Глубина от 1,5 м для зимовки.</p></article>
+          <article class="card"><h3>Зимовка</h3><p>Еврокуб в яме, продувка от льда, кормление стоп ниже 10°C.</p></article>
+          <article class="card"><h3>Фильтрация</h3><p>Растения помогают, но биофильтр они не заменяют. Нужны оба.</p></article>
+        </div>
+        <div class="notice">В 150 л кои не вырастут крупными и могут пострадать. Для роста нужен пруд от 3 тонн или аквариум от 1000 л на пару.</div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>&copy; 2026 АкваДом.</span>
+      <span>Главный редактор: <strong>DeepSeek</strong></span>
+    </div>
+  </footer>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modal-head">
+        <div class="modal-icon" id="modalIcon">🐠</div>
+        <div>
+          <h3 id="modalName"></h3>
+          <span class="latin" id="modalLatin"></span>
+        </div>
+        <button class="modal-close" id="modalClose" aria-label="Закрыть">✕</button>
+      </div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-tags" id="modalTags"></div>
+      <div class="modal-grid">
+        <div class="modal-row"><strong>Размер</strong><span id="modalSize"></span></div>
+        <div class="modal-row"><strong>Температура</strong><span id="modalTemp"></span></div>
+        <div class="modal-row"><strong>Совместимость</strong><span id="modalCompat"></span></div>
+        <div class="modal-row"><strong>Корм</strong><span id="modalFood"></span></div>
+        <div class="modal-row"><strong>Разведение</strong><span id="modalBreed"></span></div>
+        <div class="modal-row"><strong>Теги</strong><span id="modalTagNames"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const fishData = [
+      { name: "Микрорасбора галактика", latin: "Danio margaritatus", icon: "🐠", desc: "Крошечная стайная, самец ярко-синий с красными плавниками.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "2–3 см", temp: "20–24°C", compat: "С мирными", food: "Микрокорм", breed: "Нерест в мху, сложный" },
+      { name: "Тетра-светлячок", latin: "Hemigrammus erythrozonus", icon: "🐟", desc: "Стайная, с яркой светящейся полосой.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "3–4 см", temp: "22–26°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Нерест в отдельном" },
+      { name: "Тетра-фантом красный", latin: "Hyphessobrycon sweglesi", icon: "🐠", desc: "Стайная, с красноватым телом. Любит тень.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "4–5 см", temp: "22–26°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Нерест в отдельном" },
+      { name: "Лялиус", latin: "Colisa lalia", icon: "🐟", desc: "Красивый лабиринтовый. Самец строит гнездо.", tags: ["peaceful"], tagNames: ["Мирная"], size: "5–6 см", temp: "24–28°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Гнездо из пузырьков" },
+      { name: "Гурами жемчужный", latin: "Trichopodus leerii", icon: "🐠", desc: "Спокойный, с жемчужным рисунком.", tags: ["peaceful"], tagNames: ["Мирная"], size: "10–12 см", temp: "26–28°C", compat: "Со скаляриями", food: "Хлопья", breed: "Гнездо из пузырьков" },
+      { name: "Петушок самка", latin: "Betta splendens", icon: "🐟", desc: "Самки спокойнее самцов, можно держать вместе.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "5–6 см", temp: "24–28°C", compat: "С мирными", food: "Гранулы", breed: "Нерест с самцом" },
+      { name: "Меека", latin: "Mesonauta festivus", icon: "🐠", desc: "Мирная цихлида, похожа на скалярию. Держать парой.", tags: ["peaceful"], tagNames: ["Мирная"], size: "12–15 см", temp: "24–28°C", compat: "Со скаляриями", food: "Гранулы", breed: "Пара охраняет икру" },
+      { name: "Северум", latin: "Heros severus", icon: "🐟", desc: "Крупная цихлида. Нужен объём от 150 л.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "24–28°C", compat: "С крупными", food: "Гранулы", breed: "Пара охраняет икру" },
+      { name: "Плекостомус", latin: "Hypostomus plecostomus", icon: "🐡", desc: "Крупный сом, сосёт слизь у рыб.", tags: ["bottom"], tagNames: ["Донная"], size: "30–50 см", temp: "24–28°C", compat: "Только с крупными", food: "Таблетки", breed: "Нерест сложный" },
+      { name: "Синодонтис", latin: "Synodontis eupterus", icon: "🐟", desc: "Ночной сом, мирный к другим.", tags: ["bottom"], tagNames: ["Донная"], size: "20–25 см", temp: "24–28°C", compat: "С крупными", food: "Таблетки", breed: "Нерест в пещере" },
+      { name: "Таракатум", latin: "Megalechis thoracata", icon: "🐡", desc: "Донный сом, активный, роется в грунте.", tags: ["bottom"], tagNames: ["Донная"], size: "15–20 см", temp: "22–26°C", compat: "С мирными", food: "Таблетки", breed: "Нерест в отдельном" },
+      { name: "Астронотус", latin: "Astronotus ocellatus", icon: "🐠", desc: "Крупная цихлида, умная, но съест мелочь.", tags: ["peaceful"], tagNames: ["Мирная"], size: "25–35 см", temp: "24–28°C", compat: "Только с крупными", food: "Гранулы", breed: "Пара охраняет икру" },
+      { name: "Акара", latin: "Andinoacara pulcher", icon: "🐟", desc: "Цихлида среднего размера, территориальная.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "24–28°C", compat: "С крупными", food: "Гранулы", breed: "Пара охраняет икру" },
+      { name: "Чернополосая цихлазома", latin: "Amatitlania nigrofasciata", icon: "🐡", desc: "Агрессивная цихлида, не для общих.", tags: [], tagNames: ["Агрессивная"], size: "10–15 см", temp: "24–28°C", compat: "С сильными", food: "Гранулы", breed: "Пара охраняет икру" },
+      { name: "Попугай сапфировый", latin: "Polar Blue Parrot", icon: "🐠", desc: "Гибридная цихлида, полуагрессивная.", tags: [], tagNames: ["Полуагрессивная"], size: "10–15 см", temp: "24–28°C", compat: "С крупными", food: "Гранулы", breed: "Стерильны" },
+      { name: "Дискус", latin: "Symphysodon", icon: "🐟", desc: "Королевская цихлида. Требует мягкой воды.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "28–30°C", compat: "Со скаляриями", food: "Спецкорм", breed: "Пара охраняет икру" },
+      { name: "Лабео", latin: "Epalzeorhynchos frenatum", icon: "🐡", desc: "Чистит стёкла, но территориальный.", tags: ["bottom"], tagNames: ["Донная"], size: "12–15 см", temp: "24–28°C", compat: "С крупными", food: "Таблетки", breed: "Нерест сложный" },
+      { name: "Боция клоун", latin: "Chromobotia macracanthus", icon: "🐟", desc: "Активная донная, нужна стая от 5.", tags: ["peaceful", "schooling", "bottom"], tagNames: ["Мирная", "Стайная", "Донная"], size: "20–30 см", temp: "24–28°C", compat: "С мирными", food: "Таблетки", breed: "Нерест редкий" },
+      { name: "Акулий балу", latin: "Balantiocheilos melanopterus", icon: "🐠", desc: "Крупная стайная, нужен объём от 300 л.", tags: ["schooling"], tagNames: ["Стайная"], size: "25–35 см", temp: "22–26°C", compat: "С крупными", food: "Гранулы", breed: "Нерест сложный" },
+      { name: "Клинобрюшка", latin: "Carnegiella strigata", icon: "🐟", desc: "Поверхностная, может выпрыгивать.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "3–4 см", temp: "24–28°C", compat: "С мирными", food: "Корм с поверхности", breed: "Нерест сложный" },
+      { name: "Стеклянный окунь", latin: "Parambassis ranga", icon: "🐠", desc: "Полупрозрачная стайная, чувствителен к воде.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "6–8 см", temp: "24–28°C", compat: "С мирными", food: "Мелкий корм", breed: "Нерест сложный" },
+      { name: "Боция мраморная", latin: "Botia almorhae", icon: "🐡", desc: "Донная стайная, активная, нужны укрытия.", tags: ["peaceful", "schooling", "bottom"], tagNames: ["Мирная", "Стайная", "Донная"], size: "10–15 см", temp: "24–28°C", compat: "С мирными", food: "Таблетки", breed: "Нерест сложный" },
+      { name: "Коридорас крапчатый", latin: "Corydoras paleatus", icon: "🐟", desc: "Классический донный сомик, стайка от 6.", tags: ["beginner", "peaceful", "schooling", "bottom"], tagNames: ["Новичкам", "Мирная", "Стайная", "Донная"], size: "5–7 см", temp: "18–24°C", compat: "С мирными", food: "Таблетки", breed: "Нерест в отдельном" },
+      { name: "Тернеция Гло", latin: "Gymnocorymbus ternetzi", icon: "🐠", desc: "Светящаяся тернеция, яркая, стайная.", tags: ["beginner", "peaceful", "schooling"], tagNames: ["Новичкам", "Мирная", "Стайная"], size: "4–5 см", temp: "22–26°C", compat: "С мирными", food: "Хлопья", breed: "Нерест в отдельном" },
+      { name: "Данио Гло", latin: "Danio rerio", icon: "🐟", desc: "Светящаяся форма данио, активная.", tags: ["beginner", "schooling"], tagNames: ["Новичкам", "Стайная"], size: "4–5 см", temp: "22–26°C", compat: "С мирными", food: "Хлопья", breed: "Нерест в отдельном" },
+      { name: "Барбус Гло", latin: "Puntigrus tetrazona", icon: "🐡", desc: "Светящийся суматранский, может щипать.", tags: ["schooling"], tagNames: ["Стайная"], size: "5–7 см", temp: "22–26°C", compat: "Не с длинноплав.", food: "Хлопья", breed: "Нерест в отдельном" },
+      { name: "Молинезия баллон", latin: "Poecilia sphenops", icon: "🐟", desc: "Круглое тело, нежнее обычной.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "5–7 см", temp: "24–28°C", compat: "С мирными", food: "Хлопья", breed: "Живородящая" },
+      { name: "Гуппи Эндлера", latin: "Poecilia wingei", icon: "🐠", desc: "Мелкая живородящая, самцы яркие.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "2–3 см", temp: "22–26°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Живородящая" },
+      { name: "Пецилия Микки Маус", latin: "Xiphophorus maculatus", icon: "🐟", desc: "Рисунок мыши у хвоста, неприхотливая.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "4–6 см", temp: "22–26°C", compat: "С мирными", food: "Хлопья", breed: "Живородящая" },
+      { name: "Водорослеед сиамский", latin: "Crossocheilus oblongus", icon: "🐡", desc: "Чистит водоросли, объём от 100 л.", tags: ["bottom"], tagNames: ["Донная"], size: "12–15 см", temp: "24–28°C", compat: "С мирными", food: "Водоросли, таблетки", breed: "Нерест сложный" },
+      { name: "Золотая рыбка телескоп", latin: "Carassius auratus", icon: "🐠", desc: "Глаза навыкате, медлительная.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "18–24°C", compat: "С холодноводными", food: "Гранулы", breed: "Нерест весной" },
+      { name: "Золотая рыбка вуалехвост", latin: "Carassius auratus", icon: "🐟", desc: "Огромный хвост, нежная.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "18–24°C", compat: "С холодноводными", food: "Гранулы", breed: "Нерест весной" },
+      { name: "Золотая рыбка оранда", latin: "Carassius auratus", icon: "🐠", desc: "Нарост на голове, спокойная.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "18–24°C", compat: "С холодноводными", food: "Гранулы", breed: "Нерест весной" },
+      { name: "Шубункин", latin: "Carassius auratus", icon: "🐟", desc: "Ситцевый окрас, прозрачная чешуя.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "18–24°C", compat: "С холодноводными", food: "Гранулы", breed: "Нерест весной" },
+      { name: "Комета", latin: "Carassius auratus", icon: "🐠", desc: "Длинный хвост, быстрая.", tags: ["peaceful"], tagNames: ["Мирная"], size: "20–25 см", temp: "18–24°C", compat: "С холодноводными", food: "Гранулы", breed: "Нерест весной" },
+      { name: "Карась обыкновенный", latin: "Carassius carassius", icon: "🐟", desc: "Выносливый, роет грунт.", tags: ["peaceful"], tagNames: ["Мирная"], size: "20–30 см", temp: "15–24°C", compat: "С холодноводными", food: "Всё ест", breed: "Нерест весной" },
+      { name: "Линь", latin: "Tinca tinca", icon: "🐡", desc: "Донный, любит ил и укрытия.", tags: ["peaceful", "bottom"], tagNames: ["Мирная", "Донная"], size: "30–40 см", temp: "15–24°C", compat: "С холодноводными", food: "Донный корм", breed: "Нерест в пруду" },
+      { name: "Карп зеркальный", latin: "Cyprinus carpio", icon: "🐠", desc: "Крупный, для пруда.", tags: ["peaceful"], tagNames: ["Мирная"], size: "50–80 см", temp: "15–24°C", compat: "В пруду", food: "Гранулы", breed: "Нерест в пруду" },
+      { name: "Толстолобик", latin: "Hypophthalmichthys molitrix", icon: "🐟", desc: "Фильтрует воду, для пруда.", tags: ["peaceful"], tagNames: ["Мирная"], size: "50–100 см", temp: "15–24°C", compat: "В пруду", food: "Фитопланктон", breed: "Нерест в пруду" },
+      { name: "Белый амур", latin: "Ctenopharyngodon idella", icon: "🐡", desc: "Ест растения, для пруда.", tags: ["peaceful"], tagNames: ["Мирная"], size: "50–100 см", temp: "15–24°C", compat: "В пруду", food: "Растения", breed: "Нерест в пруду" },
+      { name: "Анциструс альбинос", latin: "Ancistrus", icon: "🐟", desc: "Белый сом-присоска, чистит стёкла.", tags: ["beginner", "bottom"], tagNames: ["Новичкам", "Донная"], size: "10–15 см", temp: "24–28°C", compat: "С мирными", food: "Таблетки", breed: "Самец охраняет икру" },
+      { name: "Анциструс звёздчатый", latin: "Ancistrus", icon: "🐡", desc: "Тёмный в точку, нужна коряга.", tags: ["bottom"], tagNames: ["Донная"], size: "10–15 см", temp: "24–28°C", compat: "С мирными", food: "Таблетки", breed: "Самец охраняет икру" },
+      { name: "Лорикария красная", latin: "L010a", icon: "🐠", desc: "Красно-коричневая, пугливая.", tags: ["bottom"], tagNames: ["Донная"], size: "10–12 см", temp: "24–28°C", compat: "С мирными", food: "Таблетки", breed: "Нерест сложный" },
+      { name: "Отоцинклюс", latin: "Otocinclus", icon: "🐟", desc: "Мелкий сомик, чистит стёкла.", tags: ["peaceful", "bottom"], tagNames: ["Мирная", "Донная"], size: "3–4 см", temp: "22–26°C", compat: "С мирными", food: "Водоросли, таблетки", breed: "Нерест сложный" },
+      { name: "Коридорас Симилис", latin: "Corydoras similis", icon: "🐡", desc: "Активный, стайка от 5.", tags: ["peaceful", "schooling", "bottom"], tagNames: ["Мирная", "Стайная", "Донная"], size: "4–6 см", temp: "22–26°C", compat: "С мирными", food: "Таблетки", breed: "Нерест в отдельном" },
+      { name: "Коридорас Пигмей", latin: "Corydoras pygmaeus", icon: "🐟", desc: "Микро-сомик, плавает в толще.", tags: ["peaceful", "schooling", "bottom"], tagNames: ["Мирная", "Стайная", "Донная"], size: "2–3 см", temp: "22–26°C", compat: "С мирными", food: "Микрокорм", breed: "Нерест в отдельном" },
+      { name: "Агамикс звездчатый", latin: "Agamyxis pectinifrons", icon: "🐡", desc: "Ночной сом, любит укрытия.", tags: ["bottom"], tagNames: ["Донная"], size: "10–12 см", temp: "24–28°C", compat: "С крупными", food: "Таблетки", breed: "Нерест в пещере" },
+      { name: "Пангасиус", latin: "Pangasius hypophthalmus", icon: "🐠", desc: "Крупный сом, нужен объём от 500 л.", tags: ["bottom"], tagNames: ["Донная"], size: "40–60 см", temp: "24–28°C", compat: "С крупными", food: "Гранулы", breed: "Нерест сложный" },
+      { name: "Клариас", latin: "Clarias batrachus", icon: "🐟", desc: "Хищный сом, дышит воздухом.", tags: ["bottom"], tagNames: ["Донная"], size: "30–40 см", temp: "24–28°C", compat: "Только с крупными", food: "Мясо, рыба", breed: "Нерест в отдельном" },
+      { name: "Мешкожаберный сом", latin: "Heteropneustes fossilis", icon: "🐡", desc: "Может дышать воздухом, вылезать из воды.", tags: ["bottom"], tagNames: ["Донная"], size: "20–30 см", temp: "22–26°C", compat: "С крупными", food: "Хищник", breed: "Нерест в отдельном" },
+      { name: "Гурами медовый", latin: "Trichogaster chuna", icon: "🐠", desc: "Мини-гурами, спокойный, до 5 см.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "4–5 см", temp: "24–28°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Самец строит гнездо" },
+      { name: "Гурами голубой", latin: "Trichopodus trichopterus", icon: "🐟", desc: "Спокойный, лабиринтовый.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "10–12 см", temp: "24–28°C", compat: "Со скаляриями", food: "Хлопья", breed: "Гнездо из пузырьков" },
+      { name: "Макропод", latin: "Macropodus opercularis", icon: "🐡", desc: "Красивый, но территориальный.", tags: ["peaceful"], tagNames: ["Мирная"], size: "8–10 см", temp: "22–26°C", compat: "С мирными", food: "Хлопья", breed: "Гнездо из пузырьков" },
+      { name: "Петушок Гло", latin: "Betta splendens", icon: "🐠", desc: "Светящийся петушок, один самец.", tags: ["beginner"], tagNames: ["Новичкам"], size: "5–7 см", temp: "24–28°C", compat: "Один самец", food: "Гранулы", breed: "Самец строит гнездо" },
+      { name: "Ктенопома", latin: "Ctenopoma acutirostre", icon: "🐟", desc: "Лабиринтовый хищник, для продвинутых.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "24–28°C", compat: "С крупными", food: "Мясо", breed: "Нерест сложный" },
+      { name: "Скалярия Гло", latin: "Pterophyllum scalare", icon: "🐠", desc: "Светящаяся скалярия, для высоких аквариумов.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15 см", temp: "24–28°C", compat: "С гурами", food: "Гранулы", breed: "Пара на листе" },
+      { name: "Апистограмма какаду", latin: "Apistogramma cacatuoides", icon: "🐡", desc: "Карликовая цихлида, территориальная.", tags: ["peaceful"], tagNames: ["Мирная"], size: "5–7 см", temp: "24–28°C", compat: "С мирными", food: "Мелкие гранулы", breed: "Пара охраняет икру" },
+      { name: "Апистограмма Агассица", latin: "Apistogramma agassizii", icon: "🐠", desc: "Яркая карликовая цихлида.", tags: ["peaceful"], tagNames: ["Мирная"], size: "5–7 см", temp: "26–30°C", compat: "С мирными", food: "Мелкие гранулы", breed: "Пара охраняет икру" },
+      { name: "Наннакара", latin: "Nannacara anomala", icon: "🐟", desc: "Мирная карликовая цихлида.", tags: ["peaceful"], tagNames: ["Мирная"], size: "5–7 см", temp: "24–28°C", compat: "С мирными", food: "Мелкие гранулы", breed: "Пара охраняет икру" },
+      { name: "Микрорасбора Кубота", latin: "Boraras brigittae", icon: "🐡", desc: "Совсем мелкая, стайная, для нано.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "2–3 см", temp: "24–28°C", compat: "С мирными", food: "Микрокорм", breed: "Нерест в мху" },
+      { name: "Гастромизон", latin: "Gastromyzon", icon: "🐠", desc: "Прилипала к камням, нужен поток.", tags: ["bottom"], tagNames: ["Донная"], size: "3–5 см", temp: "20–26°C", compat: "С мирными", food: "Водоросли", breed: "Нерест сложный" },
+      { name: "Бефортия", latin: "Beaufortia", icon: "🐟", desc: "Течёт-прилипала, нужна бурная вода.", tags: ["bottom"], tagNames: ["Донная"], size: "5–7 см", temp: "20–26°C", compat: "С мирными", food: "Водоросли", breed: "Нерест сложный" },
+      { name: "Акантопсис", latin: "Acanthopsis", icon: "🐡", desc: "Вьюн, живет в песке.", tags: ["bottom"], tagNames: ["Донная"], size: "5–7 см", temp: "20–26°C", compat: "С мирными", food: "Таблетки", breed: "Нерест сложный" },
+      { name: "Лепидогастер", latin: "Leptogaster", icon: "🐠", desc: "Интересный вьюн, любит песок.", tags: ["bottom"], tagNames: ["Донная"], size: "5–7 см", temp: "20–26°C", compat: "С мирными", food: "Таблетки", breed: "Нерест сложный" },
+      { name: "Хобснот", latin: "Gnathonemus petersii", icon: "🐟", desc: "Слонорыл, нужен объём, ночной.", tags: ["bottom"], tagNames: ["Донная"], size: "20–25 см", temp: "24–28°C", compat: "С крупными", food: "Хищник", breed: "Нерест сложный" },
+      { name: "Мормир", latin: "Mormyrus", icon: "🐡", desc: "Слонорыл, умный, требует опыта.", tags: ["bottom"], tagNames: ["Донная"], size: "25–30 см", temp: "24–28°C", compat: "С крупными", food: "Мясо, мотыль", breed: "Нерест сложный" },
+      { name: "Аравана", latin: "Osteoglossum bicirrhosum", icon: "🐠", desc: "Королева, хищник, объём от 1000 л.", tags: [], tagNames: ["Хищник"], size: "60–90 см", temp: "26–30°C", compat: "Только с крупными", food: "Рыба, мясо", breed: "Нерест сложный" },
+      { name: "Панцирная щука", latin: "Lepisosteus", icon: "🐟", desc: "Древний хищник, только видовой.", tags: [], tagNames: ["Хищник"], size: "60–90 см", temp: "20–26°C", compat: "Только с крупными", food: "Живая рыба", breed: "Нерест сложный" },
+      { name: "Индийский нож", latin: "Chitala chitala", icon: "🐡", desc: "Крупный, ночной, хищник.", tags: [], tagNames: ["Хищник"], size: "80–100 см", temp: "24–28°C", compat: "Только с крупными", food: "Мясо, рыба", breed: "Нерест сложный" },
+      { name: "Черный нож", latin: "Apteronotus albifrons", icon: "🐠", desc: "Электрорецепция, ночной, требует опыта.", tags: ["peaceful"], tagNames: ["Мирная"], size: "40–50 см", temp: "24–28°C", compat: "С крупными", food: "Живой корм", breed: "Нерест сложный" },
+      { name: "Мстацеус", latin: "Mastacembelus", icon: "🐟", desc: "Угорь, копает норы, нужна крышка.", tags: ["bottom"], tagNames: ["Донная"], size: "40–50 см", temp: "24–28°C", compat: "С крупными", food: "Живой корм", breed: "Нерест сложный" },
+      { name: "Макрогнатус", latin: "Macrognathus", icon: "🐡", desc: "Угорь, роет, прыгает.", tags: ["bottom"], tagNames: ["Донная"], size: "20–30 см", temp: "24–28°C", compat: "С крупными", food: "Живой корм", breed: "Нерест сложный" },
+      { name: "Тетраодон карликовый", latin: "Carinotetraodon travancoricus", icon: "🐠", desc: "Фугу-горошина, охотится на улиток.", tags: ["peaceful"], tagNames: ["Мирная"], size: "2–3 см", temp: "24–28°C", compat: "Только с очень быстрыми", food: "Улитки, мотыль", breed: "Нерест сложный" },
+      { name: "Тетраодон зелёный", latin: "Tetraodon fluviatilis", icon: "🐟", desc: "Солоноватая вода, кусает плавники.", tags: [], tagNames: ["Хищник"], size: "15–17 см", temp: "24–28°C", compat: "Только видовой", food: "Улитки, крабы", breed: "Нерест сложный" },
+      { name: "Фахака", latin: "Tetraodon lineatus", icon: "🐡", desc: "Огромный фугу, агрессивный.", tags: [], tagNames: ["Хищник"], size: "30–40 см", temp: "24–28°C", compat: "Только видовой", food: "Улитки, крабы", breed: "Нерест сложный" },
+      { name: "Сом электрический", latin: "Malapterurus electricus", icon: "🐠", desc: "Бьёт током! Только для профи.", tags: [], tagNames: ["Опасная"], size: "60–90 см", temp: "24–28°C", compat: "Только видовой", food: "Живая рыба", breed: "Нерест сложный" },
+      { name: "Протоптерус", latin: "Protopterus", icon: "🐟", desc: "Двоякодышащий, дышит воздухом.", tags: [], tagNames: ["Сложная"], size: "60–100 см", temp: "24–28°C", compat: "Только видовой", food: "Мясо, рыба", breed: "Нерест сложный" },
+      { name: "Ксенотока", latin: "Xenotoca", icon: "🐡", desc: "Живородящая, но не для новичков.", tags: ["peaceful"], tagNames: ["Мирная"], size: "6–8 см", temp: "20–26°C", compat: "С мирными", food: "Хлопья", breed: "Живородящая" },
+      { name: "Гамбузия", latin: "Gambusia affinis", icon: "🐠", desc: "Живородящая, ест личинок комаров.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "3–5 см", temp: "18–26°C", compat: "С мирными", food: "Хлопья, личинки", breed: "Живородящая" },
+      { name: "Амека", latin: "Ameca splendens", icon: "🐟", desc: "Живородящая, красивая, но территориальная.", tags: ["peaceful"], tagNames: ["Мирная"], size: "8–10 см", temp: "22–26°C", compat: "С крупными", food: "Хлопья", breed: "Живородящая" },
+      { name: "Гупи-гло", latin: "Poecilia reticulata", icon: "🐡", desc: "Светящаяся гуппи, яркая, стайная.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "3–5 см", temp: "22–26°C", compat: "С мирными", food: "Хлопья", breed: "Живородящая" },
+      { name: "Молинезия снежинка", latin: "Poecilia sphenops", icon: "🐠", desc: "Белая в чёрную точку, крепкая.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "6–8 см", temp: "24–28°C", compat: "С мирными", food: "Хлопья", breed: "Живородящая" },
+      { name: "Молинезия чёрная", latin: "Poecilia sphenops", icon: "🐟", desc: "Чёрная, классическая, живородящая.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "6–8 см", temp: "24–28°C", compat: "С мирными", food: "Хлопья", breed: "Живородящая" },
+      { name: "Пецилия красная", latin: "Xiphophorus maculatus", icon: "🐡", desc: "Ярко-красная, мирная.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "4–6 см", temp: "22–26°C", compat: "С мирными", food: "Хлопья", breed: "Живородящая" },
+      { name: "Пецилия голубая", latin: "Xiphophorus maculatus", icon: "🐠", desc: "Голубая, с металлическим блеском.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "4–6 см", temp: "22–26°C", compat: "С мирными", food: "Хлопья", breed: "Живородящая" },
+      { name: "Меченосец Гло", latin: "Xiphophorus hellerii", icon: "🐟", desc: "Светящийся меченосец, живородящий.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "8–12 см", temp: "22–26°C", compat: "С мирными", food: "Хлопья", breed: "Живородящая" },
+      { name: "Меченосец красный", latin: "Xiphophorus hellerii", icon: "🐡", desc: "Красный, активный, живородящий.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "8–12 см", temp: "22–26°C", compat: "С мирными", food: "Хлопья", breed: "Живородящая" },
+      { name: "Тернеция вуалевая", latin: "Gymnocorymbus ternetzi", icon: "🐠", desc: "С длинными плавниками, стайная.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "4–5 см", temp: "22–26°C", compat: "С мирными", food: "Хлопья", breed: "Нерест сложный" },
+      { name: "Неон Гло", latin: "Paracheirodon innesi", icon: "🐟", desc: "Светящийся неон, стайный.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "3–4 см", temp: "22–26°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Нерест сложный" },
+      { name: "Барбус мутант", latin: "Puntigrus tetrazona", icon: "🐡", desc: "Селекционная форма, стайный.", tags: ["schooling"], tagNames: ["Стайная"], size: "5–7 см", temp: "22–26°C", compat: "Не с длинноплав.", food: "Хлопья", breed: "Нерест в отдельном" },
+      { name: "Данио леопардовый", latin: "Danio rerio", icon: "🐠", desc: "Пятнистый, активный, стайный.", tags: ["beginner", "schooling"], tagNames: ["Новичкам", "Стайная"], size: "4–5 см", temp: "22–26°C", compat: "С мирными", food: "Хлопья", breed: "Нерест в отдельном" },
+      { name: "Расбора Эспея", latin: "Trigonostigma espei", icon: "🐟", desc: "Маленькая, стайная, яркая.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "3–4 см", temp: "24–28°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Нерест сложный" },
+      { name: "Тетра-плотвичка", latin: "Hyphessobrycon anisitsi", icon: "🐡", desc: "Стайная, активная, может щипать.", tags: ["schooling"], tagNames: ["Стайная"], size: "5–6 см", temp: "22–26°C", compat: "С крупными", food: "Хлопья", breed: "Нерест сложный" },
+      { name: "Тетра-минор", latin: "Hyphessobrycon eques", icon: "🐠", desc: "Красная, стайная, может кусать плавники.", tags: ["schooling"], tagNames: ["Стайная"], size: "4–5 см", temp: "22–26°C", compat: "С крупными", food: "Мелкие хлопья", breed: "Нерест сложный" },
+      { name: "Фантом чёрный", latin: "Hyphessobrycon megalopterus", icon: "🐟", desc: "Тёмная, стайная, спокойная.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "4–5 см", temp: "22–26°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Нерест сложный" },
+      { name: "Фантом красный", latin: "Hyphessobrycon sweglesi", icon: "🐡", desc: "Красноватая, стайная, любит тень.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "4–5 см", temp: "22–26°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Нерест сложный" },
+      { name: "Эритрозонус", latin: "Hemigrammus erythrozonus", icon: "🐠", desc: "Светящаяся полоса, стайный.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "3–4 см", temp: "22–26°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Нерест сложный" },
+      { name: "Родостомус", latin: "Rhodostomus", icon: "🐟", desc: "Красный неон, стайный, спокойный.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "4–5 см", temp: "22–26°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Нерест сложный" },
+      { name: "Неон зелёный", latin: "Paracheirodon innesi", icon: "🐡", desc: "Зелёная полоса, стайный.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "3–4 см", temp: "22–26°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Нерест сложный" },
+      { name: "Неон золотой", latin: "Paracheirodon innesi", icon: "🐠", desc: "Жёлтая полоса, стайный.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "3–4 см", temp: "22–26°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Нерест сложный" },
+      { name: "Акантофтальмус кюля", latin: "Pangio kuhlii", icon: "🐟", desc: "Вьюн, полосатый, ночной, в грунте.", tags: ["peaceful", "bottom"], tagNames: ["Мирная", "Донная"], size: "8–10 см", temp: "24–28°C", compat: "С мирными", food: "Таблетки", breed: "Нерест сложный" },
+      { name: "Акантофтальмус полуполосатый", latin: "Pangio semicincta", icon: "🐡", desc: "Вьюн, полосатый, зарывается.", tags: ["peaceful", "bottom"], tagNames: ["Мирная", "Донная"], size: "7–9 см", temp: "24–28°C", compat: "С мирными", food: "Таблетки", breed: "Нерест сложный" },
+      { name: "Боция лохаката", latin: "Botia lohachata", icon: "🐠", desc: "Донная, полосатая, активная.", tags: ["peaceful", "schooling", "bottom"], tagNames: ["Мирная", "Стайная", "Донная"], size: "10–12 см", temp: "24–28°C", compat: "С мирными", food: "Таблетки", breed: "Нерест сложный" },
+      { name: "Боция Морлета", latin: "Botia morleti", icon: "🐟", desc: "Вьюн, активный, нужны укрытия.", tags: ["bottom"], tagNames: ["Донная"], size: "8–10 см", temp: "24–28°C", compat: "С крупными", food: "Таблетки", breed: "Нерест сложный" },
+      { name: "Гастромизон пятнистый", latin: "Gastromyzon", icon: "🐡", desc: "Прилипала, нужен поток и камни.", tags: ["bottom"], tagNames: ["Донная"], size: "3–5 см", temp: "20–26°C", compat: "С мирными", food: "Водоросли", breed: "Нерест сложный" },
+      { name: "Сом-присоска обыкновенный", latin: "Hypostomus", icon: "🐠", desc: "Крупный, сосёт слизь, для больших объемов.", tags: ["bottom"], tagNames: ["Донная"], size: "30–40 см", temp: "24–28°C", compat: "С крупными", food: "Таблетки", breed: "Нерест сложный" },
+      { name: "Анциструс обыкновенный", latin: "Ancistrus", icon: "🐟", desc: "Коричневый в точку, чистит стёкла.", tags: ["beginner", "bottom"], tagNames: ["Новичкам", "Донная"], size: "10–15 см", temp: "24–28°C", compat: "С мирными", food: "Таблетки", breed: "Самец охраняет икру" },
+      { name: "Плеко золотой", latin: "Hypostomus", icon: "🐡", desc: "Жёлтый, крупный, любит коряги.", tags: ["bottom"], tagNames: ["Донная"], size: "25–30 см", temp: "24–28°C", compat: "С крупными", food: "Таблетки", breed: "Нерест сложный" },
+      { name: "Гипанциструс", latin: "Hypancistrus", icon: "🐠", desc: "Полосатый, небольшой, для опытных.", tags: ["bottom"], tagNames: ["Донная"], size: "8–10 см", temp: "26–30°C", compat: "С мирными", food: "Таблетки", breed: "Нерест сложный" },
+      { name: "Пекотия", latin: "Peckoltia", icon: "🐟", desc: "Полосатый сомик, прячется.", tags: ["bottom"], tagNames: ["Донная"], size: "10–12 см", temp: "24–28°C", compat: "С мирными", food: "Таблетки", breed: "Нерест сложный" },
+      { name: "Панак", latin: "Panaque", icon: "🐡", desc: "Грызёт дерево, нужна коряга.", tags: ["bottom"], tagNames: ["Донная"], size: "20–30 см", temp: "24–28°C", compat: "С крупными", food: "Коряга, таблетки", breed: "Нерест сложный" },
+      { name: "Коридорас золотистый", latin: "Corydoras aeneus", icon: "🐠", desc: "Золотистый, стайный, выносливый.", tags: ["peaceful", "schooling", "bottom"], tagNames: ["Мирная", "Стайная", "Донная"], size: "5–7 см", temp: "22–26°C", compat: "С мирными", food: "Таблетки", breed: "Нерест в отдельном" },
+      { name: "Коридорас Юлии", latin: "Corydoras julii", icon: "🐟", desc: "Полосатый, стайный, мирный.", tags: ["peaceful", "schooling", "bottom"], tagNames: ["Мирная", "Стайная", "Донная"], size: "4–5 см", temp: "22–26°C", compat: "С мирными", food: "Таблетки", breed: "Нерест в отдельном" },
+      { name: "Коридорас Штербы", latin: "Corydoras sterbai", icon: "🐡", desc: "Оранжевые плавники, стайный.", tags: ["peaceful", "schooling", "bottom"], tagNames: ["Мирная", "Стайная", "Донная"], size: "5–7 см", temp: "24–28°C", compat: "С мирными", food: "Таблетки", breed: "Нерест в отдельном" },
+      { name: "Коридорас адольфи", latin: "Corydoras adolfoi", icon: "🐠", desc: "Чёрная маска, стайный, красивый.", tags: ["peaceful", "schooling", "bottom"], tagNames: ["Мирная", "Стайная", "Донная"], size: "4–5 см", temp: "22–26°C", compat: "С мирными", food: "Таблетки", breed: "Нерест в отдельном" },
+      { name: "Коридорас панда альбинос", latin: "Corydoras panda", icon: "🐟", desc: "Белый, стайный, выносливый.", tags: ["beginner", "peaceful", "schooling", "bottom"], tagNames: ["Новичкам", "Мирная", "Стайная", "Донная"], size: "4–5 см", temp: "22–26°C", compat: "С мирными", food: "Таблетки", breed: "Нерест в отдельном" },
+      { name: "Торакатум", latin: "Megalechis thoracata", icon: "🐡", desc: "Донный, роется, нужен объём от 100 л.", tags: ["bottom"], tagNames: ["Донная"], size: "15–20 см", temp: "22–26°C", compat: "С мирными", food: "Таблетки", breed: "Нерест в отдельном" },
+      { name: "Платидорас", latin: "Platydoras costatus", icon: "🐠", desc: "Ночной, в шипах, любит укрытия.", tags: ["bottom"], tagNames: ["Донная"], size: "15–20 см", temp: "24–28°C", compat: "С крупными", food: "Таблетки", breed: "Нерест сложный" },
+      { name: "Птеригоплихт", latin: "Pterygoplichthys", icon: "🐟", desc: "Крупный, сосёт слизь, для пруда.", tags: ["bottom"], tagNames: ["Донная"], size: "30–50 см", temp: "24–28°C", compat: "С крупными", food: "Таблетки", breed: "Нерест сложный" },
+      { name: "Сом анциструс", latin: "Ancistrus", icon: "🐡", desc: "Присоска, чистит, нужна коряга.", tags: ["beginner", "bottom"], tagNames: ["Новичкам", "Донная"], size: "10–15 см", temp: "24–28°C", compat: "С мирными", food: "Таблетки", breed: "Самец охраняет икру" },
+      { name: "Золотая рыбка красная шапочка", latin: "Carassius auratus", icon: "🐠", desc: "Красный нарост, спокойная.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "18–24°C", compat: "С холодноводными", food: "Гранулы", breed: "Нерест весной" },
+      { name: "Золотая рыбка жемчужинка", latin: "Carassius auratus", icon: "🐟", desc: "Шаровидная чешуя, медлительная.", tags: ["peaceful"], tagNames: ["Мирная"], size: "12–15 см", temp: "18–24°C", compat: "С холодноводными", food: "Гранулы", breed: "Нерест весной" },
+      { name: "Золотая рыбка ранчу", latin: "Carassius auratus", icon: "🐡", desc: "Прямая спина, округлое тело.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "18–24°C", compat: "С холодноводными", food: "Гранулы", breed: "Нерест весной" },
+      { name: "Золотая рыбка риукин", latin: "Carassius auratus", icon: "🐠", desc: "Высокая спина, крупная.", tags: ["peaceful"], tagNames: ["Мирная"], size: "20–25 см", temp: "18–24°C", compat: "С холодноводными", food: "Гранулы", breed: "Нерест весной" },
+      { name: "Золотая рыбка оранда", latin: "Carassius auratus", icon: "🐟", desc: "Нарост на голове, спокойная.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "18–24°C", compat: "С холодноводными", food: "Гранулы", breed: "Нерест весной" },
+      { name: "Кои Огон", latin: "Cyprinus carpio", icon: "🐡", desc: "Однотонный, металлический.", tags: ["peaceful"], tagNames: ["Мирная"], size: "40–70 см", temp: "15–24°C", compat: "В пруду", food: "Гранулы", breed: "Нерест в пруду" },
+      { name: "Кои Кохаку", latin: "Cyprinus carpio", icon: "🐠", desc: "Белый с красным, классика.", tags: ["peaceful"], tagNames: ["Мирная"], size: "40–70 см", temp: "15–24°C", compat: "В пруду", food: "Гранулы", breed: "Нерест в пруду" },
+      { name: "Кои Санке", latin: "Cyprinus carpio", icon: "🐟", desc: "Трёхцветный, красивый.", tags: ["peaceful"], tagNames: ["Мирная"], size: "40–70 см", temp: "15–24°C", compat: "В пруду", food: "Гранулы", breed: "Нерест в пруду" },
+      { name: "Кои Шова", latin: "Cyprinus carpio", icon: "🐡", desc: "Красно-чёрно-белый, мощный.", tags: ["peaceful"], tagNames: ["Мирная"], size: "40–70 см", temp: "15–24°C", compat: "В пруду", food: "Гранулы", breed: "Нерест в пруду" },
+      { name: "Кои Танчо", latin: "Cyprinus carpio", icon: "🐠", desc: "Чёрный с красными пятнами.", tags: ["peaceful"], tagNames: ["Мирная"], size: "40–70 см", temp: "15–24°C", compat: "В пруду", food: "Гранулы", breed: "Нерест в пруду" },
+      { name: "Золотая рыбка вакин", latin: "Carassius auratus", icon: "🐟", desc: "Длинный хвост, яркая.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "18–24°C", compat: "С холодноводными", food: "Гранулы", breed: "Нерест весной" },
+      { name: "Золотая рыбка телескоп чёрный", latin: "Carassius auratus", icon: "🐡", desc: "Глаза навыкате, тёмный.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "18–24°C", compat: "С холодноводными", food: "Гранулы", breed: "Нерест весной" },
+      { name: "Золотая рыбка оранда красная", latin: "Carassius auratus", icon: "🐠", desc: "Красная, с наростом.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "18–24°C", compat: "С холодноводными", food: "Гранулы", breed: "Нерест весной" },
+      { name: "Золотая рыбка небесное око", latin: "Carassius auratus", icon: "🐟", desc: "Глаза смотрят вверх.", tags: ["peaceful"], tagNames: ["Мирная"], size: "12–15 см", temp: "18–24°C", compat: "С холодноводными", food: "Гранулы", breed: "Нерест весной" },
+      { name: "Золотая рыбка водяные глазки", latin: "Carassius auratus", icon: "🐡", desc: "Огромные глаза, нежная.", tags: ["peaceful"], tagNames: ["Мирная"], size: "12–15 см", temp: "18–24°C", compat: "С холодноводными", food: "Гранулы", breed: "Нерест весной" },
+      { name: "Карась серебряный", latin: "Carassius gibelio", icon: "🐠", desc: "Выносливый, для пруда.", tags: ["peaceful"], tagNames: ["Мирная"], size: "20–30 см", temp: "15–24°C", compat: "С холодноводными", food: "Всё ест", breed: "Нерест в пруду" },
+      { name: "Карась золотой", latin: "Carassius carassius", icon: "🐟", desc: "Золотой, для пруда.", tags: ["peaceful"], tagNames: ["Мирная"], size: "20–30 см", temp: "15–24°C", compat: "С холодноводными", food: "Всё ест", breed: "Нерест в пруду" },
+      { name: "Осётр", latin: "Acipenser", icon: "🐡", desc: "Древний, для пруда, нужен объём.", tags: [], tagNames: ["Пруд"], size: "50–100 см", temp: "15–24°C", compat: "С крупными", food: "Донный корм", breed: "Нерест в пруду" },
+      { name: "Стерлядь", latin: "Acipenser ruthenus", icon: "🐠", desc: "Мелкий осётр, для пруда.", tags: [], tagNames: ["Пруд"], size: "30–50 см", temp: "15–24°C", compat: "С крупными", food: "Донный корм", breed: "Нерест в пруду" },
+      { name: "Бестер", latin: "Huso huso x Acipenser ruthenus", icon: "🐟", desc: "Гибрид осетра, для пруда.", tags: [], tagNames: ["Пруд"], size: "50–150 см", temp: "15–24°C", compat: "С крупными", food: "Донный корм", breed: "Нерест в пруду" },
+      { name: "Арована серебряная", latin: "Osteoglossum bicirrhosum", icon: "🐡", desc: "Крупный хищник, объём от 1000 л.", tags: [], tagNames: ["Хищник"], size: "60–90 см", temp: "26–30°C", compat: "Только с крупными", food: "Рыба, мясо", breed: "Нерест сложный" },
+      { name: "Арована азиатская", latin: "Scleropages formosus", icon: "🐠", desc: "Красная, очень дорогая, для профи.", tags: [], tagNames: ["Хищник"], size: "60–90 см", temp: "26–30°C", compat: "Только с крупными", food: "Рыба, мясо", breed: "Нерест сложный" },
+      { name: "Панцирная щука пятнистая", latin: "Lepisosteus oculatus", icon: "🐟", desc: "Древний хищник, только видовой.", tags: [], tagNames: ["Хищник"], size: "60–90 см", temp: "20–26°C", compat: "Только с крупными", food: "Живая рыба", breed: "Нерест сложный" },
+      { name: "Индийский нож украшенный", latin: "Chitala ornata", icon: "🐡", desc: "Крупный хищник, ночной.", tags: [], tagNames: ["Хищник"], size: "80–100 см", temp: "24–28°C", compat: "Только с крупными", food: "Мясо, рыба", breed: "Нерест сложный" },
+      { name: "Арапайма", latin: "Arapaima gigas", icon: "🐠", desc: "Самая крупная пресноводная, для профи.", tags: [], tagNames: ["Гигант"], size: "150–300 см", temp: "24–28°C", compat: "Только видовой", food: "Рыба, мясо", breed: "Нерест сложный" },
+      { name: "Пиранья обыкновенная", latin: "Pygocentrus nattereri", icon: "🐟", desc: "Стайный хищник, только видовой.", tags: [], tagNames: ["Хищник"], size: "25–30 см", temp: "24–28°C", compat: "Только своих", food: "Мясо, рыба", breed: "Нерест сложный" },
+      { name: "Пиранья чёрная", latin: "Serrasalmus rhombeus", icon: "🐡", desc: "Одиночный хищник, очень агрессивный.", tags: [], tagNames: ["Хищник"], size: "30–40 см", temp: "24–28°C", compat: "Только видовой", food: "Рыба", breed: "Нерест сложный" },
+      { name: "Паку", latin: "Piaractus brachypomus", icon: "🐠", desc: "Крупный, травоядный, объём от 500 л.", tags: [], tagNames: ["Крупная"], size: "40–60 см", temp: "24–28°C", compat: "С крупными", food: "Овощи, гранулы", breed: "Нерест сложный" },
+      { name: "Тамбаки", latin: "Colossoma macropomum", icon: "🐟", desc: "Крупный, травоядный, гигант.", tags: [], tagNames: ["Крупная"], size: "60–100 см", temp: "24–28°C", compat: "С крупными", food: "Овощи", breed: "Нерест сложный" },
+      { name: "Аксолотль", latin: "Ambystoma mexicanum", icon: "🐠", desc: "Амфибия, требует прохладной воды.", tags: [], tagNames: ["Амфибия"], size: "20–30 см", temp: "16–20°C", compat: "Только видовой", food: "Черви, креветки", breed: "Нерест в воде" },
+      { name: "Тритон", latin: "Triturus", icon: "🐟", desc: "Амфибия, нужна суша и вода.", tags: [], tagNames: ["Амфибия"], size: "10–15 см", temp: "18–22°C", compat: "Только видовой", food: "Мотыль, черви", breed: "Нерест в воде" },
+      { name: "Креветка вишня", latin: "Neocaridina davidi", icon: "🐡", desc: "Красная, мирная, чистильщик.", tags: ["peaceful", "bottom"], tagNames: ["Мирная", "Донная"], size: "2–3 см", temp: "22–26°C", compat: "С мирными", food: "Водоросли", breed: "Размножается в аквариуме" },
+      { name: "Креветка Амано", latin: "Caridina multidentata", icon: "🐠", desc: "Чистит водоросли, крупнее вишни.", tags: ["peaceful", "bottom"], tagNames: ["Мирная", "Донная"], size: "4–5 см", temp: "22–26°C", compat: "С мирными", food: "Водоросли", breed: "Нерест в солёной воде" },
+      { name: "Креветка Жёлтая", latin: "Neocaridina davidi", icon: "🐟", desc: "Жёлтая, мирная, чистильщик.", tags: ["peaceful", "bottom"], tagNames: ["Мирная", "Донная"], size: "2–3 см", temp: "22–26°C", compat: "С мирными", food: "Водоросли", breed: "Размножается в аквариуме" },
+      { name: "Креветка Синяя", latin: "Neocaridina davidi", icon: "🐡", desc: "Синяя, мирная, чистильщик.", tags: ["peaceful", "bottom"], tagNames: ["Мирная", "Донная"], size: "2–3 см", temp: "22–26°C", compat: "С мирными", food: "Водоросли", breed: "Размножается в аквариуме" },
+      { name: "Улитка ампулярия", latin: "Pomacea bridgesii", icon: "🐠", desc: "Крупная, чистит водоросли.", tags: ["peaceful", "bottom"], tagNames: ["Мирная", "Донная"], size: "5–7 см", temp: "22–26°C", compat: "С мирными", food: "Водоросли, корм", breed: "Нерест на суше" },
+      { name: "Улитка катушка", latin: "Planorbis", icon: "🐟", desc: "Мелкая, чистит стёкла.", tags: ["peaceful", "bottom"], tagNames: ["Мирная", "Донная"], size: "1–2 см", temp: "20–28°C", compat: "С мирными", food: "Водоросли", breed: "Размножается сама" },
+      { name: "Улитка физия", latin: "Physa", icon: "🐡", desc: "Мелкая, ползает по стёклам.", tags: ["peaceful", "bottom"], tagNames: ["Мирная", "Донная"], size: "1–2 см", temp: "20–28°C", compat: "С мирными", food: "Водоросли", breed: "Размножается сама" },
+      { name: "Улитка неретина", latin: "Neritina", icon: "🐠", desc: "Чистит водоросли, не размножается в пресной.", tags: ["peaceful", "bottom"], tagNames: ["Мирная", "Донная"], size: "2–3 см", temp: "22–26°C", compat: "С мирными", food: "Водоросли", breed: "Нерест в солёной" },
+      { name: "Улитка хелена", latin: "Clea helena", icon: "🐟", desc: "Хищная улитка, ест катушек.", tags: ["bottom"], tagNames: ["Донная"], size: "2–3 см", temp: "22–26°C", compat: "С крупными", food: "Улитки", breed: "Нерест в грунте" },
+      { name: "Рак кубинский", latin: "Procambarus cubensis", icon: "🐡", desc: "Голубой, роет, ест рыбу.", tags: [], tagNames: ["Ракообразные"], size: "10–15 см", temp: "22–26°C", compat: "Только видовой", food: "Всё ест", breed: "Нерест в норе" },
+      { name: "Рак флоридский", latin: "Procambarus alleni", icon: "🐠", desc: "Синий, агрессивный.", tags: [], tagNames: ["Ракообразные"], size: "10–15 см", temp: "22–26°C", compat: "Только видовой", food: "Всё ест", breed: "Нерест в норе" },
+      { name: "Краб пресноводный", latin: "Potamon", icon: "🐟", desc: "Нужна суша, ест рыбу.", tags: [], tagNames: ["Ракообразные"], size: "5–10 см", temp: "22–26°C", compat: "Только видовой", food: "Всё ест", breed: "Нерест в воде" },
+      { name: "Морской конёк", latin: "Hippocampus", icon: "🐡", desc: "Морской, требует опыта.", tags: [], tagNames: ["Морская"], size: "10–15 см", temp: "24–26°C", compat: "Только видовой", food: "Креветки", breed: "Самец вынашивает икру" },
+      { name: "Рыба-клоун", latin: "Amphiprion ocellaris", icon: "🐠", desc: "Морская, живёт с актинией.", tags: [], tagNames: ["Морская"], size: "8–10 см", temp: "24–28°C", compat: "С мирными", food: "Мясо, креветки", breed: "Нерест на камне" },
+      { name: "Хирург голубой", latin: "Paracanthurus hepatus", icon: "🐟", desc: "Морская, активная, нужен объём.", tags: [], tagNames: ["Морская"], size: "20–30 см", temp: "24–28°C", compat: "С крупными", food: "Водоросли", breed: "Нерест сложный" },
+      { name: "Мурена", latin: "Gymnothorax", icon: "🐡", desc: "Морской хищник, кусает.", tags: [], tagNames: ["Морская"], size: "50–100 см", temp: "24–28°C", compat: "Только видовой", food: "Рыба", breed: "Нерест сложный" },
+      { name: "Спинорог", latin: "Balistoides", icon: "🐠", desc: "Морской, агрессивный, кусает.", tags: [], tagNames: ["Морская"], size: "30–50 см", temp: "24–28°C", compat: "Только видовой", food: "Мясо, крабы", breed: "Нерест сложный" },
+      { name: "Крылатка", latin: "Pterois volitans", icon: "🐟", desc: "Морская, ядовитая, для профи.", tags: [], tagNames: ["Морская"], size: "30–40 см", temp: "24–28°C", compat: "Только видовой", food: "Рыба, креветки", breed: "Нерест сложный" },
+      { name: "Камень-рыба", latin: "Synanceia", icon: "🐡", desc: "Самая ядовитая, только для профи.", tags: [], tagNames: ["Морская"], size: "30–40 см", temp: "24–28°C", compat: "Только видовой", food: "Рыба", breed: "Нерест сложный" },
+      { name: "Сомик-прилипала", latin: "Echeneis", icon: "🐠", desc: "Морской, прилипает к акулам.", tags: [], tagNames: ["Морская"], size: "40–60 см", temp: "24–28°C", compat: "Только видовой", food: "Остатки", breed: "Нерест сложный" },
+      { name: "Летучая рыба", latin: "Exocoetus", icon: "🐟", desc: "Морская, выпрыгивает, нужна крышка.", tags: [], tagNames: ["Морская"], size: "20–30 см", temp: "24–28°C", compat: "Только видовой", food: "Планктон", breed: "Нерест сложный" },
+      { name: "Морской дракон", latin: "Callionymus", icon: "🐡", desc: "Морской, донный, яркий.", tags: [], tagNames: ["Морская"], size: "10–15 см", temp: "22–26°C", compat: "С мирными", food: "Мелкий корм", breed: "Нерест сложный" },
+      { name: "Бычок", latin: "Gobius", icon: "🐠", desc: "Донный, прыгает, нужна крышка.", tags: ["peaceful", "bottom"], tagNames: ["Мирная", "Донная"], size: "5–10 см", temp: "20–26°C", compat: "С мирными", food: "Мелкий корм", breed: "Нерест в норе" },
+      { name: "Собачка", latin: "Blennius", icon: "🐟", desc: "Донный, территориальный.", tags: ["bottom"], tagNames: ["Донная"], size: "10–15 см", temp: "22–26°C", compat: "С крупными", food: "Водоросли", breed: "Нерест на камне" },
+      { name: "Скалярия зебра", latin: "Pterophyllum scalare", icon: "🐡", desc: "Полосатая, классическая.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15 см", temp: "24–28°C", compat: "С гурами", food: "Гранулы", breed: "Пара на листе" },
+      { name: "Скалярия мраморная", latin: "Pterophyllum scalare", icon: "🐠", desc: "Тёмная в мраморных разводах.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15 см", temp: "24–28°C", compat: "С гурами", food: "Гранулы", breed: "Пара на листе" },
+      { name: "Скалярия золотая", latin: "Pterophyllum scalare", icon: "🐟", desc: "Жёлтая, яркая.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15 см", temp: "24–28°C", compat: "С гурами", food: "Гранулы", breed: "Пара на листе" },
+      { name: "Скалярия вуалевая", latin: "Pterophyllum scalare", icon: "🐡", desc: "С длинными плавниками, нежная.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15 см", temp: "24–28°C", compat: "С гурами", food: "Гранулы", breed: "Пара на листе" },
+      { name: "Гурами лунный", latin: "Trichopodus microlepis", icon: "🐠", desc: "Серебристый, спокойный.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "24–28°C", compat: "С крупными", food: "Хлопья", breed: "Гнездо из пузырьков" },
+      { name: "Гурами целующийся", latin: "Helostoma temminckii", icon: "🐟", desc: "Интересное поведение, крупный.", tags: ["peaceful"], tagNames: ["Мирная"], size: "20–30 см", temp: "24–28°C", compat: "С крупными", food: "Водоросли, хлопья", breed: "Нерест сложный" },
+      { name: "Гурами змеевидный", latin: "Trichopodus pectoralis", icon: "🐡", desc: "С пятнами, крупный.", tags: ["peaceful"], tagNames: ["Мирная"], size: "20–25 см", temp: "24–28°C", compat: "С крупными", food: "Хлопья", breed: "Гнездо из пузырьков" },
+      { name: "Лялиус красный", latin: "Colisa lalia", icon: "🐠", desc: "Красный, лабиринтовый.", tags: ["peaceful"], tagNames: ["Мирная"], size: "5–6 см", temp: "24–28°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Гнездо из пузырьков" },
+      { name: "Лялиус голубой", latin: "Colisa lalia", icon: "🐟", desc: "Голубой, с полосками.", tags: ["peaceful"], tagNames: ["Мирная"], size: "5–6 см", temp: "24–28°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Гнездо из пузырьков" },
+      { name: "Ктенопома леопардовая", latin: "Ctenopoma acutirostre", icon: "🐡", desc: "Хищный лабиринтовый, для профи.", tags: [], tagNames: ["Хищник"], size: "15–20 см", temp: "24–28°C", compat: "С крупными", food: "Мясо", breed: "Нерест сложный" },
+      { name: "Ктенопома карликовая", latin: "Microctenopoma", icon: "🐠", desc: "Мелкий, лабиринтовый.", tags: ["peaceful"], tagNames: ["Мирная"], size: "5–7 см", temp: "24–28°C", compat: "С мирными", food: "Мелкий корм", breed: "Гнездо из пузырьков" },
+      { name: "Тетра-слепой", latin: "Astyanax mexicanus", icon: "🐟", desc: "Пещерная, без глаз, интересная.", tags: ["peaceful"], tagNames: ["Мирная"], size: "8–10 см", temp: "20–26°C", compat: "С мирными", food: "Мелкий корм", breed: "Нерест сложный" },
+      { name: "Слепая рыба", latin: "Caecobarbus", icon: "🐡", desc: "Пещерная, без глаз, редкая.", tags: ["peaceful"], tagNames: ["Мирная"], size: "5–7 см", temp: "20–26°C", compat: "С мирными", food: "Мелкий корм", breed: "Нерест сложный" },
+      { name: "Гуппи-эндлера гибрид", latin: "Poecilia", icon: "🐠", desc: "Гибрид, яркий, живородящий.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "2–4 см", temp: "22–26°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Живородящая" },
+      { name: "Молинезия-гибрид", latin: "Poecilia", icon: "🐟", desc: "Гибрид, крупный, живородящий.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "6–10 см", temp: "24–28°C", compat: "С мирными", food: "Хлопья", breed: "Живородящая" },
+      { name: "Пецилия-гибрид", latin: "Xiphophorus", icon: "🐡", desc: "Гибрид, яркий, живородящий.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "4–7 см", temp: "22–26°C", compat: "С мирными", food: "Хлопья", breed: "Живородящая" },
+      { name: "Меченосец-гибрид", latin: "Xiphophorus", icon: "🐠", desc: "Гибрид, активный, живородящий.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "8–12 см", temp: "22–26°C", compat: "С мирными", food: "Хлопья", breed: "Живородящая" },
+      { name: "Барбус Шуберта", latin: "Puntius", icon: "🐟", desc: "Стайный, активный.", tags: ["schooling"], tagNames: ["Стайная"], size: "5–7 см", temp: "22–26°C", compat: "С крупными", food: "Хлопья", breed: "Нерест в отдельном" },
+      { name: "Барбус пятиполосый", latin: "Puntius", icon: "🐡", desc: "Стайный, активный.", tags: ["schooling"], tagNames: ["Стайная"], size: "5–7 см", temp: "22–26°C", compat: "С крупными", food: "Хлопья", breed: "Нерест в отдельном" },
+      { name: "Барбус полосатый", latin: "Puntius", icon: "🐠", desc: "Стайный, активный.", tags: ["schooling"], tagNames: ["Стайная"], size: "5–7 см", temp: "22–26°C", compat: "С крупными", food: "Хлопья", breed: "Нерест в отдельном" },
+      { name: "Данио малабарский", latin: "Devario", icon: "🐟", desc: "Крупный, стайный, активный.", tags: ["schooling"], tagNames: ["Стайная"], size: "10–15 см", temp: "20–26°C", compat: "С крупными", food: "Хлопья", breed: "Нерест в отдельном" },
+      { name: "Данио гигантский", latin: "Devario", icon: "🐡", desc: "Крупный, стайный, активный.", tags: ["schooling"], tagNames: ["Стайная"], size: "10–15 см", temp: "20–26°C", compat: "С крупными", food: "Хлопья", breed: "Нерест в отдельном" },
+      { name: "Расбора пятнистая", latin: "Trigonostigma", icon: "🐠", desc: "Мелкая, стайная.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "3–4 см", temp: "24–28°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Нерест сложный" },
+      { name: "Тетра-лимон", latin: "Hyphessobrycon", icon: "🐟", desc: "Жёлтая, стайная.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "4–5 см", temp: "22–26°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Нерест сложный" },
+      { name: "Тетра-серебряная", latin: "Gymnocorymbus", icon: "🐡", desc: "Крупная, стайная.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "5–6 см", temp: "22–26°C", compat: "С мирными", food: "Хлопья", breed: "Нерест сложный" },
+      { name: "Тетра-золотая", latin: "Hemigrammus", icon: "🐠", desc: "Жёлтая, стайная.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "3–4 см", temp: "22–26°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Нерест сложный" },
+      { name: "Тетра-красная", latin: "Hyphessobrycon", icon: "🐟", desc: "Красная, стайная.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "4–5 см", temp: "22–26°C", compat: "С мирными", food: "Мелкие хлопья", breed: "Нерест сложный" }
+    ];
+
+    const fishGrid = document.getElementById("fishGrid");
+    const searchInput = document.getElementById("searchInput");
+    const filterRow = document.getElementById("filterRow");
+    const overlay = document.getElementById("modalOverlay");
+    let currentFilter = "all";
+    let currentFish = [];
+
+    function renderFish() {
+      const query = searchInput.value.toLowerCase().trim();
+      currentFish = fishData.filter(fish => {
+        const matchesSearch =
+          fish.name.toLowerCase().includes(query) ||
+          fish.desc.toLowerCase().includes(query) ||
+          fish.latin.toLowerCase().includes(query) ||
+          fish.tagNames.some(t => t.toLowerCase().includes(query));
+        const matchesFilter = currentFilter === "all" || fish.tags.includes(currentFilter);
+        return matchesSearch && matchesFilter;
+      });
+      fishGrid.innerHTML = currentFish.map((fish, i) => `
+        <article class="card fish-card" onclick="openModal(${i})">
+          <div class="fish-top">
+            <div class="fish-icon">${fish.icon}</div>
+            <div><h3>${fish.name}</h3><span class="latin">${fish.latin}</span></div>
+          </div>
+          <p>${fish.desc}</p>
+          <div class="tags">${fish.tagNames.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+          <div class="fish-details">
+            <div class="detail"><strong>Размер:</strong> ${fish.size}</div>
+            <div class="detail"><strong>Температура:</strong> ${fish.temp}</div>
           </div>
         </article>
+      `).join("");
+    }
 
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐠</div>
-          <h3>Скалярия (Pterophyllum scalare)</h3>
-          <p>Высокая цихлида с длинными плавниками. Нужен высокий аквариум.</p>
-          <div class="tags"><span class="tag">Цихлида</span><span class="tag">Средняя сложность</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Южная Америка (Амазонка).</p>
-            <p><strong>Размер:</strong> До 15 см в высоту.</p>
-            <p><strong>Разведение:</strong> Молодые пары часто едят первую икру. Температура 26–27°C ускоряет выклев. Мальков кормят микрокормом.</p>
-          </div>
-        </article>
+    function openModal(index) {
+      const f = currentFish[index];
+      if (!f) return;
+      document.getElementById("modalIcon").textContent = f.icon;
+      document.getElementById("modalName").textContent = f.name;
+      document.getElementById("modalLatin").textContent = f.latin;
+      document.getElementById("modalDesc").textContent = f.desc;
+      document.getElementById("modalSize").textContent = f.size;
+      document.getElementById("modalTemp").textContent = f.temp;
+      document.getElementById("modalCompat").textContent = f.compat;
+      document.getElementById("modalFood").textContent = f.food;
+      document.getElementById("modalBreed").textContent = f.breed;
+      document.getElementById("modalTagNames").textContent = f.tagNames.join(", ") || "—";
+      document.getElementById("modalTags").innerHTML = f.tagNames.map(t => `<span class="tag">${t}</span>`).join("");
+      overlay.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
 
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🎏</div>
-          <h3>Карп Кои (Cyprinus carpio)</h3>
-          <p>Декоративный карп из Японии. Нужен пруд.</p>
-          <div class="tags"><span class="tag">Холодноводный</span><span class="tag">Крупный</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Япония (префектура Ниигата). Более 16 пород.</p>
-            <p><strong>Размер:</strong> До 1 метра.</p>
-            <p><strong>Разведение:</strong> Нерест при 16–22°C. 2 самца на 1 самку. Плодовитость до 200 тыс. икринок.</p>
-          </div>
-        </article>
+    function closeModal() {
+      overlay.classList.remove("open");
+      document.body.style.overflow = "";
+    }
 
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐟</div>
-          <h3>Золотая рыбка (Carassius auratus)</h3>
-          <p>Первая аквариумная рыба. Сильно загрязняет воду.</p>
-          <div class="tags"><span class="tag">Холодноводная</span><span class="tag">Для новичков</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Одомашненная форма серебряного карася.</p>
-            <p><strong>Размер:</strong> До 15 см в аквариуме, 30 см в пруду.</p>
-            <p><strong>Разведение:</strong> Нерестовик от 40 л, 22–24°C. На 1 самку 2–3 самца. Самка мечет до 3000 икринок.</p>
-          </div>
-        </article>
+    document.getElementById("modalClose").addEventListener("click", closeModal);
+    overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐟</div>
-          <h3>Барбусы (Puntius / Barbus)</h3>
-          <p>Активные стайные рыбки. Могут щипать плавники.</p>
-          <div class="tags"><span class="tag">Стайная</span><span class="tag">Активная</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Юго-Восточная Азия.</p>
-            <p><strong>Размер:</strong> 2–7 см.</p>
-            <p><strong>Разведение:</strong> Нерестовик от 20 л с сеткой. Плодовитость до 300 икринок.</p>
-          </div>
-        </article>
+    searchInput.addEventListener("input", renderFish);
+    filterRow.addEventListener("click", (e) => {
+      if (e.target.classList.contains("filter-button")) {
+        document.querySelectorAll(".filter-button").forEach(b => b.classList.remove("active"));
+        e.target.classList.add("active");
+        currentFilter = e.target.dataset.filter;
+        renderFish();
+      }
+    });
 
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐟</div>
-          <h3>Коридорасы (Corydoras)</h3>
-          <p>Мирные донные сомики. Держатся стайкой.</p>
-          <div class="tags"><span class="tag">Донная</span><span class="tag">Стайная</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Южная Америка.</p>
-            <p><strong>Размер:</strong> 3–12 см.</p>
-            <p><strong>Разведение:</strong> Нерестовик от 15 л, 26°C, pH 6.5. Плодовитость до 50 икринок.</p>
-          </div>
-        </article>
+    const menuButton = document.getElementById("menuButton");
+    const navLinks = document.getElementById("navLinks");
+    if (menuButton && navLinks) {
+      menuButton.addEventListener("click", () => navLinks.classList.toggle("open"));
+    }
 
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐟</div>
-          <h3>Анциструс (Ancistrus)</h3>
-          <p>Сом-присоска. Чистит стёкла.</p>
-          <div class="tags"><span class="tag">Донная</span><span class="tag">Для новичков</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Южная Америка.</p>
-            <p><strong>Размер:</strong> 10–15 см.</p>
-            <p><strong>Разведение:</strong> Самец охраняет икру в пещере. Плодовитость до 200 икринок.</p>
-          </div>
-        </article>
-
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐟</div>
-          <h3>Гурами (Trichogaster)</h3>
-          <p>Лабиринтовые рыбы. Дышат атмосферным воздухом.</p>
-          <div class="tags"><span class="tag">Лабиринтовая</span><span class="tag">Мирная</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Юго-Восточная Азия.</p>
-            <p><strong>Размер:</strong> До 10 см.</p>
-            <p><strong>Разведение:</strong> Самец строит пузырьковое гнездо. Мальков кормят инфузориями.</p>
-          </div>
-        </article>
-
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐟</div>
-          <h3>Петушок (Betta splendens)</h3>
-          <p>Одиночная территориальная рыбка.</p>
-          <div class="tags"><span class="tag">Лабиринтовая</span><span class="tag">Одиночка</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Юго-Восточная Азия.</p>
-            <p><strong>Размер:</strong> До 6 см.</p>
-            <p><strong>Разведение:</strong> Самец строит гнездо и охраняет мальков.</p>
-          </div>
-        </article>
-
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐟</div>
-          <h3>Неоны (Paracheirodon)</h3>
-          <p>Яркие стайные рыбки. Любят мягкую воду.</p>
-          <div class="tags"><span class="tag">Стайная</span><span class="tag">Тропическая</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Бассейн Амазонки.</p>
-            <p><strong>Размер:</strong> 3–5 см.</p>
-            <p><strong>Разведение:</strong> Нужна мягкая, кислая вода (pH 5.5–6.5). Плодовитость около 82 личинок.</p>
-          </div>
-        </article>
-
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐟</div>
-          <h3>Тернеция (Gymnocorymbus ternetzi)</h3>
-          <p>Стайная рыбка с высоким телом.</p>
-          <div class="tags"><span class="tag">Стайная</span><span class="tag">Для новичков</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Южная Америка.</p>
-            <p><strong>Размер:</strong> До 5–6 см.</p>
-            <p><strong>Разведение:</strong> Нерестовик от 20–30 л с сеткой. Плодовитость до 1000 икринок.</p>
-          </div>
-        </article>
-
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐟</div>
-          <h3>Гуппи (Poecilia reticulata)</h3>
-          <p>Живородящая рыбка. Самцы ярче, самки крупнее.</p>
-          <div class="tags"><span class="tag">Живородящая</span><span class="tag">Для новичков</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Южная Америка.</p>
-            <p><strong>Размер:</strong> Самцы 2–3 см, самки 4–6 см.</p>
-            <p><strong>Разведение:</strong> Беременность 21–30 дней. Самка рожает 20–50 мальков.</p>
-          </div>
-        </article>
-
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐟</div>
-          <h3>Молинезия (Poecilia sphenops)</h3>
-          <p>Живородящая рыбка. Любит жёсткую воду.</p>
-          <div class="tags"><span class="tag">Живородящая</span><span class="tag">Средняя сложность</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Центральная Америка.</p>
-            <p><strong>Размер:</strong> 6–10 см.</p>
-            <p><strong>Разведение:</strong> Беременность 28–35 дней. Самка рожает 20–60 мальков.</p>
-          </div>
-        </article>
-
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐟</div>
-          <h3>Пецилия (Xiphophorus maculatus)</h3>
-          <p>Живородящая рыбка. Мирная и яркая.</p>
-          <div class="tags"><span class="tag">Живородящая</span><span class="tag">Для новичков</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Центральная Америка.</p>
-            <p><strong>Размер:</strong> 4–6 см.</p>
-            <p><strong>Разведение:</strong> Беременность 28–30 дней. Самка рожает 20–40 мальков.</p>
-          </div>
-        </article>
-
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐟</div>
-          <h3>Меченосец (Xiphophorus hellerii)</h3>
-          <p>Живородящая рыбка. У самцов длинный «меч».</p>
-          <div class="tags"><span class="tag">Живородящая</span><span class="tag">Активная</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Центральная Америка.</p>
-            <p><strong>Размер:</strong> Самцы 8–10 см, самки 10–12 см.</p>
-            <p><strong>Разведение:</strong> Беременность 28–30 дней. Самка рожает 20–80 мальков.</p>
-          </div>
-        </article>
-
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐟</div>
-          <h3>Лабео (Epalzeorhynchos)</h3>
-          <p>Активный чистильщик, но территориальный.</p>
-          <div class="tags"><span class="tag">Территориальный</span><span class="tag">Чистильщик</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Юго-Восточная Азия.</p>
-            <p><strong>Размер:</strong> До 12–15 см.</p>
-            <p><strong>Разведение:</strong> В аквариуме разводится крайне редко.</p>
-          </div>
-        </article>
-
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐟</div>
-          <h3>Плекостомус (Hypostomus plecostomus)</h3>
-          <p>Гигантский сом-присоска. Сосёт слизь.</p>
-          <div class="tags"><span class="tag">Гигант</span><span class="tag">Донный</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Южная Америка.</p>
-            <p><strong>Размер:</strong> До 40–50 см.</p>
-            <p><strong>Разведение:</strong> В аквариуме практически нереально.</p>
-          </div>
-        </article>
-
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐟</div>
-          <h3>Стеклянный сом (Kryptopterus)</h3>
-          <p>Прозрачная стайная рыбка. Очень нежная.</p>
-          <div class="tags"><span class="tag">Стайная</span><span class="tag">Нежная</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Юго-Восточная Азия.</p>
-            <p><strong>Размер:</strong> До 6–8 см.</p>
-            <p><strong>Разведение:</strong> В аквариуме разводится редко.</p>
-          </div>
-        </article>
-
-        <article class="card fish-card" onclick="toggleCard(this)">
-          <div class="card-icon">🐡</div>
-          <h3>Карликовый тетрадон (Carinotetraodon)</h3>
-          <p>Маленькая рыба-фугу. Кусает плавники.</p>
-          <div class="tags"><span class="tag">Хищник</span><span class="tag">Одиночка</span></div>
-          <div class="card-details">
-            <p><strong>Происхождение:</strong> Индия, Юго-Восточная Азия.</p>
-            <p><strong>Размер:</strong> До 2.5–3.5 см.</p>
-            <p><strong>Разведение:</strong> Сложное
+    renderFish();
+  </script>
+</body>
+</html>
