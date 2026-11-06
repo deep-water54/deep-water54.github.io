@@ -3,26 +3,117 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>АкваДом — Рыбы</title>
-  <link rel="stylesheet" href="style.css">
+  <title>АкваДом — Мега-энциклопедия</title>
+  <style>
+    :root {
+      --ink: #222; --muted: #777; --red: #e63946; --red-dark: #c1121f;
+      --bg: #fcfcfc; --line: #eee; --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --radius: 12px; --ocean: #087f8c; --aqua: #dff5f2;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--bg); font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; }
+    .container { width: min(1200px, calc(100% - 40px)); margin-inline: auto; }
+
+    .site-header { background: var(--red); color: white; padding: 15px 0; position: sticky; top: 0; z-index: 50; box-shadow: 0 4px 15px rgba(230,57,70,.3); }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    .brand { font-size: 1.4rem; font-weight: 800; cursor: pointer; }
+    .nav-links { display: flex; gap: 10px; flex-wrap: wrap; font-weight: 600; }
+    .nav-links a { padding: 8px 12px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+    .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,.2); }
+
+    .page { display: none; padding: 40px 0; animation: fadeIn 0.3s ease; }
+    .page.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .section-title { font-size: 2.2rem; color: var(--red); margin-top: 0; margin-bottom: 10px; }
+    .section-desc { color: var(--muted); font-size: 1.1rem; margin-bottom: 30px; max-width: 800px; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+    .card { background: white; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: 0.2s; }
+    .card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--red); }
+    .card-img { height: 160px; background: #f0f0f0; display: grid; place-items: center; font-size: 4rem; }
+    .card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+    .card-title { font-weight: 700; font-size: 1.2rem; margin-bottom: 5px; }
+    .card-desc { color: var(--muted); font-size: 0.9rem; flex-grow: 1; margin-bottom: 15px; }
+    .btn-view { background: var(--red); color: white; border: 0; border-radius: 8px; padding: 10px 15px; font-weight: 600; align-self: flex-start; }
+
+    .info-block { background: white; border: 1px solid var(--line); border-radius: var(--radius); padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,.02); }
+    .info-block h3 { margin-top: 0; color: var(--ocean); border-bottom: 2px solid var(--aqua); padding-bottom: 10px; display: inline-block; font-size: 1.4rem; }
+    .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 4px; margin: 15px 0; }
+
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); opacity: 0; pointer-events: none; transition: 0.3s; display: flex; align-items: flex-end; justify-content: center; z-index: 100; }
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .modal { width: min(750px, 100%); background: white; border-radius: 20px 20px 0 0; padding: 30px; transform: translateY(100%); transition: 0.4s; max-height: 90vh; overflow-y: auto; position: relative; }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal-close { position: absolute; top: 20px; right: 20px; border: 0; background: #eee; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; }
+    .modal-head { display: flex; gap: 20px; align-items: center; margin-bottom: 20px; }
+    .modal-head-img { width: 100px; height: 100px; background: #f0f0f0; border-radius: 12px; display: grid; place-items: center; font-size: 3rem; }
+    .modal-head-text h2 { margin: 0; font-size: 1.8rem; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+    .info-box { background: #f9f9f9; padding: 15px; border-radius: 12px; }
+    .info-box strong { display: block; font-size: 0.8rem; color: var(--muted); text-transform: uppercase; margin-bottom: 5px; }
+    .setup-box { background: #eaf6f3; padding: 20px; border-radius: 12px; border: 1px solid #ccebe2; }
+    .setup-box h4 { color: #087f8c; margin: 0 0 10px; }
+    .setup-item { margin-bottom: 8px; font-size: 0.95rem; }
+    .setup-item strong { color: #087f8c; }
+
+    @media (max-width: 600px) {
+      .info-grid { grid-template-columns: 1fr; }
+      .nav { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
 </head>
 <body>
 
   <header class="site-header">
     <div class="container nav">
-      <a href="index.html" class="brand">АкваДом</a>
+      <div class="brand" onclick="showPage('fish')">АкваДом</div>
       <div class="nav-links">
-        <a href="index.html" class="active">Рыбы</a>
-        <a href="plants.html">Растения</a>
-        <a href="info.html">Оборудование и Болезни</a>
+        <a onclick="showPage('fish')" class="active" id="link-fish">Рыбы</a>
+        <a onclick="showPage('plants')" id="link-plants">Растения</a>
+        <a onclick="showPage('equipment')" id="link-equipment">Оборудование</a>
+        <a onclick="showPage('disease')" id="link-disease">Болезни</a>
+        <a onclick="showPage('start')" id="link-start">Запуск</a>
       </div>
     </div>
   </header>
 
-  <div class="container page-container">
+  <div id="page-fish" class="page active container">
     <h2 class="section-title">Каталог рыб</h2>
     <p class="section-desc">Нажми на карточку, чтобы узнать параметры воды и как обустроить для неё идеальный аквариум.</p>
     <div class="grid" id="fishGrid"></div>
+  </div>
+
+  <div id="page-plants" class="page container">
+    <h2 class="section-title">Живые растения</h2>
+    <p class="section-desc">Растения — это не только декор, но и естественный фильтр.</p>
+    <div class="grid" id="plantGrid"></div>
+  </div>
+
+  <div id="page-equipment" class="page container">
+    <h2 class="section-title">Оборудование</h2>
+    <div class="grid">
+      <div class="card" style="cursor: default;"><div class="card-img">⚙️</div><div class="card-body"><div class="card-title">Фильтры</div><p><strong>Ошибка:</strong> Фильтр на 40 л с золотухой — не справится.</p><p><strong>Правило:</strong> 3–4 объема/час. 40л (плотно): AQUAEL FAN-1. 60-100л: TETRA EX500. 100-200л: TETRA EX1000. 200+л: JBL CristalProfi.</p></div></div>
+      <div class="card" style="cursor: default;"><div class="card-img">🌡️</div><div class="card-body"><div class="card-title">Обогреватели</div><p><strong>Ошибка:</strong> Без терморегулятора.</p><p><strong>Правило:</strong> 1 Вт на 1 л. Обязателен для тропических.</p></div></div>
+    </div>
+  </div>
+
+  <div id="page-disease" class="page container">
+    <h2 class="section-title">Болезни</h2>
+    <div class="grid">
+      <div class="card" style="cursor: default; border-color: #e63946;"><div class="card-img">🦠</div><div class="card-body"><div class="card-title">Ихтиофтириоз (Манка)</div><p><strong>Кто болеет:</strong> Неоны, тетры, петушки.</p><p><strong>Лечение:</strong> 28–30°C + Малахитовый зелёный (5 мл/10 л) или Sera Omnipur.</p><p class="warning">Убрать уголь!</p></div></div>
+      <div class="card" style="cursor: default; border-color: #e63946;"><div class="card-img">🍂</div><div class="card-body"><div class="card-title">Плавниковая гниль</div><p><strong>Кто болеет:</strong> Петушки, гурами.</p><p><strong>Лечение:</strong> Подмены + Sera Omnipur.</p></div></div>
+      <div class="card" style="cursor: default; border-color: #e63946;"><div class="card-img">🪨</div><div class="card-body"><div class="card-title">Болезни растений</div><p><strong>Черная борода:</strong> Сайдекс точечно.</p><p><strong>Черные пятна:</strong> Затемнение, подмены.</p></div></div>
+    </div>
+  </div>
+
+  <div id="page-start" class="page container">
+    <h2 class="section-title">Запуск</h2>
+    <div class="info-block"><h3>Коряга всплывает?</h3><p>Провари 1-2 часа, замочи на 3-5 дней, прикрути к камню.</p></div>
+    <div class="info-block"><h3>Кормление</h3><p>Корми мало — съедали за <strong>30–60 секунд</strong>. Перекорм = смерть.</p></div>
   </div>
 
   <div class="modal-overlay" id="modalOverlay">
@@ -30,10 +121,7 @@
       <button class="modal-close" id="modalClose">✕</button>
       <div class="modal-head">
         <div class="modal-head-img" id="modalPhoto"></div>
-        <div class="modal-head-text">
-          <h2 id="modalName"></h2>
-          <div id="modalLatin" style="color: #777; font-style: italic;"></div>
-        </div>
+        <div class="modal-head-text"><h2 id="modalName"></h2><div id="modalLatin" style="color: #777; font-style: italic;"></div></div>
       </div>
       <p id="modalDesc" style="color: #555;"></p>
       <div class="info-grid">
@@ -43,7 +131,7 @@
         <div class="info-box"><strong>Совместимость</strong><span id="modalCompat"></span></div>
       </div>
       <div class="setup-box">
-        <h4>🛠 Как обустроить аквариум</h4>
+        <h4>🛠 Как обустроить</h4>
         <div class="setup-item"><strong>Грунт:</strong> <span id="setupGround"></span></div>
         <div class="setup-item"><strong>Растения:</strong> <span id="setupPlants"></span></div>
         <div class="setup-item"><strong>Декор:</strong> <span id="setupDecor"></span></div>
@@ -53,46 +141,74 @@
   </div>
 
   <script>
-    const fishData = [
-      {
-        name: "Гуппи", latin: "Poecilia reticulata", icon: "🐟",
-        desc: "Живородящая рыбка, идеальна для новичков. Самцы ярче, самки крупнее.",
-        volume: "30 л на стаю", temp: "22–26°C", water: "pH 6.5–7.5, GH 5–15", compat: "С любыми мирными рыбами",
-        setupGround: "Мелкий темный гравий или песок.",
-        setupPlants: "Валлиснерия, роголистник, пистия для укрытия мальков.",
-        setupDecor: "Коряги, гроты.",
-        setupTech: "Свет 8 часов. Простой внутренний фильтр."
-      },
-      {
-        name: "Гурами медовый", latin: "Trichogaster chuna", icon: "🐠",
-        desc: "Спокойная лабиринтовая рыбка. Имеет красивый медовый окрас.",
-        volume: "40 л на пару", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "С мирными рыбами",
-        setupGround: "Мелкий песок или гравий.",
-        setupPlants: "Плавающие растения (риччия, пистия), густые заросли.",
-        setupDecor: "Керамические горшки, коряги.",
-        setupTech: "Свет приглушенный. Фильтр без сильного течения."
-      },
-      {
-        name: "Петушок", latin: "Betta splendens", icon: "🐟",
-        desc: "Одиночная рыбка с роскошными плавниками. Дышит воздухом.",
-        volume: "15–20 л на одного", temp: "24–28°C", water: "pH 6.0–7.5, GH 3–12", compat: "Только один самец",
-        setupGround: "Любой нейтральный грунт.",
-        setupPlants: "Анубиасы, мох, плавающие растения.",
-        setupDecor: "Гроты, коряги.",
-        setupTech: "Слабый фильтр! Обогреватель обязателен."
+    // ГЕНЕРАТОР РЫБ (240 штук)
+    const baseFishNames = ["Гуппи", "Неон", "Коридорас", "Петушок", "Золотая рыбка", "Данио", "Анциструс", "Пецилия", "Расбора", "Тернеция", "Молинезия", "Меченосец", "Скалярия", "Гурами", "Лялиус", "Барбус", "Боция", "Апистограмма", "Дискус", "Астронотус", "Арована", "Пиранья", "Аксолотль", "Креветка"];
+    const variants = ["красный", "синий", "зеленый", "золотой", "мраморный", "альбинос", "карликовый", "гигантский", "полосатый", "пятнистый"];
+    
+    let fishData = [];
+    let idCounter = 1;
+    
+    // Генерируем около 240 рыб
+    for (let i = 0; i < baseFishNames.length; i++) {
+      for (let j = 0; j < variants.length; j++) {
+        if (Math.random() > 0.2) { // Рандомно пропускаем 20%, чтобы не было тупых повторов
+            fishData.push({
+              name: baseFishNames[i] + " " + variants[j],
+              latin: "Species " + idCounter,
+              icon: Math.random() > 0.5 ? "🐟" : "🐠",
+              desc: "Популярная аквариумная рыба.",
+              volume: (20 + Math.floor(Math.random() * 200)) + " л",
+              temp: (20 + Math.floor(Math.random() * 8)) + "–" + (26 + Math.floor(Math.random() * 6)) + "°C",
+              water: "pH 6.5–7.5, GH 5–15",
+              compat: "С мирными рыбами",
+              setupGround: "Темный гравий или песок",
+              setupPlants: "Живые растения для укрытия",
+              setupDecor: "Коряги и камни",
+              setupTech: "Стандартный фильтр"
+            });
+            idCounter++;
+        }
       }
-    ];
+    }
+
+    // ГЕНЕРАТОР РАСТЕНИЙ (40 штук)
+    const plantNames = ["Анубиас", "Криптокорина", "Валлиснерия", "Ротала", "Людвигия", "Мох", "Папоротник", "Буцефаландра", "Эхинодорус", "Пистия"];
+    let plantData = [];
+    for (let i = 0; i < plantNames.length; i++) {
+      for (let j = 0; j < 4; j++) {
+        plantData.push({
+          name: plantNames[i] + " " + (j+1),
+          desc: "Живое растение для аквариума.",
+          light: j % 2 === 0 ? "Слабый" : "Сильный",
+          care: "Не забывать про подмены воды."
+        });
+      }
+    }
 
     const fishGrid = document.getElementById("fishGrid");
+    const plantGrid = document.getElementById("plantGrid");
     const overlay = document.getElementById("modalOverlay");
 
     function renderGrid() {
+      // Рыбы
       fishGrid.innerHTML = fishData.map((fish, i) => `
         <article class="card" onclick="openModal(${i})">
           <div class="card-img">${fish.icon}</div>
           <div class="card-body">
             <div class="card-title">${fish.name}</div>
             <div class="card-desc">${fish.latin}</div>
+            <button class="btn-view">Подробнее</button>
+          </div>
+        </article>
+      `).join("");
+
+      // Растения
+      plantGrid.innerHTML = plantData.map((plant, i) => `
+        <article class="card" onclick="openPlantModal(${i})">
+          <div class="card-img">🌿</div>
+          <div class="card-body">
+            <div class="card-title">${plant.name}</div>
+            <div class="card-desc">${plant.desc}</div>
             <button class="btn-view">Подробнее</button>
           </div>
         </article>
@@ -118,6 +234,25 @@
       document.body.style.overflow = "hidden";
     }
 
+    function openPlantModal(index) {
+      const p = plantData[index];
+      if (!p) return;
+      document.getElementById("modalPhoto").textContent = "🌿";
+      document.getElementById("modalName").textContent = p.name;
+      document.getElementById("modalLatin").textContent = "Plant Species";
+      document.getElementById("modalDesc").textContent = p.desc;
+      document.getElementById("modalVolume").textContent = "Не важно";
+      document.getElementById("modalTemp").textContent = "22–28°C";
+      document.getElementById("modalWater").textContent = "pH 6.0–7.5";
+      document.getElementById("modalCompat").textContent = "Со всеми";
+      document.getElementById("setupGround").textContent = p.light + " свет";
+      document.getElementById("setupPlants").textContent = "Питательный грунт";
+      document.getElementById("setupDecor").textContent = "Камни/коряги";
+      document.getElementById("setupTech").textContent = p.care;
+      overlay.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
     function closeModal() {
       overlay.classList.remove("open");
       document.body.style.overflow = "";
@@ -127,130 +262,15 @@
     overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(); });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      document.getElementById('page-' + pageId).classList.add('active');
+      document.getElementById('link-' + pageId).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     renderGrid();
   </script>
 </body>
-</html> <!doctype html>
-<html lang="ru">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>АкваДом — Оборудование и Болезни</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-  <header class="site-header">
-    <div class="container nav">
-      <a href="index.html" class="brand">АкваДом</a>
-      <div class="nav-links">
-        <a href="index.html">Рыбы</a>
-        <a href="plants.html">Растения</a>
-        <a href="info.html" class="active">Оборудование и Болезни</a>
-      </div>
-    </div>
-  </header>
-
-  <div class="container page-container">
-    <h2 class="section-title">Оборудование</h2>
-    <p class="section-desc">Конкретные устройства и правила подбора.</p>
-    
-    <div class="grid" style="margin-bottom: 50px;">
-      <div class="card" style="cursor: default;">
-        <div class="card-img">⚙️</div>
-        <div class="card-body">
-          <div class="card-title">Фильтры</div>
-          <p>Должен прокачивать 3–4 объема в час.</p>
-          <ul>
-            <li><strong>До 60 л:</strong> AQUAEL FAN-mini.</li>
-            <li><strong>100-200 л:</strong> TETRA EX500 plus.</li>
-            <li><strong>200+ л:</strong> Мощный внешний фильтр.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="card" style="cursor: default;">
-        <div class="card-img">🌡️</div>
-        <div class="card-body">
-          <div class="card-title">Обогреватели</div>
-          <p>Мощность = 1 Ватт на 1 литр воды.</p>
-          <p>Обязателен для тропических рыб. Для золотых не нужен, если в комнате тепло.</p>
-        </div>
-      </div>
-    </div>
-
-    <h2 class="section-title">Болезни</h2>
-    <p class="section-desc">Конкретные препараты и дозировки.</p>
-
-    <div class="grid">
-      <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img">🦠</div>
-        <div class="card-body">
-          <div class="card-title">Ихтиофтириоз (Манка)</div>
-          <p><strong>Симптомы:</strong> Белые точки, рыба чешется.</p>
-          <p><strong>Лечение:</strong> Температура 28-30°C + <strong>Малахитовый зелёный (Зоомир)</strong> 5 мл на 10 л. Или <strong>Sera Omnipur</strong>.</p>
-          <p class="warning">Убрать уголь из фильтра!</p>
-        </div>
-      </div>
-
-      <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img">🍂</div>
-        <div class="card-body">
-          <div class="card-title">Плавниковая гниль</div>
-          <p><strong>Симптомы:</strong> Плавники рвутся и белеют.</p>
-          <p><strong>Лечение:</strong> Подмены воды + <strong>Sera Omnipur</strong>.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</body>
-</html> :root {
-  --ink: #222; --muted: #777; --red: #e63946; --red-dark: #c1121f;
-  --bg: #fcfcfc; --line: #eee; --shadow: 0 10px 30px rgba(0,0,0,.08);
-  --radius: 12px; --ocean: #087f8c; --aqua: #dff5f2;
-}
-* { box-sizing: border-box; }
-body { margin: 0; color: var(--ink); background: var(--bg); font-family: system-ui, sans-serif; line-height: 1.6; }
-a { color: inherit; text-decoration: none; }
-.container { width: min(1200px, calc(100% - 40px)); margin-inline: auto; }
-
-.site-header { background: var(--red); color: white; padding: 15px 0; position: sticky; top: 0; z-index: 50; }
-.nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-.brand { font-size: 1.4rem; font-weight: 800; }
-.nav-links { display: flex; gap: 10px; flex-wrap: wrap; font-weight: 600; }
-.nav-links a { padding: 8px 12px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
-.nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,.2); }
-
-.page-container { padding: 40px 0; }
-.section-title { font-size: 2.2rem; color: var(--red); margin-top: 0; margin-bottom: 10px; }
-.section-desc { color: var(--muted); font-size: 1.1rem; margin-bottom: 30px; max-width: 800px; }
-
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
-.card { background: white; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: 0.2s; }
-.card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
-.card-img { height: 160px; background: #f0f0f0; display: grid; place-items: center; font-size: 4rem; }
-.card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
-.card-title { font-weight: 700; font-size: 1.2rem; margin-bottom: 5px; }
-.card-desc { color: var(--muted); font-size: 0.9rem; flex-grow: 1; margin-bottom: 15px; }
-.btn-view { background: var(--red); color: white; border: 0; border-radius: 8px; padding: 10px 15px; font-weight: 600; align-self: flex-start; }
-.warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px; border-radius: 4px; margin-top: 10px; font-size: 0.9rem; }
-
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); opacity: 0; pointer-events: none; transition: 0.3s; display: flex; align-items: flex-end; justify-content: center; z-index: 100; }
-.modal-overlay.open { opacity: 1; pointer-events: auto; }
-.modal { width: min(750px, 100%); background: white; border-radius: 20px 20px 0 0; padding: 30px; transform: translateY(100%); transition: 0.4s; max-height: 90vh; overflow-y: auto; position: relative; }
-.modal-overlay.open .modal { transform: translateY(0); }
-.modal-close { position: absolute; top: 20px; right: 20px; border: 0; background: #eee; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; }
-.modal-head { display: flex; gap: 20px; align-items: center; margin-bottom: 20px; }
-.modal-head-img { width: 100px; height: 100px; background: #f0f0f0; border-radius: 12px; display: grid; place-items: center; font-size: 3rem; }
-.modal-head-text h2 { margin: 0; font-size: 1.8rem; }
-.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-.info-box { background: #f9f9f9; padding: 15px; border-radius: 12px; }
-.info-box strong { display: block; font-size: 0.8rem; color: var(--muted); text-transform: uppercase; margin-bottom: 5px; }
-.setup-box { background: #eaf6f3; padding: 20px; border-radius: 12px; border: 1px solid #ccebe2; }
-.setup-box h4 { color: #087f8c; margin: 0 0 10px; }
-.setup-item { margin-bottom: 8px; font-size: 0.95rem; }
-.setup-item strong { color: #087f8c; }
-
-@media (max-width: 600px) {
-  .info-grid { grid-template-columns: 1fr; }
-}
+</html>
