@@ -55,13 +55,17 @@
     .filter-button.active, .filter-button:hover { border-color: var(--ocean); background: var(--ocean); color: white; }
     .fish-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
     .card { padding: 21px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); box-shadow: 0 8px 26px rgba(15, 75, 85, .04); }
+    
     .fish-card { display: flex; flex-direction: column; min-height: 100%; cursor: pointer; transition: transform .2s, box-shadow .2s, border-color .2s; }
     .fish-card:hover { transform: translateY(-4px); border-color: var(--ocean); box-shadow: var(--shadow); }
-    .fish-photo { width: 100%; height: 140px; margin-bottom: 14px; border-radius: 14px; background: linear-gradient(135deg, #e0f2f1, #b2dfdb); display: grid; place-items: center; }
-    .fish-photo svg { width: 90px; height: 90px; filter: drop-shadow(0 6px 6px rgba(0,0,0,0.1)); transition: transform .3s; }
-    .fish-card:hover .fish-photo svg { transform: scale(1.1) rotate(-5deg); }
+    
     .fish-top { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
-    .fish-icon { width: 50px; height: 50px; flex: 0 0 50px; display: grid; place-items: center; border-radius: 14px; background: var(--aqua); font-size: 1.6rem; }
+    .fish-icon { 
+      width: 50px; height: 50px; flex: 0 0 50px; display: grid; place-items: center; 
+      border-radius: 14px; background: var(--aqua); 
+    }
+    .fish-icon svg { width: 32px; height: 32px; }
+    
     .fish-card h3 { margin: 0 0 3px; font-size: 1.18rem; }
     .latin { color: var(--muted); font-size: .82rem; font-style: italic; }
     .fish-card p { color: var(--muted); font-size: .93rem; }
@@ -78,11 +82,13 @@
     .step p { margin: 0; color: var(--muted); font-size: .88rem; }
     .soft-section { background: #eaf6f3; }
     .plant-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    
     .plant-card { cursor: pointer; transition: transform .2s, box-shadow .2s, border-color .2s; }
     .plant-card:hover { transform: translateY(-4px); border-color: var(--ocean); box-shadow: var(--shadow); }
-    .plant-photo { width: 100%; height: 120px; margin-bottom: 14px; border-radius: 14px; background: linear-gradient(135deg, #e0f2f1, #b2dfdb); display: grid; place-items: center; }
-    .plant-photo svg { width: 60px; height: 60px; filter: drop-shadow(0 6px 6px rgba(0,0,0,0.1)); transition: transform .3s; }
-    .plant-card:hover .plant-photo svg { transform: scale(1.1) rotate(5deg); }
+    
+    .plant-icon-big { width: 50px; height: 50px; display: grid; place-items: center; border-radius: 14px; background: var(--aqua); margin-bottom: 14px; }
+    .plant-icon-big svg { width: 32px; height: 32px; }
+
     .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; background: white; }
     table { width: 100%; min-width: 670px; border-collapse: collapse; }
     th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--line); }
@@ -103,8 +109,13 @@
     .modal-overlay.open { opacity: 1; pointer-events: auto; }
     .modal { width: min(640px, 100%); max-height: 88vh; overflow-y: auto; padding: 26px; background: var(--paper); border-radius: var(--radius); box-shadow: 0 30px 80px rgba(0,0,0,.25); transform: translateY(24px) scale(.97); transition: transform .35s cubic-bezier(.2,.9,.3,1.2); }
     .modal-overlay.open .modal { transform: translateY(0) scale(1); }
-    .modal-photo { width: 100%; height: 160px; margin-bottom: 18px; border-radius: 16px; background: linear-gradient(135deg, #e0f2f1, #b2dfdb); display: grid; place-items: center; }
-    .modal-photo svg { width: 100px; height: 100px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.15)); }
+    
+    .modal-photo { 
+      width: 100px; height: 100px; margin: 0 auto 18px; border-radius: 24px; 
+      background: var(--aqua); display: grid; place-items: center; 
+    }
+    .modal-photo svg { width: 64px; height: 64px; }
+
     .modal-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
     .modal-icon { width: 54px; height: 54px; flex: 0 0 54px; display: grid; place-items: center; border-radius: 16px; background: var(--aqua); font-size: 1.8rem; }
     .modal-head h3 { margin: 0 0 4px; font-size: 1.5rem; line-height: 1.15; }
@@ -232,9 +243,9 @@
           <p>Креветки, улитки и раки — полезные помощники, но со своими требованиями.</p>
         </div>
         <div class="plant-grid">
-          <article class="card"><div class="plant-photo"><svg viewBox="0 0 100 100"><text x="50" y="70" font-size="50" text-anchor="middle">🦐</text></svg></div><h3>Креветки</h3><span class="latin">Neocaridina</span><p>Мирные чистильщики. Не переносят медь и резкие скачки параметров.</p><div class="tags"><span class="tag">Креветка</span><span class="tag">Новичкам</span></div></article>
-          <article class="card"><div class="plant-photo"><svg viewBox="0 0 100 100"><text x="50" y="70" font-size="50" text-anchor="middle">🐌</text></svg></div><h3>Улитки</h3><span class="latin">Ampullaria, Planorbis</span><p>Помогают с водорослями и остатками корма. Следят за численностью.</p><div class="tags"><span class="tag">Улитка</span><span class="tag">Чистильщик</span></div></article>
-          <article class="card"><div class="plant-photo"><svg viewBox="0 0 100 100"><text x="50" y="70" font-size="50" text-anchor="middle">🦞</text></svg></div><h3>Раки</h3><span class="latin">Procambarus</span><p>Интересные, но требуют стабильной воды и укрытий.</p><div class="tags"><span class="tag">Ракообразные</span><span class="tag">Средняя сложность</span></div></article>
+          <article class="card"><div class="plant-icon-big"><svg viewBox="0 0 100 100"><text x="50" y="70" font-size="50" text-anchor="middle">🦐</text></svg></div><h3>Креветки</h3><span class="latin">Neocaridina</span><p>Мирные чистильщики. Не переносят медь и резкие скачки параметров.</p><div class="tags"><span class="tag">Креветка</span><span class="tag">Новичкам</span></div></article>
+          <article class="card"><div class="plant-icon-big"><svg viewBox="0 0 100 100"><text x="50" y="70" font-size="50" text-anchor="middle">🐌</text></svg></div><h3>Улитки</h3><span class="latin">Ampullaria, Planorbis</span><p>Помогают с водорослями и остатками корма. Следят за численностью.</p><div class="tags"><span class="tag">Улитка</span><span class="tag">Чистильщик</span></div></article>
+          <article class="card"><div class="plant-icon-big"><svg viewBox="0 0 100 100"><text x="50" y="70" font-size="50" text-anchor="middle">🦞</text></svg></div><h3>Раки</h3><span class="latin">Procambarus</span><p>Интересные, но требуют стабильной воды и укрытий.</p><div class="tags"><span class="tag">Ракообразные</span><span class="tag">Средняя сложность</span></div></article>
         </div>
       </div>
     </section>
@@ -387,21 +398,15 @@
   </div>
 
   <script>
-    const svgFish = `
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#ff7f50"/>
-        <path d="M20,50 L5,35 L5,65 Z" fill="#ff6347"/>
-        <circle cx="65" cy="45" r="4" fill="#173b47"/>
-        <path d="M60,40 Q70,30 75,40" stroke="#173b47" stroke-width="3" fill="none"/>
-      </svg>`;
+    // Уникальные SVG-картинки для разных видов рыб (чтобы не было одинаковых)
+    const svgFish1 = `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#ff7f50"/><path d="M20,50 L5,35 L5,65 Z" fill="#ff6347"/><circle cx="65" cy="45" r="4" fill="#173b47"/></svg>`; // Оранжевая
+    const svgFish2 = `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#4fc3f7"/><path d="M20,50 L5,35 L5,65 Z" fill="#29b6f6"/><circle cx="65" cy="45" r="4" fill="#173b47"/></svg>`; // Голубая
+    const svgFish3 = `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#ffd54f"/><path d="M20,50 L5,35 L5,65 Z" fill="#ffca28"/><circle cx="65" cy="45" r="4" fill="#173b47"/></svg>`; // Жёлтая
+    const svgFish4 = `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#ba68c8"/><path d="M20,50 L5,35 L5,65 Z" fill="#ab47bc"/><circle cx="65" cy="45" r="4" fill="#173b47"/></svg>`; // Фиолетовая
+    const svgFish5 = `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#aed581"/><path d="M20,50 L5,35 L5,65 Z" fill="#8bc34a"/><circle cx="65" cy="45" r="4" fill="#173b47"/></svg>`; // Зелёная
+    const svgPlant = `<svg viewBox="0 0 100 100"><path d="M50,90 Q50,40 30,20 Q50,40 50,90" fill="#4caf50"/><path d="M50,90 Q50,30 70,10 Q50,40 50,90" fill="#81c784"/><path d="M50,90 Q50,50 10,50 Q50,60 50,90" fill="#388e3c"/><path d="M50,90 Q50,50 90,50 Q50,60 50,90" fill="#2e7d32"/></svg>`;
 
-    const svgPlant = `
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <path d="M50,90 Q50,40 30,20 Q50,40 50,90" fill="#4caf50"/>
-        <path d="M50,90 Q50,30 70,10 Q50,40 50,90" fill="#81c784"/>
-        <path d="M50,90 Q50,50 10,50 Q50,60 50,90" fill="#388e3c"/>
-        <path d="M50,90 Q50,50 90,50 Q50,60 50,90" fill="#2e7d32"/>
-      </svg>`;
+    const fishIcons = [svgFish1, svgFish2, svgFish3, svgFish4, svgFish5];
 
     const fishData = [
       { name: "Микрорасбора галактика", latin: "Danio margaritatus", icon: "🐠", desc: "Крошечная стайная, самец ярко-синий с красными плавниками.", origin: "Мьянма, бассейн реки Салуин. Открыта в 2006 году.", history: "В аквариумы попала сразу после открытия, быстро стала хитом.", about: "Одна из самых маленьких рыб. Самец ярко-синий, самка бледнее. Держать стаей от 8.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "2–3 см", temp: "20–24°C", volume: "30 л на стаю", water: "pH 6.5–7.5, GH 5–12", temper: "Мирная, пугливая", layer: "Средний и нижний", compat: "С мелкими мирными", group: "Стая от 8", food: "Микрокорм, артемия.", breed: "Нерест в мху.", care: "Чувствительна к скачкам параметров.", fact: "Открыта только в 2006 году." },
@@ -633,11 +638,12 @@
         const matchesFilter = currentFilter === "all" || fish.tags.includes(currentFilter);
         return matchesSearch && matchesFilter;
       });
-      fishGrid.innerHTML = currentFish.map((fish, i) => `
+      fishGrid.innerHTML = currentFish.map((fish, i) => {
+        const iconSvg = fishIcons[i % fishIcons.length]; // Выбираем уникальную иконку для каждой рыбы
+        return `
         <article class="card fish-card" onclick="openModal(${i})">
-          <div class="fish-photo">${svgFish}</div>
           <div class="fish-top">
-            <div class="fish-icon">${fish.icon}</div>
+            <div class="fish-icon">${iconSvg}</div>
             <div><h3>${fish.name}</h3><span class="latin">${fish.latin}</span></div>
           </div>
           <p>${fish.desc}</p>
@@ -647,13 +653,14 @@
             <div class="detail"><strong>Температура:</strong> ${fish.temp}</div>
           </div>
         </article>
-      `).join("");
+      `}).join("");
     }
 
     function openModal(index) {
       const f = currentFish[index];
       if (!f) return;
-      document.getElementById("modalPhoto").innerHTML = svgFish;
+      const iconSvg = fishIcons[index % fishIcons.length];
+      document.getElementById("modalPhoto").innerHTML = iconSvg;
       document.getElementById("modalIcon").textContent = f.icon;
       document.getElementById("modalName").textContent = f.name;
       document.getElementById("modalLatin").textContent = f.latin;
@@ -686,7 +693,7 @@
     function renderPlants() {
       plantGrid.innerHTML = plantData.map((p, i) => `
         <article class="card plant-card" onclick="openPlantModal(${i})">
-          <div class="plant-photo">${svgPlant}</div>
+          <div class="plant-icon-big">${svgPlant}</div>
           <h3>${p.name}</h3><span class="latin">${p.latin}</span>
           <p>${p.desc}</p>
           <div class="tags"><span class="tag">Свет: ${p.light}</span></div>
