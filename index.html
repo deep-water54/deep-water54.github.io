@@ -3,225 +3,6 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>АкваДом — энциклопедия</title>
-  <style>
-    :root {
-      --ink: #222; --muted: #777; --red: #e63946; --red-dark: #c1121f;
-      --bg: #fcfcfc; --line: #eee; --shadow: 0 10px 30px rgba(0,0,0,.08);
-      --radius: 12px;
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; color: var(--ink); background: var(--bg); font-family: system-ui, sans-serif; line-height: 1.5; }
-    a { color: inherit; text-decoration: none; }
-    button { cursor: pointer; }
-    .container { width: min(1200px, calc(100% - 40px)); margin-inline: auto; }
-
-    /* Шапка */
-    .site-header { background: var(--red); color: white; padding: 15px 0; position: sticky; top: 0; z-index: 50; }
-    .nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-    .brand { font-size: 1.4rem; font-weight: 800; }
-    .nav-links { display: flex; gap: 20px; font-weight: 600; }
-    .nav-links a { padding: 8px 12px; border-radius: 8px; }
-    .nav-links a:hover { background: rgba(255,255,255,.2); }
-
-    /* Баннер */
-    .hero { padding: 40px 0; text-align: center; background: white; border-bottom: 1px solid var(--line); }
-    .hero h1 { margin: 0 0 10px; font-size: 2.5rem; color: var(--red); }
-
-    /* Сетка */
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; padding: 40px 0; }
-    .card { background: white; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: 0.2s; }
-    .card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
-    .card-img { height: 180px; background: #f0f0f0; display: grid; place-items: center; }
-    .card-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
-    .card-body { padding: 15px; }
-    .card-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 5px; }
-    .card-desc { color: var(--muted); font-size: 0.85rem; }
-    .btn-view { background: var(--red); color: white; border: 0; border-radius: 8px; padding: 8px 15px; margin-top: 10px; }
-
-    /* Модалка */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); opacity: 0; pointer-events: none; transition: 0.3s; display: flex; align-items: flex-end; justify-content: center; z-index: 100; }
-    .modal-overlay.open { opacity: 1; pointer-events: auto; }
-    .modal { width: min(700px, 100%); background: white; border-radius: 20px 20px 0 0; padding: 30px; transform: translateY(100%); transition: 0.4s; max-height: 90vh; overflow-y: auto; position: relative; }
-    .modal-overlay.open .modal { transform: translateY(0); }
-    .modal-close { position: absolute; top: 20px; right: 20px; border: 0; background: #eee; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; }
-    .modal-head { display: flex; gap: 20px; align-items: center; margin-bottom: 20px; }
-    .modal-head-img { width: 100px; height: 100px; background: #f0f0f0; border-radius: 12px; display: grid; place-items: center; }
-    .modal-head-img img { max-width: 100%; max-height: 100%; }
-    .modal-head-text h2 { margin: 0; font-size: 1.8rem; }
-    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-    .info-box { background: #f9f9f9; padding: 15px; border-radius: 12px; }
-    .info-box strong { display: block; font-size: 0.8rem; color: var(--muted); text-transform: uppercase; margin-bottom: 5px; }
-    .setup-box { background: #eaf6f3; padding: 20px; border-radius: 12px; border: 1px solid #ccebe2; }
-    .setup-box h4 { color: #087f8c; margin: 0 0 10px; }
-    .setup-item { margin-bottom: 8px; font-size: 0.95rem; }
-    .setup-item strong { color: #087f8c; }
-
-    @media (max-width: 600px) {
-      .hero h1 { font-size: 1.8rem; }
-      .info-grid { grid-template-columns: 1fr; }
-    }
-  </style>
-</head>
-<body>
-  <header class="site-header">
-    <div class="container nav">
-      <a class="brand" href="#">АкваДом</a>
-      <div class="nav-links">
-        <a href="#">Каталог</a>
-        <a href="#">Оборудование</a>
-        <a href="#">Болезни</a>
-      </div>
-    </div>
-  </header>
-
-  <section class="hero">
-    <div class="container">
-      <h1>Энциклопедия аквариумных рыб</h1>
-      <p>Выбирай рыбу и узнавай, как обустроить для неё идеальный дом</p>
-    </div>
-  </section>
-
-  <main class="container">
-    <div class="grid" id="fishGrid"></div>
-  </main>
-
-  <div class="modal-overlay" id="modalOverlay">
-    <div class="modal">
-      <button class="modal-close" id="modalClose">✕</button>
-      <div class="modal-head">
-        <div class="modal-head-img" id="modalPhoto"></div>
-        <div class="modal-head-text">
-          <h2 id="modalName"></h2>
-          <div id="modalLatin" style="color: #777; font-style: italic;"></div>
-        </div>
-      </div>
-      <p id="modalDesc" style="color: #555;"></p>
-      <div class="info-grid">
-        <div class="info-box"><strong>Объем</strong><span id="modalVolume"></span></div>
-        <div class="info-box"><strong>Температура</strong><span id="modalTemp"></span></div>
-        <div class="info-box"><strong>pH / GH</strong><span id="modalWater"></span></div>
-        <div class="info-box"><strong>Совместимость</strong><span id="modalCompat"></span></div>
-      </div>
-      <div class="setup-box">
-        <h4>🛠 Как обустроить аквариум</h4>
-        <div class="setup-item"><strong>Грунт:</strong> <span id="setupGround"></span></div>
-        <div class="setup-item"><strong>Растения:</strong> <span id="setupPlants"></span></div>
-        <div class="setup-item"><strong>Декор:</strong> <span id="setupDecor"></span></div>
-        <div class="setup-item"><strong>Оборудование:</strong> <span id="setupTech"></span></div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Массив с данными. Пока 5 рыб для теста работоспособности.
-    const fishData = [
-      {
-        name: "Гуппи", latin: "Poecilia reticulata", icon: "🐟",
-        desc: "Живородящая рыбка, идеальна для новичков. Самцы ярче, самки крупнее.",
-        volume: "30 л на стаю", temp: "22–26°C", water: "pH 6.5–7.5, GH 5–15", compat: "С любыми мирными рыбами",
-        setupGround: "Мелкий темный гравий или песок.",
-        setupPlants: "Валлиснерия, роголистник, пистия для укрытия мальков.",
-        setupDecor: "Коряги, гроты.",
-        setupTech: "Свет 8 часов. Простой внутренний фильтр."
-      },
-      {
-        name: "Гурами медовый", latin: "Trichogaster chuna", icon: "🐠",
-        desc: "Спокойная лабиринтовая рыбка. Имеет красивый медовый окрас.",
-        volume: "40 л на пару", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "С мирными рыбами",
-        setupGround: "Мелкий песок или гравий.",
-        setupPlants: "Плавающие растения (риччия, пистия), густые заросли.",
-        setupDecor: "Керамические горшки, коряги.",
-        setupTech: "Свет приглушенный. Фильтр без сильного течения."
-      },
-      {
-        name: "Петушок", latin: "Betta splendens", icon: "🐟",
-        desc: "Одиночная рыбка с роскошными плавниками. Дышит воздухом.",
-        volume: "15–20 л на одного", temp: "24–28°C", water: "pH 6.0–7.5, GH 3–12", compat: "Только один самец",
-        setupGround: "Любой нейтральный грунт.",
-        setupPlants: "Анубиасы, мох, плавающие растения.",
-        setupDecor: "Гроты, коряги.",
-        setupTech: "Слабый фильтр! Обогреватель обязателен."
-      },
-      {
-        name: "Золотая рыбка", latin: "Carassius auratus", icon: "🐠",
-        desc: "Крупная холодноводная рыба. Очень прожорлива.",
-        volume: "50 л на 1 рыбу", temp: "18–24°C", water: "pH 6.5–8.0, GH 5–20", compat: "С холодноводными",
-        setupGround: "Крупный гладкий гравий.",
-        setupPlants: "Жесткие растения (анубиасы).",
-        setupDecor: "Крупные камни.",
-        setupTech: "Мощный внешний фильтр! Свет яркий."
-      },
-      {
-        name: "Скалярия", latin: "Pterophyllum scalare", icon: "🐟",
-        desc: "Величественная цихлида. Нужен высокий аквариум.",
-        volume: "100 л на пару", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "С гурами, тетрами",
-        setupGround: "Мелкий песок.",
-        setupPlants: "Крупные растения (эхинодорусы).",
-        setupDecor: "Вертикальные коряги.",
-        setupTech: "Высокий аквариум. Фильтр умеренный."
-      }
-    ];
-
-    const fishGrid = document.getElementById("fishGrid");
-    const overlay = document.getElementById("modalOverlay");
-
-    function renderGrid() {
-      fishGrid.innerHTML = fishData.map((fish, i) => `
-        <article class="card" onclick="openModal(${i})">
-          <div class="card-img">
-            <div style="font-size:4rem">${fish.icon}</div>
-          </div>
-          <div class="card-body">
-            <div class="card-title">${fish.name}</div>
-            <div class="card-desc">${fish.latin}</div>
-            <button class="btn-view">Подробнее</button>
-          </div>
-        </article>
-      `).join("");
-    }
-
-    function openModal(index) {
-      const f = fishData[index];
-      if (!f) return;
-      
-      document.getElementById("modalPhoto").innerHTML = `<div style="font-size:3rem">${f.icon}</div>`;
-      document.getElementById("modalName").textContent = f.name;
-      document.getElementById("modalLatin").textContent = f.latin;
-      document.getElementById("modalDesc").textContent = f.desc;
-      
-      document.getElementById("modalVolume").textContent = f.volume;
-      document.getElementById("modalTemp").textContent = f.temp;
-      document.getElementById("modalWater").textContent = f.water;
-      document.getElementById("modalCompat").textContent = f.compat;
-      
-      document.getElementById("setupGround").textContent = f.setupGround;
-      document.getElementById("setupPlants").textContent = f.setupPlants;
-      document.getElementById("setupDecor").textContent = f.setupDecor;
-      document.getElementById("setupTech").textContent = f.setupTech;
-      
-      overlay.classList.add("open");
-      document.body.style.overflow = "hidden";
-    }
-
-    function closeModal() {
-      overlay.classList.remove("open");
-      document.body.style.overflow = "";
-    }
-
-    document.getElementById("modalClose").addEventListener("click", closeModal);
-    overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(); });
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
-
-    renderGrid();
-  </script>
-</body>
-</html>
-<!doctype html>
-<html lang="ru">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>АкваДом — полная энциклопедия</title>
   <style>
     :root {
@@ -239,17 +20,20 @@
     /* Шапка */
     .site-header { background: var(--red); color: white; padding: 15px 0; position: sticky; top: 0; z-index: 50; }
     .nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-    .brand { font-size: 1.4rem; font-weight: 800; }
-    .nav-links { display: flex; gap: 15px; flex-wrap: wrap; font-weight: 600; }
-    .nav-links a { padding: 8px 12px; border-radius: 8px; }
-    .nav-links a:hover { background: rgba(255,255,255,.2); }
+    .brand { font-size: 1.4rem; font-weight: 800; cursor: pointer; }
+    .nav-links { display: flex; gap: 10px; flex-wrap: wrap; font-weight: 600; }
+    .nav-links a { padding: 8px 12px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+    .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,.2); }
 
-    /* Секции */
-    section { padding: 60px 0; border-bottom: 1px solid var(--line); }
-    .section-title { font-size: 2rem; color: var(--red); margin-top: 0; margin-bottom: 10px; }
+    /* Страницы (вкладки) */
+    .page { display: none; padding: 40px 0; animation: fadeIn 0.3s ease; }
+    .page.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .section-title { font-size: 2.2rem; color: var(--red); margin-top: 0; margin-bottom: 10px; }
     .section-desc { color: var(--muted); font-size: 1.1rem; margin-bottom: 30px; max-width: 800px; }
 
-    /* Сетка карточек */
+    /* Сетка карточек рыб */
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
     .card { background: white; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: 0.2s; }
     .card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
@@ -259,7 +43,14 @@
     .card-desc { color: var(--muted); font-size: 0.9rem; flex-grow: 1; margin-bottom: 15px; }
     .btn-view { background: var(--red); color: white; border: 0; border-radius: 8px; padding: 10px 15px; font-weight: 600; align-self: flex-start; }
 
-    /* Модалка */
+    /* Блоки информации (для растений, оборудования, болезней) */
+    .info-block { background: white; border: 1px solid var(--line); border-radius: var(--radius); padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,.02); }
+    .info-block h3 { margin-top: 0; color: var(--ocean); border-bottom: 2px solid var(--aqua); padding-bottom: 10px; display: inline-block; font-size: 1.4rem; }
+    .info-block ul { padding-left: 20px; }
+    .info-block li { margin-bottom: 10px; }
+    .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 4px; margin: 15px 0; }
+
+    /* Модалка для рыб */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); opacity: 0; pointer-events: none; transition: 0.3s; display: flex; align-items: flex-end; justify-content: center; z-index: 100; }
     .modal-overlay.open { opacity: 1; pointer-events: auto; }
     .modal { width: min(750px, 100%); background: white; border-radius: 20px 20px 0 0; padding: 30px; transform: translateY(100%); transition: 0.4s; max-height: 90vh; overflow-y: auto; position: relative; }
@@ -276,13 +67,6 @@
     .setup-item { margin-bottom: 8px; font-size: 0.95rem; }
     .setup-item strong { color: #087f8c; }
 
-    /* Текстовые блоки для оборудования/болезней */
-    .info-block { background: white; border: 1px solid var(--line); border-radius: var(--radius); padding: 25px; margin-bottom: 20px; }
-    .info-block h3 { margin-top: 0; color: var(--ocean); border-bottom: 2px solid var(--aqua); padding-bottom: 10px; display: inline-block; }
-    .info-block ul { padding-left: 20px; }
-    .info-block li { margin-bottom: 10px; }
-    .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 4px; margin: 15px 0; }
-
     @media (max-width: 600px) {
       .info-grid { grid-template-columns: 1fr; }
       .nav { flex-direction: column; align-items: flex-start; }
@@ -293,26 +77,26 @@
 
   <header class="site-header">
     <div class="container nav">
-      <a class="brand" href="#">АкваДом</a>
+      <div class="brand" onclick="showPage('fish')">АкваДом</div>
       <div class="nav-links">
-        <a href="#fish">Рыбы</a>
-        <a href="#plants">Растения</a>
-        <a href="#equipment">Оборудование</a>
-        <a href="#disease">Болезни</a>
-        <a href="#start">Запуск</a>
+        <a onclick="showPage('fish')" class="active" id="link-fish">Рыбы</a>
+        <a onclick="showPage('plants')" id="link-plants">Растения</a>
+        <a onclick="showPage('equipment')" id="link-equipment">Оборудование</a>
+        <a onclick="showPage('disease')" id="link-disease">Болезни</a>
+        <a onclick="showPage('start')" id="link-start">Запуск</a>
       </div>
     </div>
   </header>
 
-  <!-- РЫБЫ -->
-  <section id="fish" class="container">
+  <!-- СТРАНИЦА: РЫБЫ -->
+  <div id="page-fish" class="page active container">
     <h2 class="section-title">Каталог рыб</h2>
     <p class="section-desc">Нажми на карточку, чтобы узнать параметры воды и как обустроить для неё идеальный аквариум.</p>
     <div class="grid" id="fishGrid"></div>
-  </section>
+  </div>
 
-  <!-- РАСТЕНИЯ -->
-  <section id="plants" class="container">
+  <!-- СТРАНИЦА: РАСТЕНИЯ -->
+  <div id="page-plants" class="page container">
     <h2 class="section-title">Живые растения</h2>
     <p class="section-desc">Растения — это не только декор, но и естественный фильтр. Они поглощают нитраты и дают укрытие рыбам.</p>
     
@@ -325,100 +109,100 @@
     <div class="info-block">
       <h3>Роголистник (Ceratophyllum)</h3>
       <p><strong>Свет:</strong> Любой. <strong>CO2:</strong> Не нужен.</p>
-      <p><strong>Особенность:</strong> Идеальное растение для запуска аквариума. Растет как сумасшедшее, забирает из воды всю лишнюю органику. Можно просто бросить в воду, он будет плавать. Если свет яркий — растет еще быстрее, придется регулярно прореживать [citation:12].</p>
+      <p><strong>Особенность:</strong> Идеальное растение для запуска аквариума. Растет как сумасшедшее, забирает из воды всю лишнюю органику. Можно просто бросить в воду, он будет плавать. Если свет яркий — растет еще быстрее, придется регулярно прореживать.</p>
     </div>
 
     <div class="info-block">
       <h3>Гидрилла мутовчатая (Hydrilla)</h3>
       <p><strong>Свет:</strong> Умеренный. <strong>CO2:</strong> Не нужен.</p>
-      <p><strong>Особенность:</strong> Очень неприхотлива, «прощает» ошибки новичков. Отлично насыщает воду кислородом и служит убежищем для мальков. Может расти как в грунте, так и свободно плавать [citation:6].</p>
+      <p><strong>Особенность:</strong> Очень неприхотлива, «прощает» ошибки новичков. Отлично насыщает воду кислородом и служит убежищем для мальков. Может расти как в грунте, так и свободно плавать.</p>
     </div>
-  </section>
+  </div>
 
-  <!-- ОБОРУДОВАНИЕ -->
-  <section id="equipment" class="container">
+  <!-- СТРАНИЦА: ОБОРУДОВАНИЕ -->
+  <div id="page-equipment" class="page container">
     <h2 class="section-title">Оборудование</h2>
     <p class="section-desc">Конкретные устройства и правила подбора, чтобы аквариум работал как часы.</p>
 
     <div class="info-block">
       <h3>Фильтры</h3>
-      <p><strong>Правило подбора:</strong> Фильтр должен прокачивать через себя <strong>3–4 объема аквариума в час</strong>. Например, для 100 литров нужен фильтр на 300–400 л/ч [citation:2][citation:8].</p>
+      <p><strong>Правило подбора:</strong> Фильтр должен прокачивать через себя <strong>3–4 объема аквариума в час</strong>. Например, для 100 литров нужен фильтр на 300–400 л/ч.</p>
       <ul>
-        <li><strong>Для маленьких (до 60 л):</strong> Внутренний фильтр. Популярные модели: <em>AQUAEL FAN-mini Plus</em> (до 60 л) [citation:2].</li>
-        <li><strong>Для средних (100–200 л):</strong> Внешний канистровый фильтр. Он не занимает место внутри и лучше очищает. Модель: <em>TETRA EX500 plus</em> (до 100 л) или <em>TETRA EX1500 plus</em> (на 300-600 л) [citation:2].</li>
+        <li><strong>Для маленьких (до 60 л):</strong> Внутренний фильтр. Популярные модели: <em>AQUAEL FAN-mini Plus</em> (до 60 л).</li>
+        <li><strong>Для средних (100–200 л):</strong> Внешний канистровый фильтр. Он не занимает место внутри и лучше очищает. Модель: <em>TETRA EX500 plus</em> (до 100 л) или <em>TETRA EX1500 plus</em> (на 300-600 л).</li>
         <li><strong>Для больших (200+ л):</strong> Только мощный внешний фильтр с несколькими отсеками (губка + керамика).</li>
       </ul>
     </div>
 
     <div class="info-block">
       <h3>Обогреватели</h3>
-      <p><strong>Правило подбора:</strong> Мощность обогревателя = <strong>1 Ватт на 1 литр</strong> воды. На 100 литров — 100 Вт [citation:2].</p>
+      <p><strong>Правило подбора:</strong> Мощность обогревателя = <strong>1 Ватт на 1 литр</strong> воды. На 100 литров — 100 Вт.</p>
       <p>Обязателен для тропических рыб (неоны, гурами, петушки), так как они не переносят холод. Для золотых рыбок и холодноводных видов не нужен, если в комнате не холодно.</p>
     </div>
 
     <div class="info-block">
       <h3>Освещение и аэрация</h3>
-      <p><strong>Свет:</strong> Для рыб подойдут обычные LED-лампы. Для растений нужен светильник со специальным спектром (красный/синий). Ставь таймер на 8–10 часов, чтобы не было вспышек водорослей [citation:7].</p>
+      <p><strong>Свет:</strong> Для рыб подойдут обычные LED-лампы. Для растений нужен светильник со специальным спектром (красный/синий). Ставь таймер на 8–10 часов, чтобы не было вспышек водорослей.</p>
       <p><strong>Аэрация (компрессор):</strong> Если фильтр создает рябь на поверхности воды — компрессор не обязателен. Если рыбы висят у поверхности и хватают воздух — срочно включай. Также аэрация критична ночью, когда растения не выделяют кислород.</p>
     </div>
-  </section>
+  </div>
 
-  <!-- БОЛЕЗНИ -->
-  <section id="disease" class="container">
+  <!-- СТРАНИЦА: БОЛЕЗНИ -->
+  <div id="page-disease" class="page container">
     <h2 class="section-title">Болезни и лечение</h2>
     <p class="section-desc">Конкретные препараты и дозировки для самых частых болезней.</p>
 
     <div class="info-block">
       <h3>Ихтиофтириоз («Манка»)</h3>
-      <p><strong>Симптомы:</strong> Белые точки на теле, рыба чешется о камни, плавники поджаты. Точки похожи на манную крупу [citation:15].</p>
-      <p><strong>Лечение:</strong> Поднять температуру до 28–30°C (ускоряет цикл паразита) и внести препарат. Самый доступный вариант — <strong>Малахитовый зелёный (Зоомир)</strong>. Дозировка: 5 мл на 10 литров воды [citation:10]. Также хорошо работает <strong>Sera Omnipur</strong> (22 капли на 20 литров) [citation:4].</p>
+      <p><strong>Симптомы:</strong> Белые точки на теле, рыба чешется о камни, плавники поджаты. Точки похожи на манную крупу.</p>
+      <p><strong>Лечение:</strong> Поднять температуру до 28–30°C (ускоряет цикл паразита) и внести препарат. Самый доступный вариант — <strong>Малахитовый зелёный (Зоомир)</strong>. Дозировка: 5 мл на 10 литров воды. Также хорошо работает <strong>Sera Omnipur</strong> (22 капли на 20 литров).</p>
       <p class="warning"><strong>Важно:</strong> На время лечения выключить УФ-лампы и убрать активированный уголь из фильтра. Усилить аэрацию!</p>
     </div>
 
     <div class="info-block">
       <h3>Оодиниоз («Бархатная болезнь»)</h3>
-      <p><strong>Симптомы:</strong> Очень мелкие золотистые точки, похожие на пыль. Рыба выглядит так, будто её посыпали мукой [citation:15].</p>
-      <p><strong>Лечение:</strong> Препараты на основе малахитового зелёного и формалина. Подойдёт <strong>Sera Omnipur</strong> (он комплексный) или специализированные средства от Oodinium [citation:4].</p>
+      <p><strong>Симптомы:</strong> Очень мелкие золотистые точки, похожие на пыль. Рыба выглядит так, будто её посыпали мукой.</p>
+      <p><strong>Лечение:</strong> Препараты на основе малахитового зелёного и формалина. Подойдёт <strong>Sera Omnipur</strong> (он комплексный) или специализированные средства от Oodinium.</p>
     </div>
 
     <div class="info-block">
       <h3>Плавниковая гниль</h3>
       <p><strong>Симптомы:</strong> Плавники рвутся, белеют, гниют. Причина — плохая вода и стресс.</p>
-      <p><strong>Лечение:</strong> Сделать подмену воды, почистить фильтр. Внести антибактериальный препарат. <strong>Sera Omnipur</strong> также эффективен против плавниковой гнили [citation:4].</p>
+      <p><strong>Лечение:</strong> Сделать подмену воды, почистить фильтр. Внести антибактериальный препарат. <strong>Sera Omnipur</strong> также эффективен против плавниковой гнили.</p>
     </div>
-  </section>
+  </div>
 
-  <!-- ЗАПУСК -->
-  <section id="start" class="container">
+  <!-- СТРАНИЦА: ЗАПУСК -->
+  <div id="page-start" class="page container">
     <h2 class="section-title">Как запустить аквариум</h2>
     <p class="section-desc">Пошаговая инструкция, чтобы рыбы не погибли в первую неделю.</p>
 
     <div class="info-block">
       <h3>Шаг 1. Подготовка</h3>
-      <p>Выбери место без прямого солнца и сквозняков. Промой грунт (гравий или песок) под проточной водой, пока вода не станет прозрачной. Уложи его в аквариум слоем 3–5 см [citation:7].</p>
+      <p>Выбери место без прямого солнца и сквозняков. Промой грунт (гравий или песок) под проточной водой, пока вода не станет прозрачной. Уложи его в аквариум слоем 3–5 см.</p>
     </div>
 
     <div class="info-block">
       <h3>Шаг 2. Вода и оборудование</h3>
-      <p>Залей воду. Чтобы не размыть грунт, поставь на дно тарелку и лей на неё. Обязательно добавь <strong>кондиционер</strong> (например, Tetra AquaSafe), чтобы нейтрализовать хлор из водопровода [citation:7]. Включи фильтр и обогреватель.</p>
+      <p>Залей воду. Чтобы не размыть грунт, поставь на дно тарелку и лей на неё. Обязательно добавь <strong>кондиционер</strong> (например, Tetra AquaSafe), чтобы нейтрализовать хлор из водопровода. Включи фильтр и обогреватель.</p>
     </div>
 
     <div class="info-block">
       <h3>Шаг 3. Азотный цикл (Самый важный этап)</h3>
       <p><strong>Нельзя запускать рыб сразу!</strong> Первые 2–4 недели в аквариуме устанавливается биологический баланс. Бактерии должны перерабатывать аммиак (яд) в нитраты. </p>
-      <p>Добавь в воду специальные бактерии (например, Tetra SafeStart) и брось щепотку корма, чтобы бактериям было что есть. Жди, пока тесты не покажут 0 аммиака и 0 нитритов [citation:1][citation:7].</p>
+      <p>Добавь в воду специальные бактерии (например, Tetra SafeStart) и брось щепотку корма, чтобы бактериям было что есть. Жди, пока тесты не покажут 0 аммиака и 0 нитритов.</p>
     </div>
 
     <div class="info-block">
       <h3>Шаг 4. Заселение</h3>
-      <p>Когда баланс установился, можно покупать рыб. Привезя домой, не выливай их сразу. Опусти пакет в аквариум на 15 минут, чтобы температура сравнялась. Затем постепенно добавляй в пакет воду из аквариума (каждые 10 минут по чуть-чуть). Только потом выпускай рыб [citation:7].</p>
+      <p>Когда баланс установился, можно покупать рыб. Привезя домой, не выливай их сразу. Опусти пакет в аквариум на 15 минут, чтобы температура сравнялась. Затем постепенно добавляй в пакет воду из аквариума (каждые 10 минут по чуть-чуть). Только потом выпускай рыб.</p>
     </div>
 
     <div class="info-block">
       <h3>Шаг 5. Первые недели</h3>
-      <p>Корми очень мало (чтобы всё съедалось за 2 минуты). Раз в неделю подменивай 20–25% воды. Не трогай фильтр (только промывай губку в слитой воде). Наблюдай за поведением рыб [citation:7].</p>
+      <p>Корми очень мало (чтобы всё съедалось за 2 минуты). Раз в неделю подменивай 20–25% воды. Не трогай фильтр (только промывай губку в слитой воде). Наблюдай за поведением рыб.</p>
     </div>
-  </section>
+  </div>
 
   <!-- Модальное окно для рыб -->
   <div class="modal-overlay" id="modalOverlay">
@@ -449,6 +233,7 @@
   </div>
 
   <script>
+    // Данные рыб
     const fishData = [
       {
         name: "Гуппи", latin: "Poecilia reticulata", icon: "🐟",
@@ -500,6 +285,7 @@
     const fishGrid = document.getElementById("fishGrid");
     const overlay = document.getElementById("modalOverlay");
 
+    // Рендер карточек
     function renderGrid() {
       fishGrid.innerHTML = fishData.map((fish, i) => `
         <article class="card" onclick="openModal(${i})">
@@ -513,6 +299,7 @@
       `).join("");
     }
 
+    // Открытие модалки
     function openModal(index) {
       const f = fishData[index];
       if (!f) return;
@@ -536,6 +323,7 @@
       document.body.style.overflow = "hidden";
     }
 
+    // Закрытие модалки
     function closeModal() {
       overlay.classList.remove("open");
       document.body.style.overflow = "";
@@ -545,6 +333,23 @@
     overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(); });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 
+    // ЛОГИКА ПЕРЕКЛЮЧЕНИЯ СТРАНИЦ (ВКЛАДОК)
+    function showPage(pageId) {
+      // Скрываем все страницы
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      // Убираем активный класс у всех ссылок
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      
+      // Показываем нужную страницу
+      document.getElementById('page-' + pageId).classList.add('active');
+      // Подсвечиваем нужную ссылку
+      document.getElementById('link-' + pageId).classList.add('active');
+      
+      // Скролл наверх
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Инициализация
     renderGrid();
   </script>
 </body>
