@@ -55,13 +55,21 @@
     .filter-button.active, .filter-button:hover { border-color: var(--ocean); background: var(--ocean); color: white; }
     .fish-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
     .card { padding: 21px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); box-shadow: 0 8px 26px rgba(15, 75, 85, .04); }
+    
     .fish-card { display: flex; flex-direction: column; min-height: 100%; cursor: pointer; transition: transform .2s, box-shadow .2s, border-color .2s; }
     .fish-card:hover { transform: translateY(-4px); border-color: var(--ocean); box-shadow: var(--shadow); }
-    .fish-photo { width: 100%; height: 160px; margin-bottom: 14px; border-radius: 14px; overflow: hidden; background: var(--aqua); display: grid; place-items: center; }
-    .fish-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .photo-fallback { font-size: 4rem; }
+    
+    /* Красивая SVG-картинка вместо фото */
+    .fish-photo { 
+      width: 100%; height: 140px; margin-bottom: 14px; border-radius: 14px; 
+      background: linear-gradient(135deg, #e0f2f1, #b2dfdb); 
+      display: grid; place-items: center; 
+    }
+    .fish-photo svg { width: 90px; height: 90px; filter: drop-shadow(0 6px 6px rgba(0,0,0,0.1)); transition: transform .3s; }
+    .fish-card:hover .fish-photo svg { transform: scale(1.1) rotate(-5deg); }
+
     .fish-top { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
-    .fish-icon { width: 60px; height: 60px; flex: 0 0 60px; display: grid; place-items: center; border-radius: 18px; background: var(--aqua); font-size: 2rem; }
+    .fish-icon { width: 50px; height: 50px; flex: 0 0 50px; display: grid; place-items: center; border-radius: 14px; background: var(--aqua); font-size: 1.6rem; }
     .fish-card h3 { margin: 0 0 3px; font-size: 1.18rem; }
     .latin { color: var(--muted); font-size: .82rem; font-style: italic; }
     .fish-card p { color: var(--muted); font-size: .93rem; }
@@ -78,10 +86,18 @@
     .step p { margin: 0; color: var(--muted); font-size: .88rem; }
     .soft-section { background: #eaf6f3; }
     .plant-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    
     .plant-card { cursor: pointer; transition: transform .2s, box-shadow .2s, border-color .2s; }
     .plant-card:hover { transform: translateY(-4px); border-color: var(--ocean); box-shadow: var(--shadow); }
-    .plant-photo { width: 100%; height: 140px; margin-bottom: 14px; border-radius: 14px; overflow: hidden; background: var(--aqua); display: grid; place-items: center; }
-    .plant-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    
+    .plant-photo { 
+      width: 100%; height: 120px; margin-bottom: 14px; border-radius: 14px; 
+      background: linear-gradient(135deg, #e0f2f1, #b2dfdb); 
+      display: grid; place-items: center; 
+    }
+    .plant-photo svg { width: 60px; height: 60px; filter: drop-shadow(0 6px 6px rgba(0,0,0,0.1)); transition: transform .3s; }
+    .plant-card:hover .plant-photo svg { transform: scale(1.1) rotate(5deg); }
+
     .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; background: white; }
     table { width: 100%; min-width: 670px; border-collapse: collapse; }
     th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--line); }
@@ -102,11 +118,16 @@
     .modal-overlay.open { opacity: 1; pointer-events: auto; }
     .modal { width: min(640px, 100%); max-height: 88vh; overflow-y: auto; padding: 26px; background: var(--paper); border-radius: var(--radius); box-shadow: 0 30px 80px rgba(0,0,0,.25); transform: translateY(24px) scale(.97); transition: transform .35s cubic-bezier(.2,.9,.3,1.2); }
     .modal-overlay.open .modal { transform: translateY(0) scale(1); }
-    .modal-photo { width: 100%; height: 220px; margin-bottom: 18px; border-radius: 16px; overflow: hidden; background: var(--aqua); display: grid; place-items: center; }
-    .modal-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .modal-photo .photo-fallback { font-size: 6rem; }
+    
+    .modal-photo { 
+      width: 100%; height: 160px; margin-bottom: 18px; border-radius: 16px; 
+      background: linear-gradient(135deg, #e0f2f1, #b2dfdb); 
+      display: grid; place-items: center; 
+    }
+    .modal-photo svg { width: 100px; height: 100px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.15)); }
+
     .modal-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
-    .modal-icon { width: 64px; height: 64px; flex: 0 0 64px; display: grid; place-items: center; border-radius: 18px; background: var(--aqua); font-size: 2.2rem; }
+    .modal-icon { width: 54px; height: 54px; flex: 0 0 54px; display: grid; place-items: center; border-radius: 16px; background: var(--aqua); font-size: 1.8rem; }
     .modal-head h3 { margin: 0 0 4px; font-size: 1.5rem; line-height: 1.15; }
     .modal-close { margin-left: auto; width: 38px; height: 38px; flex: 0 0 38px; border: 1px solid var(--line); border-radius: 50%; background: white; color: var(--muted); font-size: 1.2rem; line-height: 1; }
     .modal-close:hover { color: var(--ocean); border-color: var(--ocean); }
@@ -232,9 +253,9 @@
           <p>Креветки, улитки и раки — полезные помощники, но со своими требованиями.</p>
         </div>
         <div class="plant-grid">
-          <article class="card"><div class="plant-photo"><div class="photo-fallback">🦐</div></div><h3>Креветки</h3><span class="latin">Neocaridina</span><p>Мирные чистильщики. Не переносят медь и резкие скачки параметров.</p><div class="tags"><span class="tag">Креветка</span><span class="tag">Новичкам</span></div></article>
-          <article class="card"><div class="plant-photo"><div class="photo-fallback">🐌</div></div><h3>Улитки</h3><span class="latin">Ampullaria, Planorbis</span><p>Помогают с водорослями и остатками корма. Следят за численностью.</p><div class="tags"><span class="tag">Улитка</span><span class="tag">Чистильщик</span></div></article>
-          <article class="card"><div class="plant-photo"><div class="photo-fallback">🦞</div></div><h3>Раки</h3><span class="latin">Procambarus</span><p>Интересные, но требуют стабильной воды и укрытий.</p><div class="tags"><span class="tag">Ракообразные</span><span class="tag">Средняя сложность</span></div></article>
+          <article class="card"><div class="plant-photo"><svg viewBox="0 0 100 100"><text x="50" y="70" font-size="50" text-anchor="middle">🦐</text></svg></div><h3>Креветки</h3><span class="latin">Neocaridina</span><p>Мирные чистильщики. Не переносят медь и резкие скачки параметров.</p><div class="tags"><span class="tag">Креветка</span><span class="tag">Новичкам</span></div></article>
+          <article class="card"><div class="plant-photo"><svg viewBox="0 0 100 100"><text x="50" y="70" font-size="50" text-anchor="middle">🐌</text></svg></div><h3>Улитки</h3><span class="latin">Ampullaria, Planorbis</span><p>Помогают с водорослями и остатками корма. Следят за численностью.</p><div class="tags"><span class="tag">Улитка</span><span class="tag">Чистильщик</span></div></article>
+          <article class="card"><div class="plant-photo"><svg viewBox="0 0 100 100"><text x="50" y="70" font-size="50" text-anchor="middle">🦞</text></svg></div><h3>Раки</h3><span class="latin">Procambarus</span><p>Интересные, но требуют стабильной воды и укрытий.</p><div class="tags"><span class="tag">Ракообразные</span><span class="tag">Средняя сложность</span></div></article>
         </div>
       </div>
     </section>
@@ -387,31 +408,48 @@
   </div>
 
   <script>
+    // Красивые SVG-картинки для рыб
+    const svgFish = `
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#ff7f50"/>
+        <path d="M20,50 L5,35 L5,65 Z" fill="#ff6347"/>
+        <circle cx="65" cy="45" r="4" fill="#173b47"/>
+        <path d="M60,40 Q70,30 75,40" stroke="#173b47" stroke-width="3" fill="none"/>
+      </svg>`;
+
+    const svgPlant = `
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50,90 Q50,40 30,20 Q50,40 50,90" fill="#4caf50"/>
+        <path d="M50,90 Q50,30 70,10 Q50,40 50,90" fill="#81c784"/>
+        <path d="M50,90 Q50,50 10,50 Q50,60 50,90" fill="#388e3c"/>
+        <path d="M50,90 Q50,50 90,50 Q50,60 50,90" fill="#2e7d32"/>
+      </svg>`;
+
     // === ДАННЫЕ РЫБ ===
     const fishData = [
-      { name: "Гуппи", latin: "Poecilia reticulata", icon: "🐟", photo: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=500&q=80", desc: "Живородящая рыбка, идеальна для новичков.", origin: "Южная Америка: Венесуэла, Барбадос, Бразилия.", history: "В аквариумах с конца XIX века, одна из самых популярных рыб.", about: "Гуппи — живородящая рыбка, идеальна для новичков. Самцы ярче и мельче, самки крупнее и бледнее. Держать 1 самца на 2–3 самки.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "3–5 см", temp: "22–26°C", volume: "30 л на группу", water: "pH 6.5–7.5, GH 5–15", temper: "Мирная", layer: "Средний и верхний", compat: "С мирными", group: "1 самец на 2–3 самки", food: "Хлопья, микрочервь.", breed: "Живородящая, 20–50 мальков.", care: "Мирная, легко разводится.", fact: "Одна из самых популярных аквариумных рыб." },
-      { name: "Неон", latin: "Paracheirodon innesi", icon: "🐠", photo: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=500&q=80", desc: "Стайная рыбка, красиво смотрится в группе.", origin: "Южная Америка: Амазонка, Перу, Бразилия.", history: "В аквариумах с 1930-х годов, одна из самых популярных тетр.", about: "Неон — стайная рыбка, красиво смотрится в группе от 6 штук. Любит мягкую воду. Держать стаей.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "3–4 см", temp: "22–26°C", volume: "40 л на стаю", water: "pH 6.0–7.5, GH 3–12", temper: "Мирная", layer: "Средний", compat: "С мирными", group: "Стая от 6", food: "Мелкие хлопья.", breed: "Нерест сложный.", care: "Любит мягкую воду.", fact: "Одна из самых популярных тетр." },
-      { name: "Коридорас", latin: "Corydoras panda", icon: "🐡", photo: "https://images.unsplash.com/photo-1534043464124-3be32fe000c9?w=500&q=80", desc: "Донный сомик, держится стайкой.", origin: "Южная Америка: Перу, река Укаяли.", history: "В аквариумах с 1970-х годов.", about: "Коридорас — донный сомик, держится стайкой от 4 штук. Чистит дно. Нужен мягкий грунт.", tags: ["peaceful", "schooling", "bottom"], tagNames: ["Мирная", "Стайная", "Донная"], size: "4–5 см", temp: "22–26°C", volume: "40 л на стаю", water: "pH 6.0–7.5, GH 3–12", temper: "Мирный", layer: "Донный", compat: "С мирными", group: "Стая от 6", food: "Таблетки, мотыль.", breed: "Нерест в отдельном.", care: "Нужен мягкий грунт.", fact: "Может дышать воздухом." },
-      { name: "Петушок", latin: "Betta splendens", icon: "🐟", photo: "https://images.unsplash.com/photo-1520301378199-860833f5a3fc?w=500&q=80", desc: "Лабиринтовая рыба. Нельзя двух самцов вместе.", origin: "Юго-Восточная Азия: Таиланд, Камбоджа.", history: "В аквариумах с конца XIX века.", about: "Петушок — лабиринтовая рыба. Нельзя двух самцов вместе. Нужны укрытия и тёплая вода.", tags: ["beginner"], tagNames: ["Новичкам"], size: "5–7 см", temp: "24–28°C", volume: "20 л на одного", water: "pH 6.0–7.5, GH 3–12", temper: "Территориальный", layer: "Средний и верхний", compat: "Один самец", group: "Один", food: "Гранулы, мотыль.", breed: "Самец строит гнездо.", care: "Нельзя двух самцов вместе.", fact: "Дышит атмосферным воздухом." },
-      { name: "Золотая рыбка", latin: "Carassius auratus", icon: "🐠", photo: "https://images.unsplash.com/photo-1520962880247-cfaf541c8724?w=500&q=80", desc: "Холодноводная рыба. Нужен большой объем.", origin: "Китай, выведена из серебряного карася.", history: "В аквариумах с XVII века.", about: "Золотая рыбка — холодноводная, нужен большой объём от 50 л на рыбу. Нерест весной.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "18–24°C", volume: "50 л на рыбу", water: "pH 6.5–8.0, GH 5–20", temper: "Мирная", layer: "Средний и нижний", compat: "С холодноводными", group: "Пара или группа", food: "Гранулы, овощи.", breed: "Нерест весной.", care: "Нужен большой объём.", fact: "Предок золотой рыбки — серебряный карась." },
-      { name: "Данио", latin: "Danio rerio", icon: "🐟", photo: "https://images.unsplash.com/photo-1535591273668-578e31182c4f?w=500&q=80", desc: "Активная стайная рыбка.", origin: "Южная Азия: Индия, Бангладеш, Непал.", history: "В аквариумах с начала XX века.", about: "Данио — активная стайная рыбка. Любит течение и прохладную воду. Держать стаей от 6.", tags: ["schooling", "beginner"], tagNames: ["Стайная", "Новичкам"], size: "4–5 см", temp: "22–26°C", volume: "40 л на стаю", water: "pH 6.5–7.5, GH 5–15", temper: "Активная", layer: "Верхний и средний", compat: "С мирными", group: "Стая от 6", food: "Хлопья, микрочервь.", breed: "Нерест в отдельном.", care: "Любит течение.", fact: "Классический объект генетики." },
-      { name: "Анциструс", latin: "Ancistrus", icon: "🐟", photo: "https://images.unsplash.com/photo-1534043464124-3be32fe000c9?w=500&q=80", desc: "Сом-присоска, чистит стекла и коряги.", origin: "Южная Америка: Амазонка.", history: "В аквариумах с 1970-х годов.", about: "Анциструс — сом-присоска, чистит стёкла и коряги. Нужна коряга и укрытия.", tags: ["bottom", "beginner"], tagNames: ["Донная", "Новичкам"], size: "10–15 см", temp: "24–28°C", volume: "60 л", water: "pH 6.5–7.5, GH 5–15", temper: "Мирный", layer: "Донный", compat: "С мирными", group: "Один или пара", food: "Таблетки, овощи.", breed: "Самец охраняет икру.", care: "Нужна коряга.", fact: "Чистит стёкла." },
-      { name: "Пецилия", latin: "Xiphophorus maculatus", icon: "🐠", photo: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=500&q=80", desc: "Живородящая, мирная и яркая. Любит жесткую воду.", origin: "Центральная Америка: Мексика, Гватемала.", history: "В аквариумах с начала XX века.", about: "Пецилия — живородящая, мирная и яркая. Любит жёсткую воду. Держать 1 самца на 2–3 самки.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "4–6 см", temp: "22–26°C", volume: "40 л на группу", water: "pH 7.0–8.0, GH 10–20", temper: "Мирная", layer: "Средний", compat: "С мирными", group: "1 самец на 2–3 самки", food: "Хлопья, овощи.", breed: "Живородящая.", care: "Любит жёсткую воду.", fact: "Одна из самых неприхотливых рыб." },
-      { name: "Расбора", latin: "Trigonostigma heteromorpha", icon: "🐟", photo: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=500&q=80", desc: "Стайная рыбка с яркой окраской.", origin: "Юго-Восточная Азия: Таиланд, Малайзия.", history: "В аквариумах с 1970-х годов.", about: "Расбора — стайная рыбка с яркой окраской. Любит мягкую, кислую воду. Держать стаей от 6.", tags: ["schooling", "peaceful"], tagNames: ["Стайная", "Мирная"], size: "4–5 см", temp: "24–28°C", volume: "40 л на стаю", water: "pH 6.0–7.0, GH 2–10", temper: "Мирная", layer: "Средний", compat: "С мирными", group: "Стая от 6", food: "Мелкие хлопья.", breed: "Нерест сложный.", care: "Нужна мягкая вода.", fact: "Одна из самых популярных расбор." },
-      { name: "Тетра-красная", latin: "Hyphessobrycon", icon: "🐟", photo: "🔴🐟", desc: "Красная, стайная.", origin: "Южная Америка: Амазонка.", history: "В аквариумах с 1960-х годов.", about: "Тетра-красная — красная стайная рыба. Любит растения.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "4–5 см", temp: "22–26°C", volume: "50 л на стаю", water: "pH 6.0–7.5, GH 5–15", temper: "Мирная", layer: "Средний", compat: "С мирными", group: "Стая от 6", food: "Мелкие хлопья.", breed: "Нерест сложный.", care: "Любит растения.", fact: "" }
+      { name: "Гуппи", latin: "Poecilia reticulata", icon: "🐟", desc: "Живородящая рыбка, идеальна для новичков.", origin: "Южная Америка: Венесуэла, Барбадос, Бразилия.", history: "В аквариумах с конца XIX века, одна из самых популярных рыб.", about: "Гуппи — живородящая рыбка, идеальна для новичков. Самцы ярче и мельче, самки крупнее и бледнее. Держать 1 самца на 2–3 самки.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "3–5 см", temp: "22–26°C", volume: "30 л на группу", water: "pH 6.5–7.5, GH 5–15", temper: "Мирная", layer: "Средний и верхний", compat: "С мирными", group: "1 самец на 2–3 самки", food: "Хлопья, микрочервь.", breed: "Живородящая, 20–50 мальков.", care: "Мирная, легко разводится.", fact: "Одна из самых популярных аквариумных рыб." },
+      { name: "Неон", latin: "Paracheirodon innesi", icon: "🐠", desc: "Стайная рыбка, красиво смотрится в группе.", origin: "Южная Америка: Амазонка, Перу, Бразилия.", history: "В аквариумах с 1930-х годов, одна из самых популярных тетр.", about: "Неон — стайная рыбка, красиво смотрится в группе от 6 штук. Любит мягкую воду. Держать стаей.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "3–4 см", temp: "22–26°C", volume: "40 л на стаю", water: "pH 6.0–7.5, GH 3–12", temper: "Мирная", layer: "Средний", compat: "С мирными", group: "Стая от 6", food: "Мелкие хлопья.", breed: "Нерест сложный.", care: "Любит мягкую воду.", fact: "Одна из самых популярных тетр." },
+      { name: "Коридорас", latin: "Corydoras panda", icon: "🐡", desc: "Донный сомик, держится стайкой.", origin: "Южная Америка: Перу, река Укаяли.", history: "В аквариумах с 1970-х годов.", about: "Коридорас — донный сомик, держится стайкой от 4 штук. Чистит дно. Нужен мягкий грунт.", tags: ["peaceful", "schooling", "bottom"], tagNames: ["Мирная", "Стайная", "Донная"], size: "4–5 см", temp: "22–26°C", volume: "40 л на стаю", water: "pH 6.0–7.5, GH 3–12", temper: "Мирный", layer: "Донный", compat: "С мирными", group: "Стая от 6", food: "Таблетки, мотыль.", breed: "Нерест в отдельном.", care: "Нужен мягкий грунт.", fact: "Может дышать воздухом." },
+      { name: "Петушок", latin: "Betta splendens", icon: "🐟", desc: "Лабиринтовая рыба. Нельзя двух самцов вместе.", origin: "Юго-Восточная Азия: Таиланд, Камбоджа.", history: "В аквариумах с конца XIX века.", about: "Петушок — лабиринтовая рыба. Нельзя двух самцов вместе. Нужны укрытия и тёплая вода.", tags: ["beginner"], tagNames: ["Новичкам"], size: "5–7 см", temp: "24–28°C", volume: "20 л на одного", water: "pH 6.0–7.5, GH 3–12", temper: "Территориальный", layer: "Средний и верхний", compat: "Один самец", group: "Один", food: "Гранулы, мотыль.", breed: "Самец строит гнездо.", care: "Нельзя двух самцов вместе.", fact: "Дышит атмосферным воздухом." },
+      { name: "Золотая рыбка", latin: "Carassius auratus", icon: "🐠", desc: "Холодноводная рыба. Нужен большой объем.", origin: "Китай, выведена из серебряного карася.", history: "В аквариумах с XVII века.", about: "Золотая рыбка — холодноводная, нужен большой объём от 50 л на рыбу. Нерест весной.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "18–24°C", volume: "50 л на рыбу", water: "pH 6.5–8.0, GH 5–20", temper: "Мирная", layer: "Средний и нижний", compat: "С холодноводными", group: "Пара или группа", food: "Гранулы, овощи.", breed: "Нерест весной.", care: "Нужен большой объём.", fact: "Предок золотой рыбки — серебряный карась." },
+      { name: "Данио", latin: "Danio rerio", icon: "🐟", desc: "Активная стайная рыбка.", origin: "Южная Азия: Индия, Бангладеш, Непал.", history: "В аквариумах с начала XX века.", about: "Данио — активная стайная рыбка. Любит течение и прохладную воду. Держать стаей от 6.", tags: ["schooling", "beginner"], tagNames: ["Стайная", "Новичкам"], size: "4–5 см", temp: "22–26°C", volume: "40 л на стаю", water: "pH 6.5–7.5, GH 5–15", temper: "Активная", layer: "Верхний и средний", compat: "С мирными", group: "Стая от 6", food: "Хлопья, микрочервь.", breed: "Нерест в отдельном.", care: "Любит течение.", fact: "Классический объект генетики." },
+      { name: "Анциструс", latin: "Ancistrus", icon: "🐟", desc: "Сом-присоска, чистит стекла и коряги.", origin: "Южная Америка: Амазонка.", history: "В аквариумах с 1970-х годов.", about: "Анциструс — сом-присоска, чистит стёкла и коряги. Нужна коряга и укрытия.", tags: ["bottom", "beginner"], tagNames: ["Донная", "Новичкам"], size: "10–15 см", temp: "24–28°C", volume: "60 л", water: "pH 6.5–7.5, GH 5–15", temper: "Мирный", layer: "Донный", compat: "С мирными", group: "Один или пара", food: "Таблетки, овощи.", breed: "Самец охраняет икру.", care: "Нужна коряга.", fact: "Чистит стёкла." },
+      { name: "Пецилия", latin: "Xiphophorus maculatus", icon: "🐠", desc: "Живородящая, мирная и яркая. Любит жесткую воду.", origin: "Центральная Америка: Мексика, Гватемала.", history: "В аквариумах с начала XX века.", about: "Пецилия — живородящая, мирная и яркая. Любит жёсткую воду. Держать 1 самца на 2–3 самки.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "4–6 см", temp: "22–26°C", volume: "40 л на группу", water: "pH 7.0–8.0, GH 10–20", temper: "Мирная", layer: "Средний", compat: "С мирными", group: "1 самец на 2–3 самки", food: "Хлопья, овощи.", breed: "Живородящая.", care: "Любит жёсткую воду.", fact: "Одна из самых неприхотливых рыб." },
+      { name: "Расбора", latin: "Trigonostigma heteromorpha", icon: "🐟", desc: "Стайная рыбка с яркой окраской.", origin: "Юго-Восточная Азия: Таиланд, Малайзия.", history: "В аквариумах с 1970-х годов.", about: "Расбора — стайная рыбка с яркой окраской. Любит мягкую, кислую воду. Держать стаей от 6.", tags: ["schooling", "peaceful"], tagNames: ["Стайная", "Мирная"], size: "4–5 см", temp: "24–28°C", volume: "40 л на стаю", water: "pH 6.0–7.0, GH 2–10", temper: "Мирная", layer: "Средний", compat: "С мирными", group: "Стая от 6", food: "Мелкие хлопья.", breed: "Нерест сложный.", care: "Нужна мягкая вода.", fact: "Одна из самых популярных расбор." },
+      { name: "Тетра-красная", latin: "Hyphessobrycon", icon: "🐟", desc: "Красная, стайная.", origin: "Южная Америка: Амазонка.", history: "В аквариумах с 1960-х годов.", about: "Тетра-красная — красная стайная рыба. Любит растения.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "4–5 см", temp: "22–26°C", volume: "50 л на стаю", water: "pH 6.0–7.5, GH 5–15", temper: "Мирная", layer: "Средний", compat: "С мирными", group: "Стая от 6", food: "Мелкие хлопья.", breed: "Нерест сложный.", care: "Любит растения.", fact: "" }
     ];
 
     // === ДАННЫЕ РАСТЕНИЙ ===
     const plantData = [
-      { name: "Анубиас", latin: "Anubias barteri", icon: "🌿", photo: "https://images.unsplash.com/photo-1595080151628-0b7602668c41?w=500&q=80", desc: "Медленный рост, не требует много света. Крепится к камням или корягам.", temp: "22–28°C", water: "pH 6.0–8.0, GH 5–15", light: "Слабый/средний", co2: "Не обязателен", food: "Корневое питание не нужно, растёт на коряге", size: "До 30 см", care: "Не закапывать корневище, привязать к камню.", fact: "Один из самых неприхотливых видов." },
-      { name: "Элодея", latin: "Elodea canadensis", icon: "🌱", photo: "https://images.unsplash.com/photo-1595080151628-0b7602668c41?w=500&q=80", desc: "Быстро растет, активно забирает нитраты. Идеальна для новых аквариумов.", temp: "15–26°C", water: "pH 6.0–8.0, GH 5–20", light: "Средний", co2: "Не обязателен", food: "Питание из воды", size: "До 100 см", care: "Часто прореживать, иначе займёт весь аквариум.", fact: "Может расти даже в холодной воде." },
-      { name: "Мох яванский", latin: "Taxiphyllum barbieri", icon: "🍃", photo: "https://images.unsplash.com/photo-1595080151628-0b7602668c41?w=500&q=80", desc: "Создает густые заросли, в которых прячутся мальки и креветки.", temp: "18–30°C", water: "pH 5.0–8.0, GH 2–15", light: "Слабый/средний", co2: "Не обязателен", food: "Питание из воды", size: "До 10 см в высоту", care: "Привязать к коряге или камню.", fact: "Любит креветок и мальков." },
-      { name: "Валлиснерия", latin: "Vallisneria spiralis", icon: "🌾", photo: "https://images.unsplash.com/photo-1595080151628-0b7602668c41?w=500&q=80", desc: "Длинные ленты, быстро растёт, тянет нитраты.", temp: "18–28°C", water: "pH 6.5–8.0, GH 5–20", light: "Средний", co2: "Не обязателен", food: "Корневое питание", size: "До 100 см", care: "Сажать на задний план, не перекапывать корни.", fact: "Может цвести под водой." },
-      { name: "Криптокорина", latin: "Cryptocoryne wendtii", icon: "🍂", photo: "https://images.unsplash.com/photo-1595080151628-0b7602668c41?w=500&q=80", desc: "Классика для новичков, любит тень и питательный грунт.", temp: "20–28°C", water: "pH 6.0–7.5, GH 5–15", light: "Слабый/средний", co2: "Не обязателен", food: "Корневое питание", size: "До 20 см", care: "Не любит резких перепадов параметров.", fact: "Может «растаять» при пересадке, но потом восстанавливается." },
-      { name: "Ротала", latin: "Rotala rotundifolia", icon: "🌺", photo: "https://images.unsplash.com/photo-1595080151628-0b7602668c41?w=500&q=80", desc: "Краснеет при хорошем свете, отличный фон.", temp: "22–28°C", water: "pH 6.0–7.0, GH 2–10", light: "Средний/сильный", co2: "Желателен", food: "Питание из воды и грунта", size: "До 40 см", care: "Нужен свет и CO2 для яркой окраски.", fact: "Может быть зелёной или красной в зависимости от условий." },
-      { name: "Людвигия", latin: "Ludwigia repens", icon: "🍁", photo: "https://images.unsplash.com/photo-1595080151628-0b7602668c41?w=500&q=80", desc: "Красивая, с красноватыми листьями. Хорошо смотрится на фоне.", temp: "20–28°C", water: "pH 6.0–7.5, GH 5–15", light: "Средний", co2: "Желателен", food: "Питание из воды и грунта", size: "До 40 см", care: "Прищипывать верхушки для густоты.", fact: "Красный цвет — признак хорошего освещения." },
-      { name: "Пистия", latin: "Pistia stratiotes", icon: "🪷", photo: "https://images.unsplash.com/photo-1595080151628-0b7602668c41?w=500&q=80", desc: "Плавающее растение, быстро забирает нитраты.", temp: "15–30°C", water: "pH 6.0–8.0, GH 5–20", light: "Средний", co2: "Не обязателен", food: "Питание из воды", size: "До 15 см", care: "Не оставляй слишком много, чтобы не затенять аквариум.", fact: "Корни дают укрытие малькам." },
-      { name: "Ряска", latin: "Lemna minor", icon: "💚", photo: "https://images.unsplash.com/photo-1595080151628-0b7602668c41?w=500&q=80", desc: "Мелкая плавающая трава, быстро растёт.", temp: "15–30°C", water: "pH 6.0–8.0, GH 5–20", light: "Слабый/средний", co2: "Не обязателен", food: "Питание из воды", size: "1–3 мм", care: "Контролировать численность, может затянуть всю поверхность.", fact: "Индикатор избытка нитратов." }
+      { name: "Анубиас", latin: "Anubias barteri", icon: "🌿", desc: "Медленный рост, не требует много света. Крепится к камням или корягам.", temp: "22–28°C", water: "pH 6.0–8.0, GH 5–15", light: "Слабый/средний", co2: "Не обязателен", food: "Корневое питание не нужно, растёт на коряге", size: "До 30 см", care: "Не закапывать корневище, привязать к камню.", fact: "Один из самых неприхотливых видов." },
+      { name: "Элодея", latin: "Elodea canadensis", icon: "🌱", desc: "Быстро растет, активно забирает нитраты. Идеальна для новых аквариумов.", temp: "15–26°C", water: "pH 6.0–8.0, GH 5–20", light: "Средний", co2: "Не обязателен", food: "Питание из воды", size: "До 100 см", care: "Часто прореживать, иначе займёт весь аквариум.", fact: "Может расти даже в холодной воде." },
+      { name: "Мох яванский", latin: "Taxiphyllum barbieri", icon: "🍃", desc: "Создает густые заросли, в которых прячутся мальки и креветки.", temp: "18–30°C", water: "pH 5.0–8.0, GH 2–15", light: "Слабый/средний", co2: "Не обязателен", food: "Питание из воды", size: "До 10 см в высоту", care: "Привязать к коряге или камню.", fact: "Любит креветок и мальков." },
+      { name: "Валлиснерия", latin: "Vallisneria spiralis", icon: "🌾", desc: "Длинные ленты, быстро растёт, тянет нитраты.", temp: "18–28°C", water: "pH 6.5–8.0, GH 5–20", light: "Средний", co2: "Не обязателен", food: "Корневое питание", size: "До 100 см", care: "Сажать на задний план, не перекапывать корни.", fact: "Может цвести под водой." },
+      { name: "Криптокорина", latin: "Cryptocoryne wendtii", icon: "🍂", desc: "Классика для новичков, любит тень и питательный грунт.", temp: "20–28°C", water: "pH 6.0–7.5, GH 5–15", light: "Слабый/средний", co2: "Не обязателен", food: "Корневое питание", size: "До 20 см", care: "Не любит резких перепадов параметров.", fact: "Может «растаять» при пересадке, но потом восстанавливается." },
+      { name: "Ротала", latin: "Rotala rotundifolia", icon: "🌺", desc: "Краснеет при хорошем свете, отличный фон.", temp: "22–28°C", water: "pH 6.0–7.0, GH 2–10", light: "Средний/сильный", co2: "Желателен", food: "Питание из воды и грунта", size: "До 40 см", care: "Нужен свет и CO2 для яркой окраски.", fact: "Может быть зелёной или красной в зависимости от условий." },
+      { name: "Людвигия", latin: "Ludwigia repens", icon: "🍁", desc: "Красивая, с красноватыми листьями. Хорошо смотрится на фоне.", temp: "20–28°C", water: "pH 6.0–7.5, GH 5–15", light: "Средний", co2: "Желателен", food: "Питание из воды и грунта", size: "До 40 см", care: "Прищипывать верхушки для густоты.", fact: "Красный цвет — признак хорошего освещения." },
+      { name: "Пистия", latin: "Pistia stratiotes", icon: "🪷", desc: "Плавающее растение, быстро забирает нитраты.", temp: "15–30°C", water: "pH 6.0–8.0, GH 5–20", light: "Средний", co2: "Не обязателен", food: "Питание из воды", size: "До 15 см", care: "Не оставляй слишком много, чтобы не затенять аквариум.", fact: "Корни дают укрытие малькам." },
+      { name: "Ряска", latin: "Lemna minor", icon: "💚", desc: "Мелкая плавающая трава, быстро растёт.", temp: "15–30°C", water: "pH 6.0–8.0, GH 5–20", light: "Слабый/средний", co2: "Не обязателен", food: "Питание из воды", size: "1–3 мм", care: "Контролировать численность, может затянуть всю поверхность.", fact: "Индикатор избытка нитратов." }
     ];
 
     // === ЛОГИКА РЫБ ===
@@ -431,9 +469,7 @@
       });
       fishGrid.innerHTML = currentFish.map((fish, i) => `
         <article class="card fish-card" onclick="openModal(${i})">
-          <div class="fish-photo">
-            <img src="${fish.photo}" alt="${fish.name}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=photo-fallback>${fish.icon}</div>'">
-          </div>
+          <div class="fish-photo">${svgFish}</div>
           <div class="fish-top">
             <div class="fish-icon">${fish.icon}</div>
             <div><h3>${fish.name}</h3><span class="latin">${fish.latin}</span></div>
@@ -451,7 +487,7 @@
     function openModal(index) {
       const f = currentFish[index];
       if (!f) return;
-      document.getElementById("modalPhoto").innerHTML = `<img src="${f.photo}" alt="${f.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=photo-fallback>${f.icon}</div>'">`;
+      document.getElementById("modalPhoto").innerHTML = svgFish;
       document.getElementById("modalIcon").textContent = f.icon;
       document.getElementById("modalName").textContent = f.name;
       document.getElementById("modalLatin").textContent = f.latin;
@@ -472,7 +508,6 @@
       document.getElementById("modalCare").textContent = f.care || "—";
       document.getElementById("modalFact").textContent = f.fact || "—";
       
-      // Скрываем блок факта, если его нет
       document.getElementById("factSection").style.display = f.fact ? "" : "none";
       
       document.getElementById("modalTags").innerHTML = f.tagNames.map(t => `<span class="tag">${t}</span>`).join("");
@@ -486,9 +521,7 @@
     function renderPlants() {
       plantGrid.innerHTML = plantData.map((p, i) => `
         <article class="card plant-card" onclick="openPlantModal(${i})">
-          <div class="plant-photo">
-            <img src="${p.photo}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=photo-fallback>${p.icon}</div>'">
-          </div>
+          <div class="plant-photo">${svgPlant}</div>
           <h3>${p.name}</h3><span class="latin">${p.latin}</span>
           <p>${p.desc}</p>
           <div class="tags"><span class="tag">Свет: ${p.light}</span></div>
@@ -499,14 +532,12 @@
     function openPlantModal(index) {
       const p = plantData[index];
       if (!p) return;
-      // Переиспользуем модалку рыб, подставляя данные растения
-      document.getElementById("modalPhoto").innerHTML = `<img src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=photo-fallback>${p.icon}</div>'">`;
+      document.getElementById("modalPhoto").innerHTML = svgPlant;
       document.getElementById("modalIcon").textContent = p.icon;
       document.getElementById("modalName").textContent = p.name;
       document.getElementById("modalLatin").textContent = p.latin;
       document.getElementById("modalDesc").textContent = p.desc;
       
-      // Подменяем поля под характеристики растения
       document.getElementById("modalSize").textContent = p.size;
       document.getElementById("modalTemp").textContent = p.temp;
       document.getElementById("modalVolume").textContent = "—";
@@ -526,7 +557,6 @@
       
       document.getElementById("factSection").style.display = p.fact ? "" : "none";
       
-      // Скрываем лишние теги
       document.getElementById("modalTags").innerHTML = `<span class="tag">Свет: ${p.light}</span>`;
       
       overlay.classList.add("open");
