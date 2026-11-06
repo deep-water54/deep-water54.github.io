@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#eaf8f8">
-  <title>АкваДом — справочник аквариумиста</title>
+  <title>АкваДом — гид по пресноводному аквариуму</title>
   <style>
     :root {
       --ink: #173b47; --muted: #607d85; --ocean: #087f8c; --ocean-dark: #075b68;
@@ -40,26 +40,20 @@
     .button-light { color: var(--ocean-dark); background: white; border-color: var(--line); }
     .hero-art { min-height: 390px; position: relative; display: grid; place-items: center; border-radius: 40% 60% 56% 44% / 47% 42% 58% 53%; background: linear-gradient(145deg, #c8f1eb, #e6f5cf); box-shadow: var(--shadow); overflow: hidden; }
     .fish-emoji { z-index: 1; font-size: clamp(8rem, 18vw, 13rem); filter: drop-shadow(0 16px 10px rgba(20, 78, 80, .14)); }
-    .quick-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 30px; }
-    .fact { padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.75); }
-    .fact strong { display: block; color: var(--ocean-dark); font-size: 1.05rem; }
-    .fact span { color: var(--muted); font-size: .82rem; }
     section { padding: 66px 0; }
     .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 25px; }
     .section-head h2 { margin: 7px 0 0; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.12; letter-spacing: -.05em; }
     .section-head p { max-width: 510px; margin: 0; color: var(--muted); }
     .search-box { display: flex; align-items: center; gap: 10px; margin: 20px 0 22px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 15px; background: white; }
     .search-box input { width: 100%; padding: 7px 0; border: 0; outline: 0; color: var(--ink); background: transparent; }
-    .filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-    .filter-button { padding: 8px 13px; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--muted); font-size: .88rem; font-weight: 700; }
-    .filter-button.active, .filter-button:hover { border-color: var(--ocean); background: var(--ocean); color: white; }
     .fish-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
     .card { padding: 21px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); box-shadow: 0 8px 26px rgba(15, 75, 85, .04); }
     .fish-card { display: flex; flex-direction: column; min-height: 100%; cursor: pointer; transition: transform .2s, box-shadow .2s, border-color .2s; }
     .fish-card:hover { transform: translateY(-4px); border-color: var(--ocean); box-shadow: var(--shadow); }
+    .fish-photo { width: 100%; height: 160px; margin-bottom: 14px; border-radius: 14px; overflow: hidden; background: var(--aqua); display: grid; place-items: center; }
+    .fish-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .fish-top { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
-    .fish-icon { width: 60px; height: 60px; flex: 0 0 60px; display: grid; place-items: center; border-radius: 18px; background: var(--aqua); }
-    .fish-icon svg { width: 40px; height: 40px; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.1)); }
+    .fish-icon { width: 60px; height: 60px; flex: 0 0 60px; display: grid; place-items: center; border-radius: 18px; background: var(--aqua); font-size: 2rem; }
     .fish-card h3 { margin: 0 0 3px; font-size: 1.18rem; }
     .latin { color: var(--muted); font-size: .82rem; font-style: italic; }
     .fish-card p { color: var(--muted); font-size: .93rem; }
@@ -68,40 +62,13 @@
     .fish-details { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: auto; padding-top: 13px; border-top: 1px solid var(--line); }
     .detail { color: var(--muted); font-size: .8rem; }
     .detail strong { display: block; color: var(--ink); font-size: .86rem; }
-    .notice { margin-top: 18px; padding: 15px 17px; border-left: 4px solid var(--yellow); border-radius: 12px; background: #fff9e9; color: #655634; font-size: .9rem; }
-    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; counter-reset: step; }
-    .step { position: relative; padding: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: white; counter-increment: step; }
-    .step::before { content: "0" counter(step); display: inline-grid; place-items: center; width: 38px; height: 38px; margin-bottom: 14px; border-radius: 13px; color: white; background: var(--ocean); font-weight: 850; }
-    .step h3 { margin-bottom: 7px; font-size: 1.05rem; }
-    .step p { margin: 0; color: var(--muted); font-size: .88rem; }
-    .soft-section { background: #eaf6f3; }
-    .plant-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .plant-card { cursor: pointer; transition: transform .2s, box-shadow .2s, border-color .2s; }
-    .plant-card:hover { transform: translateY(-4px); border-color: var(--ocean); box-shadow: var(--shadow); }
-    .plant-icon-big { width: 60px; height: 60px; display: grid; place-items: center; border-radius: 18px; background: var(--aqua); margin-bottom: 14px; }
-    .plant-icon-big svg { width: 40px; height: 40px; }
-    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; background: white; }
-    table { width: 100%; min-width: 670px; border-collapse: collapse; }
-    th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--line); }
-    th { color: var(--ocean-dark); background: #eff8f6; font-size: .88rem; }
-    td { color: var(--muted); font-size: .9rem; }
-    tr:last-child td { border-bottom: 0; }
-    td:first-child { color: var(--ink); font-weight: 750; }
-    .care-panel { display: grid; grid-template-columns: .85fr 1.15fr; gap: 24px; align-items: start; }
-    .care-intro { padding: 26px; border-radius: var(--radius); background: var(--ocean-dark); color: white; }
-    .care-intro p { margin: 0; color: rgba(255,255,255,.8); }
-    .checklist { display: grid; gap: 10px; }
-    .check-item { display: flex; gap: 12px; padding: 14px; border: 1px solid var(--line); border-radius: 15px; background: white; }
-    .check { color: var(--ocean); font-weight: 900; }
-    .footer { padding: 30px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; }
-    .footer-inner { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-    .footer strong { color: var(--ink); }
+    
     .modal-overlay { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(10, 40, 45, .55); backdrop-filter: blur(6px); opacity: 0; pointer-events: none; transition: opacity .3s ease; }
     .modal-overlay.open { opacity: 1; pointer-events: auto; }
-    .modal { width: min(640px, 100%); max-height: 88vh; overflow-y: auto; padding: 26px; background: var(--paper); border-radius: var(--radius); box-shadow: 0 30px 80px rgba(0,0,0,.25); transform: translateY(24px) scale(.97); transition: transform .35s cubic-bezier(.2,.9,.3,1.2); }
+    .modal { width: min(700px, 100%); max-height: 88vh; overflow-y: auto; padding: 26px; background: var(--paper); border-radius: var(--radius); box-shadow: 0 30px 80px rgba(0,0,0,.25); transform: translateY(24px) scale(.97); transition: transform .35s cubic-bezier(.2,.9,.3,1.2); }
     .modal-overlay.open .modal { transform: translateY(0) scale(1); }
-    .modal-photo { width: 120px; height: 120px; margin: 0 auto 18px; border-radius: 24px; background: var(--aqua); display: grid; place-items: center; }
-    .modal-photo svg { width: 80px; height: 80px; }
+    .modal-photo { width: 100%; height: 220px; margin-bottom: 18px; border-radius: 16px; overflow: hidden; background: var(--aqua); display: grid; place-items: center; }
+    .modal-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .modal-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
     .modal-icon { width: 54px; height: 54px; flex: 0 0 54px; display: grid; place-items: center; border-radius: 16px; background: var(--aqua); font-size: 1.8rem; }
     .modal-head h3 { margin: 0 0 4px; font-size: 1.5rem; line-height: 1.15; }
@@ -113,25 +80,35 @@
     .modal-row { padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: #f9fdfc; }
     .modal-row strong { display: block; color: var(--ocean-dark); font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 3px; }
     .modal-row span { color: var(--ink); font-size: .93rem; }
-    .modal-section { margin-bottom: 14px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: #f9fdfc; }
-    .modal-section strong { display: block; color: var(--ocean-dark); font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 6px; }
-    .modal-section p { margin: 0; color: var(--ink); font-size: .93rem; }
+    
+    .setup-box { margin-top: 18px; padding: 18px; border-radius: 16px; background: #eaf6f3; border: 1px solid #ccebe2; }
+    .setup-box h4 { margin: 0 0 12px; color: var(--ocean-dark); font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+    .setup-item { margin-bottom: 10px; font-size: .93rem; }
+    .setup-item:last-child { margin-bottom: 0; }
+    .setup-item strong { color: var(--ocean-dark); }
+
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .info-card { padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: white; }
+    .info-card h3 { color: var(--ocean-dark); margin-bottom: 12px; font-size: 1.2rem; }
+    .info-card p { margin-bottom: 8px; font-size: .93rem; color: var(--muted); }
+    .info-card strong { color: var(--ink); }
+
+    .footer { padding: 30px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    .footer strong { color: var(--ink); }
     @media (max-width: 800px) {
       .nav-links { display: none; position: absolute; top: 72px; left: 20px; right: 20px; padding: 14px; border: 1px solid var(--line); border-radius: 16px; background: white; box-shadow: var(--shadow); }
       .nav-links.open { display: grid; gap: 0; }
       .nav-links a { padding: 11px 8px; }
       .menu-button { display: inline-block; }
       .hero-grid { grid-template-columns: 1fr; }
-      .fish-grid, .plant-grid { grid-template-columns: repeat(2, 1fr); }
-      .steps { grid-template-columns: repeat(2, 1fr); }
-      .care-panel { grid-template-columns: 1fr; }
+      .fish-grid, .info-grid { grid-template-columns: repeat(2, 1fr); }
       .section-head { align-items: start; flex-direction: column; }
     }
     @media (max-width: 540px) {
       .container { width: min(100% - 28px, 1160px); }
       .hero { padding-top: 42px; }
-      .quick-facts { grid-template-columns: 1fr; }
-      .fish-grid, .plant-grid, .steps { grid-template-columns: 1fr; }
+      .fish-grid, .info-grid { grid-template-columns: 1fr; }
       section { padding: 48px 0; }
       .modal-grid { grid-template-columns: 1fr; }
     }
@@ -143,14 +120,8 @@
       <a class="brand" href="#home"><span class="brand-mark">🐠</span><span>АкваДом</span></a>
       <nav class="nav-links" id="navLinks">
         <a href="#fish">Рыбы</a>
-        <a href="#start">Запуск</a>
-        <a href="#plants">Растения</a>
-        <a href="#invertebrates">Беспозвоночные</a>
-        <a href="#compatibility">Совместимость</a>
-        <a href="#care">Уход</a>
-        <a href="#disease">Болезни</a>
         <a href="#equipment">Оборудование</a>
-        <a href="#pond">Пруд</a>
+        <a href="#disease">Болезни</a>
       </nav>
       <button class="menu-button" id="menuButton">Меню</button>
     </div>
@@ -159,134 +130,56 @@
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <div class="eyebrow">Справочник аквариумиста</div>
-          <h1>Подводный мир <span style="color:var(--ocean)">без ошибок</span></h1>
-          <p class="hero-copy">База знаний для новичков: как запустить аквариум, кого поселить, чем кормить и как поддерживать чистоту без лишних хлопот.</p>
+          <div class="eyebrow">Только пресноводный аквариум</div>
+          <h1>Идеальный аквариум <span style="color:var(--ocean)">для твоей рыбы</span></h1>
+          <p class="hero-copy">Море убрали, оставили только пресную воду. Выбирай рыбу — и мы расскажем, как обустроить для неё дом, какое купить оборудование и как лечить.</p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#start">Начать с основ</a>
-            <a class="button button-light" href="#fish">Смотреть рыб</a>
+            <a class="button button-primary" href="#fish">Выбрать рыбу</a>
           </div>
-          <p class="hero-note">Материалы подготовлены при участии DeepSeek</p>
         </div>
-        <div class="hero-art"><span class="fish-emoji">🐠</span></div>
-      </div>
-      <div class="container">
-        <div class="quick-facts">
-          <div class="fact"><strong>Запуск</strong><span>Без спешки и мутной воды</span></div>
-          <div class="fact"><strong>Совместимость</strong><span>Кто с кем уживается</span></div>
-          <div class="fact"><strong>Уход</strong><span>Что делать каждый день</span></div>
-        </div>
+        <div class="hero-art"><span class="fish-emoji">🌿</span></div>
       </div>
     </section>
 
     <section id="fish">
       <div class="container">
         <div class="section-head">
-          <div><div class="eyebrow">Обитатели</div><h2>Рыбы для аквариума</h2></div>
-          <p>Полные карточки: нажми — откроется подробное окно с параметрами, уходом и разведением.</p>
+          <div><div class="eyebrow">Каталог</div><h2>Рыбы и их домики</h2></div>
+          <p>Нажми на карточку, чтобы узнать параметры воды и полный список того, что нужно купить для аквариума.</p>
         </div>
-        <div class="search-box"><span>🔍</span><input type="text" id="searchInput" placeholder="Поиск по названию, латыни или тегу..."></div>
-        <div class="filter-row" id="filterRow">
-          <button class="filter-button active" data-filter="all">Все</button>
-          <button class="filter-button" data-filter="beginner">Для новичков</button>
-          <button class="filter-button" data-filter="peaceful">Мирные</button>
-          <button class="filter-button" data-filter="schooling">Стайные</button>
-          <button class="filter-button" data-filter="bottom">Донные</button>
-        </div>
+        <div class="search-box"><span>🔍</span><input type="text" id="searchInput" placeholder="Поиск по названию..."></div>
         <div class="fish-grid" id="fishGrid"></div>
       </div>
     </section>
 
-    <section id="start" class="soft-section">
+    <section id="equipment" style="background: #eaf6f3;">
       <div class="container">
         <div class="section-head">
-          <div><div class="eyebrow">Первый запуск</div><h2>Как запустить аквариум</h2></div>
-          <p>Четыре шага, которые уберегут от гибели рыб и мутной воды.</p>
+          <div><div class="eyebrow">Техника</div><h2>Какое оборудование ставить</h2></div>
+          <p>Подробный разбор фильтров, света и обогревателей для пресного аквариума.</p>
         </div>
-        <div class="steps">
-          <div class="step"><h3>Подготовка</h3><p>Установи аквариум на ровную поверхность. Промой грунт и засыпь его.</p></div>
-          <div class="step"><h3>Вода и фильтр</h3><p>Залей отстоянную воду, добавь кондиционер. Включи фильтр и обогреватель.</p></div>
-          <div class="step"><h3>Биология</h3><p>Добавь бактерии и щепотку корма. Жди 2-4 недели, пока не установится баланс.</p></div>
-          <div class="step"><h3>Заселение</h3><p>Запускай рыбу постепенно, по 2-3 штуки, не перекармливай.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="plants">
-      <div class="container">
-        <div class="section-head">
-          <div><div class="eyebrow">Флора</div><h2>Растения</h2></div>
-          <p>Простые растения для старта. Нажми на карточку, чтобы узнать свет, воду и питание.</p>
-        </div>
-        <div class="plant-grid" id="plantGrid"></div>
-      </div>
-    </section>
-
-    <section id="invertebrates" class="soft-section">
-      <div class="container">
-        <div class="section-head">
-          <div><div class="eyebrow">Чистильщики</div><h2>Беспозвоночные</h2></div>
-          <p>Креветки, улитки и раки — полезные помощники, но со своими требованиями.</p>
-        </div>
-        <div class="plant-grid">
-          <article class="card"><div class="plant-icon-big"><svg viewBox="0 0 100 100"><text x="50" y="70" font-size="50" text-anchor="middle">🦐</text></svg></div><h3>Креветки</h3><span class="latin">Neocaridina</span><p>Мирные чистильщики. Не переносят медь и резкие скачки параметров.</p><div class="tags"><span class="tag">Креветка</span><span class="tag">Новичкам</span></div></article>
-          <article class="card"><div class="plant-icon-big"><svg viewBox="0 0 100 100"><text x="50" y="70" font-size="50" text-anchor="middle">🐌</text></svg></div><h3>Улитки</h3><span class="latin">Ampullaria, Planorbis</span><p>Помогают с водорослями и остатками корма. Следят за численностью.</p><div class="tags"><span class="tag">Улитка</span><span class="tag">Чистильщик</span></div></article>
-          <article class="card"><div class="plant-icon-big"><svg viewBox="0 0 100 100"><text x="50" y="70" font-size="50" text-anchor="middle">🦞</text></svg></div><h3>Раки</h3><span class="latin">Procambarus</span><p>Интересные, но требуют стабильной воды и укрытий.</p><div class="tags"><span class="tag">Ракообразные</span><span class="tag">Средняя сложность</span></div></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="compatibility">
-      <div class="container">
-        <div class="section-head">
-          <div><div class="eyebrow">Совместимость</div><h2>Кто с кем уживается</h2></div>
-          <p>Совместимость зависит от объема, укрытий и характера рыбы.</p>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Вид</th><th>Мин. объем</th><th>Температура</th><th>С кем нельзя</th></tr></thead>
-            <tbody>
-              <tr><td>Гуппи</td><td>40 л на стаю</td><td>22–26°C</td><td>Крупные хищники</td></tr>
-              <tr><td>Неон</td><td>40 л на стаю</td><td>22–26°C</td><td>Крупные хищники</td></tr>
-              <tr><td>Коридорас</td><td>40 л на стаю</td><td>22–26°C</td><td>Крупные хищники</td></tr>
-              <tr><td>Петушок</td><td>20 л на одного</td><td>24–28°C</td><td>Два самца, барбусы</td></tr>
-              <tr><td>Золотая рыбка</td><td>50 л на рыбу</td><td>18–24°C</td><td>Тропические</td></tr>
-              <tr><td>Данио</td><td>40 л на стаю</td><td>22–26°C</td><td>Крупные хищники</td></tr>
-              <tr><td>Анциструс</td><td>60 л на одного</td><td>24–28°C</td><td>Агрессивные цихлиды</td></tr>
-              <tr><td>Пецилия</td><td>40 л на стаю</td><td>22–26°C</td><td>Крупные хищники</td></tr>
-              <tr><td>Расбора</td><td>40 л на стаю</td><td>24–28°C</td><td>Крупные хищники</td></tr>
-              <tr><td>Тернеция</td><td>40 л на стаю</td><td>22–26°C</td><td>Медленные рыбы</td></tr>
-              <tr><td>Молинезия</td><td>50 л на группу</td><td>24–28°C</td><td>Хищники</td></tr>
-              <tr><td>Меченосец</td><td>50 л на группу</td><td>22–26°C</td><td>Хищники</td></tr>
-              <tr><td>Скалярия</td><td>100 л на пару</td><td>24–28°C</td><td>Мелкие неоны</td></tr>
-              <tr><td>Гурами</td><td>60 л на пару</td><td>24–28°C</td><td>Петухи</td></tr>
-              <tr><td>Барбус</td><td>50 л на стаю</td><td>22–26°C</td><td>Длинноплавые</td></tr>
-              <tr><td>Лабео</td><td>100 л на одного</td><td>24–28°C</td><td>Мелкие донные</td></tr>
-              <tr><td>Боция</td><td>100 л на стаю</td><td>24–28°C</td><td>Мелкие улитки</td></tr>
-              <tr><td>Астронотус</td><td>300 л на пару</td><td>24–28°C</td><td>Все, кто меньше</td></tr>
-              <tr><td>Дискус</td><td>150 л на пару</td><td>28–30°C</td><td>Быстрые и шумные</td></tr>
-              <tr><td>Тетра-красная</td><td>50 л на стаю</td><td>22–26°C</td><td>Хищники</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="notice">Даже «мирные» виды могут конфликтовать. Всегда следи за поведением после подселения.</div>
-      </div>
-    </section>
-
-    <section id="care" class="soft-section">
-      <div class="container">
-        <div class="section-head">
-          <div><div class="eyebrow">Уход</div><h2>Как поддерживать порядок</h2></div>
-          <p>Стабильность важнее резких действий.</p>
-        </div>
-        <div class="care-panel">
-          <div class="care-intro"><h2>Главное правило</h2><p>Не трогай фильтр без необходимости. Бактерии живут в губке и керамике.</p></div>
-          <div class="checklist">
-            <div class="check-item"><span class="check">✓</span> Подмены воды 20-30% раз в неделю</div>
-            <div class="check-item"><span class="check">✓</span> Кормление малыми порциями</div>
-            <div class="check-item"><span class="check">✓</span> Промывка губки в старой воде</div>
-            <div class="check-item"><span class="check">✓</span> Наблюдение за рыбами</div>
-            <div class="check-item"><span class="check">✓</span> Карантин для новых рыб</div>
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>🧽 Фильтры</h3>
+            <p><strong>Для маленьких (до 50 л):</strong> Внутренний фильтр с губкой. Дешево, просто мыть.</p>
+            <p><strong>Для средних (50–150 л):</strong> Внутренний с керамикой или внешний канистровый (лучше). Канистровый не занимает место в аквариуме и лучше тянет воду.</p>
+            <p><strong>Для больших (150+ л) и Золотых рыбок:</strong> Только мощный внешний фильтр (с биокерамикой и губками).</p>
+          </div>
+          <div class="info-card">
+            <h3>💡 Освещение</h3>
+            <p><strong>LED-светильники:</strong> Самый лучший выбор. Экономят свет, не греют воду.</p>
+            <p><strong>Мощность:</strong> Для простых растений хватает 0.5 Вт на 1 литр. Для сложных (красных) — 1 Вт на литр.</p>
+            <p><strong>Режим:</strong> Обязательно ставь таймер на 8–10 часов. Иначе будут водоросли.</p>
+          </div>
+          <div class="info-card">
+            <h3>🌡 Обогреватели</h3>
+            <p><strong>Мощность:</strong> Рассчитывается как 1 Вт на 1 литр воды. На 100 л — 100 Вт.</p>
+            <p><strong>Зачем:</strong> Для тропических рыб (неоны, гурами, петушки) он обязателен. Для золотых и холодноводных — не нужен, если в комнате не холодно.</p>
+          </div>
+          <div class="info-card">
+            <h3>💨 Компрессор (аэрация)</h3>
+            <p><strong>Нужен ли?</strong> Если фильтр создает рябь на поверхности — нет. Если рыбы сидят у поверхности и хватают воздух — срочно включай.</p>
+            <p><strong>Ночью:</strong> Растения ночью не выделяют кислород, поэтому аэрация важна.</p>
           </div>
         </div>
       </div>
@@ -296,53 +189,30 @@
       <div class="container">
         <div class="section-head">
           <div><div class="eyebrow">Здоровье</div><h2>Болезни и лечение</h2></div>
-          <p>Лучшее лечение — карантин и стабильная вода.</p>
+          <p>Что делать, если рыбка заболела.</p>
         </div>
-        <div class="fish-grid">
-          <article class="card"><h3>Ихтиофтириоз</h3><p>Белые точки на теле (как манка). Рыба чешется о камни. Поднять температуру до 28–30°C, добавить соль (если рыба переносит) или спецлекарство (малахитовый зелёный). Внести аэрацию — на жаре падает кислород.</p><div class="tags"><span class="tag">Точки</span><span class="tag">Частая болезнь</span></div></article>
-          <article class="card"><h3>Плавниковая гниль</h3><p>Плавники рвутся, белеют и гниют. Причина — грязная вода и стресс. Сделать подмены, почистить фильтр и добавить антибактериальное средство. В тяжелых случаях — антибиотик в отдельном аквариуме.</p><div class="tags"><span class="tag">Плавники</span><span class="tag">Бактерия</span></div></article>
-          <article class="card"><h3>Оодиниоз</h3><p>Мелкая золотистая «манка» на коже и жабрах. Рыба тяжело дышит. Лечится препаратами на основе малахитового зелёного и формалина. Очень заразно — сразу в карантин!</p><div class="tags"><span class="tag">Кожа</span><span class="tag">Паразит</span></div></article>
-          <article class="card"><h3>Аммиачное отравление</h3><p>Жабры краснеют, рыба задыхается у поверхности. Причина — перекорм или смерть рыбы. Срочная подмена 50% воды, кондиционер (Seachem Prime) и не кормить 2 дня.</p><div class="tags"><span class="tag">Вода</span><span class="tag">Опасно</span></div></article>
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>Ихтиофтириоз (Манка)</h3>
+            <p><strong>Симптомы:</strong> Белые точки, рыбка чешется о камни.</p>
+            <p><strong>Лечение:</strong> Поднять температуру до 28–30°C, добавить спецлекарство (малахитовый зелёный). Включить аэрацию.</p>
+          </div>
+          <div class="info-card">
+            <h3>Плавниковая гниль</h3>
+            <p><strong>Симптомы:</strong> Плавники рвутся, белеют, гниют.</p>
+            <p><strong>Лечение:</strong> Подмены воды, чистка фильтра, антибактериальные средства.</p>
+          </div>
+          <div class="info-card">
+            <h3>Аммиачное отравление</h3>
+            <p><strong>Симптомы:</strong> Жабры красные, рыба задыхается у поверхности.</p>
+            <p><strong>Лечение:</strong> Срочная подмена 50% воды, не кормить 2 дня, добавить кондиционер.</p>
+          </div>
+          <div class="info-card">
+            <h3>Оодиниоз</h3>
+            <p><strong>Симптомы:</strong> Мелкая золотистая пыль на коже.</p>
+            <p><strong>Лечение:</strong> Препараты с малахитовым зелёным и формалином, карантин.</p>
+          </div>
         </div>
-        <div class="notice">Не лечи рыбу «на глаз». Сначала проверь параметры воды: аммиак, нитриты, нитраты.</div>
-      </div>
-    </section>
-
-    <section id="equipment" class="soft-section">
-      <div class="container">
-        <div class="section-head">
-          <div><div class="eyebrow">Техника</div><h2>Оборудование</h2></div>
-          <p>Без чего аквариум не будет работать стабильно.</p>
-        </div>
-        <div class="plant-grid">
-          <article class="card"><div class="plant-icon">🧽</div><h3>Фильтр</h3><p>Сердце аквариума. Внешний (канистровый) лучше для больших объемов, внутренний — для маленьких. Главное — наличие био-наполнителя (керамика, губки) для бактерий.</p></article>
-          <article class="card"><div class="plant-icon">💡</div><h3>Свет</h3><p>Нужен растениям и рыбам. 8–10 часов в день. Используй таймер, чтобы не было вспышек водорослей. Не ставь аквариум под прямое солнце!</p></article>
-          <article class="card"><div class="plant-icon">🌡️</div><h3>Обогреватель</h3><p>Держит температуру стабильной. Для тропических рыб (24–28°C) обязателен. Мощность рассчитывается как 1 Вт на 1 литр воды.</p></article>
-          <article class="card"><div class="plant-icon">💨</div><h3>Компрессор</h3><p>Аэрация. Ночью особенно важна — растения не выделяют кислород, а потребляют. Если фильтр не создает ряби, компрессор обязателен.</p></article>
-          <article class="card"><div class="plant-icon">🧪</div><h3>Тесты</h3><p>Аммиак, нитриты, нитраты, pH и GH. Без капельных тестов ты не знаешь, что с водой. Полоски врут. Бери капельные (API, НИЛПА).</p></article>
-          <article class="card"><div class="plant-icon">🪣</div><h3>Сифон</h3><p>Чистка грунта и подмены воды. Грязь со дна (детрит) — главный источник нитратов и аммиака. Сифонить раз в неделю.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="pond">
-      <div class="container">
-        <div class="section-head">
-          <div><div class="eyebrow">Садовый водоём</div><h2>Пруд</h2></div>
-          <p>Кои — не единственные обитатели. Пруд может быть домом для многих видов.</p>
-        </div>
-        <div class="fish-grid">
-          <article class="card"><h3>Объём</h3><p>Минимум 3–5 тонн для кои. Для карасей и осетровых — от 1–2 тонн. Чем больше объём, тем стабильнее вода.</p></article>
-          <article class="card"><h3>Зимовка</h3><p>Глубина от 1,5 м или еврокуб в яме. Продувка обязательна, чтобы не задохнулись. Кормить перестают при 10°C.</p></article>
-          <article class="card"><h3>Фильтрация</h3><p>Растения помогают, но биофильтр не заменяют. Нужны оба. Для пруда нужен мощный насос и УФ-лампа от цветения.</p></article>
-          <article class="card"><h3>Кои</h3><p>Вырастают до 70 см. Нужен большой объём и мощный фильтр. Очень прожорливы и быстро загрязняют воду.</p></article>
-          <article class="card"><h3>Караси и золотые</h3><p>Выносливые, подходят для небольших прудов. Зимой впадают в спячку. Могут выжить даже при промерзании.</p></article>
-          <article class="card"><h3>Осетровые</h3><p>Осётр и стерлядь — донные, любят холодную воду. Нужен простор и корм со дна. Плохо переносят теплую воду.</p></article>
-          <article class="card"><h3>Линь и карп</h3><p>Линь любит ил и укрытия. Карп очень крупный, нужен огромный водоём. Карп роет дно и поднимает муть.</p></article>
-          <article class="card"><h3>Растения</h3><p>Кувшинки, рогоз, ирис — дают тень и укрытие. Но не занимай ими всё. Растения отлично чистят воду в пруду.</p></article>
-          <article class="card"><h3>Соседи</h3><p>Прудовые улитки и лягушки — полезные соседи. Следи за численностью. Лягушки едят комаров.</p></article>
-        </div>
-        <div class="notice">В 150 л кои не вырастут крупными и могут пострадать. Для роста нужен пруд от 3 тонн или аквариум от 1000 л на пару.</div>
       </div>
     </section>
   </main>
@@ -351,9 +221,7 @@
       <span>&copy; 2026 АкваДом.</span>
       <span>Главный редактор: <strong>DeepSeek</strong></span>
     </div>
-  </footer>
-
-  <div class="modal-overlay" id="modalOverlay">
+  </footer>    <div class="modal-overlay" id="modalOverlay">
     <div class="modal" role="dialog" aria-modal="true">
       <div class="modal-photo" id="modalPhoto"></div>
       <div class="modal-head">
@@ -363,168 +231,124 @@
       </div>
       <p class="modal-desc" id="modalDesc"></p>
       <div class="modal-tags" id="modalTags"></div>
+      
       <div class="modal-grid">
-        <div class="modal-row"><strong>Размер</strong><span id="modalSize"></span></div>
+        <div class="modal-row"><strong>Мин. объем</strong><span id="modalVolume"></span></div>
         <div class="modal-row"><strong>Температура</strong><span id="modalTemp"></span></div>
-        <div class="modal-row"><strong>Объём</strong><span id="modalVolume"></span></div>
-        <div class="modal-row"><strong>pH / жёсткость</strong><span id="modalWater"></span></div>
-        <div class="modal-row"><strong>Характер</strong><span id="modalTemper"></span></div>
-        <div class="modal-row"><strong>Слой воды</strong><span id="modalLayer"></span></div>
-        <div class="modal-row"><strong>Совместимость</strong><span id="modalCompat"></span></div>
-        <div class="modal-row"><strong>Стайность</strong><span id="modalGroup"></span></div>
+        <div class="modal-row"><strong>pH / GH</strong><span id="modalWater"></span></div>
+        <div class="modal-row"><strong>С кем уживается</strong><span id="modalCompat"></span></div>
       </div>
-      <div class="modal-section"><strong>Родина</strong><p id="modalOrigin"></p></div>
-      <div class="modal-section"><strong>Как попала в аквариумы</strong><p id="modalHistory"></p></div>
-      <div class="modal-section"><strong>Подробное описание</strong><p id="modalAbout"></p></div>
-      <div class="modal-section"><strong>Кормление</strong><p id="modalFood"></p></div>
-      <div class="modal-section"><strong>Разведение</strong><p id="modalBreed"></p></div>
-      <div class="modal-section"><strong>Уход и болезни</strong><p id="modalCare"></p></div>
-      <div class="modal-section" id="factSection"><strong>Интересный факт</strong><p id="modalFact"></p></div>
+
+      <div class="setup-box">
+        <h4>🛠 Как обустроить аквариум</h4>
+        <div class="setup-item"><strong>Грунт:</strong> <span id="setupGround"></span></div>
+        <div class="setup-item"><strong>Растения:</strong> <span id="setupPlants"></span></div>
+        <div class="setup-item"><strong>Декор:</strong> <span id="setupDecor"></span></div>
+        <div class="setup-item"><strong>Оборудование:</strong> <span id="setupTech"></span></div>
+      </div>
     </div>
   </div>
 
   <script>
-    // 5 уникальных векторных рыб (разные формы, цвета и хвосты)
-    const svgFish1 = `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#ff7f50"/><path d="M20,50 L5,35 L5,65 Z" fill="#ff6347"/><circle cx="65" cy="45" r="4" fill="#173b47"/><path d="M40,45 Q50,35 60,45" stroke="#ff6347" stroke-width="2" fill="none"/></svg>`; // Оранжевая
-    const svgFish2 = `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#4fc3f7"/><path d="M20,50 L5,35 L5,65 Z" fill="#29b6f6"/><circle cx="65" cy="45" r="4" fill="#173b47"/><path d="M30,50 L40,40 L40,60 Z" fill="#e1f5fe" opacity="0.6"/></svg>`; // Голубая
-    const svgFish3 = `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#ffd54f"/><path d="M20,50 L5,35 L5,65 Z" fill="#ffca28"/><circle cx="65" cy="45" r="4" fill="#173b47"/><path d="M30,40 Q40,50 30,60" stroke="#ffca28" stroke-width="2" fill="none"/></svg>`; // Жёлтая
-    const svgFish4 = `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#ba68c8"/><path d="M20,50 L5,35 L5,65 Z" fill="#ab47bc"/><circle cx="65" cy="45" r="4" fill="#173b47"/><path d="M50,35 L60,25 L55,40 Z" fill="#ce93d8"/></svg>`; // Фиолетовая
-    const svgFish5 = `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#aed581"/><path d="M20,50 L5,35 L5,65 Z" fill="#8bc34a"/><circle cx="65" cy="45" r="4" fill="#173b47"/><path d="M40,55 Q50,65 60,55" stroke="#8bc34a" stroke-width="2" fill="none"/></svg>`; // Зелёная
-    const svgPlant = `<svg viewBox="0 0 100 100"><path d="M50,90 Q50,40 30,20 Q50,40 50,90" fill="#4caf50"/><path d="M50,90 Q50,30 70,10 Q50,40 50,90" fill="#81c784"/><path d="M50,90 Q50,50 10,50 Q50,60 50,90" fill="#388e3c"/><path d="M50,90 Q50,50 90,50 Q50,60 50,90" fill="#2e7d32"/></svg>`;
-
-    const fishIcons = [svgFish1, svgFish2, svgFish3, svgFish4, svgFish5];
-
     const fishData = [
-      { name: "Гуппи", latin: "Poecilia reticulata", icon: "🐟", desc: "Живородящая рыбка, идеальна для новичков.", origin: "Южная Америка: Венесуэла, Барбадос.", history: "В аквариумах с конца XIX века.", about: "Гуппи — живородящая рыбка. Самцы ярче и мельче. Держать 1 самца на 2–3 самки.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "3–5 см", temp: "22–26°C", volume: "30 л", water: "pH 6.5–7.5, GH 5–15", temper: "Мирная", layer: "Средний и верхний", compat: "С мирными", group: "1 самец на 2–3 самки", food: "Хлопья, микрочервь.", breed: "Живородящая.", care: "Легко разводится.", fact: "Популярная рыба." },
-      { name: "Неон", latin: "Paracheirodon innesi", icon: "🐠", desc: "Стайная рыбка, красиво смотрится в группе.", origin: "Южная Америка: Амазонка.", history: "В аквариумах с 1930-х годов.", about: "Неон — стайная рыбка. Любит мягкую воду.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "3–4 см", temp: "22–26°C", volume: "40 л", water: "pH 6.0–7.5, GH 3–12", temper: "Мирная", layer: "Средний", compat: "С мирными", group: "Стая от 6", food: "Мелкие хлопья.", breed: "Нерест сложный.", care: "Любит мягкую воду.", fact: "Популярная тетра." },
-      { name: "Коридорас", latin: "Corydoras panda", icon: "🐡", desc: "Донный сомик, держится стайкой.", origin: "Южная Америка: Перу.", history: "В аквариумах с 1970-х годов.", about: "Коридорас — донный сомик. Чистит дно.", tags: ["peaceful", "schooling", "bottom"], tagNames: ["Мирная", "Стайная", "Донная"], size: "4–5 см", temp: "22–26°C", volume: "40 л", water: "pH 6.0–7.5, GH 3–12", temper: "Мирный", layer: "Донный", compat: "С мирными", group: "Стая от 6", food: "Таблетки.", breed: "Нерест в отдельном.", care: "Нужен мягкий грунт.", fact: "Дышит воздухом." },
-      { name: "Петушок", latin: "Betta splendens", icon: "🐟", desc: "Лабиринтовая рыба.", origin: "Юго-Восточная Азия: Таиланд.", history: "В аквариумах с конца XIX века.", about: "Петушок — лабиринтовая рыба. Нельзя двух самцов.", tags: ["beginner"], tagNames: ["Новичкам"], size: "5–7 см", temp: "24–28°C", volume: "20 л", water: "pH 6.0–7.5, GH 3–12", temper: "Территориальный", layer: "Средний и верхний", compat: "Один самец", group: "Один", food: "Гранулы.", breed: "Самец строит гнездо.", care: "Нельзя двух самцов.", fact: "Дышит воздухом." },
-      { name: "Золотая рыбка", latin: "Carassius auratus", icon: "🐠", desc: "Холодноводная рыба.", origin: "Китай.", history: "В аквариумах с XVII века.", about: "Золотая рыбка — холодноводная.", tags: ["peaceful"], tagNames: ["Мирная"], size: "15–20 см", temp: "18–24°C", volume: "50 л", water: "pH 6.5–8.0, GH 5–20", temper: "Мирная", layer: "Средний", compat: "С холодноводными", group: "Пара", food: "Гранулы.", breed: "Нерест весной.", care: "Нужен объём.", fact: "Предок — карась." },
-      { name: "Данио", latin: "Danio rerio", icon: "🐟", desc: "Активная стайная рыбка.", origin: "Южная Азия: Индия.", history: "В аквариумах с начала XX века.", about: "Данио — активная стайная рыбка.", tags: ["schooling", "beginner"], tagNames: ["Стайная", "Новичкам"], size: "4–5 см", temp: "22–26°C", volume: "40 л", water: "pH 6.5–7.5, GH 5–15", temper: "Активная", layer: "Верхний", compat: "С мирными", group: "Стая от 6", food: "Хлопья.", breed: "Нерест в отдельном.", care: "Любит течение.", fact: "Объект генетики." },
-      { name: "Анциструс", latin: "Ancistrus", icon: "🐟", desc: "Сом-присоска.", origin: "Южная Америка: Амазонка.", history: "В аквариумах с 1970-х годов.", about: "Анциструс — сом-присоска.", tags: ["bottom", "beginner"], tagNames: ["Донная", "Новичкам"], size: "10–15 см", temp: "24–28°C", volume: "60 л", water: "pH 6.5–7.5, GH 5–15", temper: "Мирный", layer: "Донный", compat: "С мирными", group: "Один или пара", food: "Таблетки.", breed: "Самец охраняет икру.", care: "Нужна коряга.", fact: "Чистит стёкла." },
-      { name: "Пецилия", latin: "Xiphophorus maculatus", icon: "🐠", desc: "Живородящая, мирная.", origin: "Центральная Америка: Мексика.", history: "В аквариумах с начала XX века.", about: "Пецилия — живородящая.", tags: ["beginner", "peaceful"], tagNames: ["Новичкам", "Мирная"], size: "4–6 см", temp: "22–26°C", volume: "40 л", water: "pH 7.0–8.0, GH 10–20", temper: "Мирная", layer: "Средний", compat: "С мирными", group: "1 самец на 2–3 самки", food: "Хлопья.", breed: "Живородящая.", care: "Любит жёсткую воду.", fact: "Неприхотливая." },
-      { name: "Расбора", latin: "Trigonostigma heteromorpha", icon: "🐟", desc: "Стайная рыбка с яркой окраской.", origin: "Юго-Восточная Азия: Таиланд.", history: "В аквариумах с 1970-х годов.", about: "Расбора — стайная рыбка.", tags: ["schooling", "peaceful"], tagNames: ["Стайная", "Мирная"], size: "4–5 см", temp: "24–28°C", volume: "40 л", water: "pH 6.0–7.0, GH 2–10", temper: "Мирная", layer: "Средний", compat: "С мирными", group: "Стая от 6", food: "Мелкие хлопья.", breed: "Нерест сложный.", care: "Нужна мягкая вода.", fact: "Популярная расбора." },
-      { name: "Тетра-красная", latin: "Hyphessobrycon", icon: "🐟", desc: "Красная, стайная.", origin: "Южная Америка: Амазонка.", history: "В аквариумах с 1960-х годов.", about: "Тетра-красная — красная стайная рыба.", tags: ["peaceful", "schooling"], tagNames: ["Мирная", "Стайная"], size: "4–5 см", temp: "22–26°C", volume: "50 л", water: "pH 6.0–7.5, GH 5–15", temper: "Мирная", layer: "Средний", compat: "С мирными", group: "Стая от 6", food: "Мелкие хлопья.", breed: "Нерест сложный.", care: "Любит растения.", fact: "" }
-    ];
-
-    const plantData = [
-      { name: "Анубиас", latin: "Anubias barteri", icon: "🌿", desc: "Медленный рост, не требует много света.", temp: "22–28°C", water: "pH 6.0–8.0, GH 5–15", light: "Слабый/средний", co2: "Не обязателен", food: "Корневое питание не нужно.", size: "До 30 см", care: "Не закапывать корневище.", fact: "Неприхотливый вид." },
-      { name: "Элодея", latin: "Elodea canadensis", icon: "🌱", desc: "Быстро растет, активно забирает нитраты.", temp: "15–26°C", water: "pH 6.0–8.0, GH 5–20", light: "Средний", co2: "Не обязателен", food: "Питание из воды", size: "До 100 см", care: "Часто прореживать.", fact: "Растёт в холоде." },
-      { name: "Мох яванский", latin: "Taxiphyllum barbieri", icon: "🍃", desc: "Создает густые заросли для мальков.", temp: "18–30°C", water: "pH 5.0–8.0, GH 2–15", light: "Слабый/средний", co2: "Не обязателен", food: "Питание из воды", size: "До 10 см", care: "Привязать к коряге.", fact: "Любит креветок." },
-      { name: "Валлиснерия", latin: "Vallisneria spiralis", icon: "🌾", desc: "Длинные ленты, быстро растёт.", temp: "18–28°C", water: "pH 6.5–8.0, GH 5–20", light: "Средний", co2: "Не обязателен", food: "Корневое питание", size: "До 100 см", care: "Сажать на задний план.", fact: "Цветёт под водой." },
-      { name: "Криптокорина", latin: "Cryptocoryne wendtii", icon: "🍂", desc: "Классика для новичков, любит тень.", temp: "20–28°C", water: "pH 6.0–7.5, GH 5–15", light: "Слабый/средний", co2: "Не обязателен", food: "Корневое питание", size: "До 20 см", care: "Не любит перепадов.", fact: "Может «растаять»." },
-      { name: "Ротала", latin: "Rotala rotundifolia", icon: "🌺", desc: "Краснеет при хорошем свете.", temp: "22–28°C", water: "pH 6.0–7.0, GH 2–10", light: "Средний/сильный", co2: "Желателен", food: "Питание из воды", size: "До 40 см", care: "Нужен яркий свет.", fact: "Может быть красной." },
-      { name: "Людвигия", latin: "Ludwigia repens", icon: "🍁", desc: "Красивая, с красноватыми листьями.", temp: "20–28°C", water: "pH 6.0–7.5, GH 5–15", light: "Средний", co2: "Желателен", food: "Питание из воды", size: "До 40 см", care: "Прищипывать верхушки.", fact: "Красный цвет." },
-      { name: "Пистия", latin: "Pistia stratiotes", icon: "🪷", desc: "Плавающее растение, забирает нитраты.", temp: "15–30°C", water: "pH 6.0–8.0, GH 5–20", light: "Средний", co2: "Не обязателен", food: "Питание из воды", size: "До 15 см", care: "Не затенять всё.", fact: "Укрытие для мальков." },
-      { name: "Ряска", latin: "Lemna minor", icon: "💚", desc: "Мелкая плавающая трава, быстро растёт.", temp: "15–30°C", water: "pH 6.0–8.0, GH 5–20", light: "Слабый/средний", co2: "Не обязателен", food: "Питание из воды", size: "1–3 мм", care: "Контролировать рост.", fact: "Индикатор нитратов." }
+      { 
+        name: "Гуппи", latin: "Poecilia reticulata", icon: "🐟", photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Guppy1.jpg/320px-Guppy1.jpg",
+        desc: "Маленькие, яркие и очень активные рыбки. Идеальны для первого опыта.",
+        volume: "30 л на стаю", temp: "22–26°C", water: "pH 6.5–7.5, GH 5–15", compat: "С любыми мирными рыбами",
+        setupGround: "Мелкий темный гравий или песок (на темном фоне ярче смотрятся).",
+        setupPlants: "Валлиснерия, роголистник, пистия (плавающая) для укрытия мальков.",
+        setupDecor: "Коряги, керамические гроты. Не нужны острые камни.",
+        setupTech: "Свет 8 часов. Простой внутренний фильтр (без сильного течения)." 
+      },
+      { 
+        name: "Неон", latin: "Paracheirodon innesi", icon: "🐟", photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Neon_tetra_fish.jpg/320px-Neon_tetra_fish.jpg",
+        desc: "Стайные рыбки с неоновой полосой. Любят мягкую воду и приглушенный свет.",
+        volume: "40 л на стаю", temp: "22–26°C", water: "pH 6.0–7.5, GH 3–12", compat: "С мирными тетрами, сомиками",
+        setupGround: "Темный песок или мелкий гравий.",
+        setupPlants: "Много живых растений: криптокорины, папоротники, мох.",
+        setupDecor: "Коряги, создающие тень. Яркий свет им не нравится.",
+        setupTech: "Свет приглушенный (можно с плавающими растениями). Фильтр без бурного течения." 
+      },
+      { 
+        name: "Золотая рыбка", latin: "Carassius auratus", icon: "🐠", photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Carassiusauratus.jpg/320px-Carassiusauratus.jpg",
+        desc: "Крупные и очень прожорливые. Им нужно много места и мощная фильтрация.",
+        volume: "50 л на 1 рыбу", temp: "18–24°C", water: "pH 6.5–8.0, GH 5–20", compat: "Только с холодноводными рыбами",
+        setupGround: "Крупный гладкий гравий (чтобы не глотали мелкие камни).",
+        setupPlants: "Жесткие растения (анубиасы, эхинодорусы) — они их часто выкапывают.",
+        setupDecor: "Крупные камни, гладкие коряги. Без острых углов.",
+        setupTech: "Мощный внешний фильтр! Свет яркий, но не под прямым солнцем." 
+      },
+      { 
+        name: "Петушок", latin: "Betta splendens", icon: "🐟", photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Betta_splendens.jpg/320px-Betta_splendens.jpg",
+        desc: "Одиночные, красивые рыбки. Не любят сильного течения.",
+        volume: "15–20 л на одного", temp: "24–28°C", water: "pH 6.0–7.5, GH 3–12", compat: "Только один самец (самок можно группой)",
+        setupGround: "Любой нейтральный грунт.",
+        setupPlants: "Живые растения (анубиасы, мох), плавающие растения для отдыха.",
+        setupDecor: "Гроты, керамические горшки, коряги (любят прятаться).",
+        setupTech: "Фильтр с очень слабым течением. Обогреватель обязателен! Свет средний." 
+      },
+      { 
+        name: "Скалярия", latin: "Pterophyllum scalare", icon: "🐠", photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Pterophyllum_scalare.jpg/320px-Pterophyllum_scalare.jpg",
+        desc: "Высокие и величественные цихлиды. Нужен высокий аквариум.",
+        volume: "100 л на пару", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "С гурами, крупными тетрами",
+        setupGround: "Мелкий песок.",
+        setupPlants: "Крупные растения с широкими листьями (эхинодорусы, криптокорины).",
+        setupDecor: "Вертикальные коряги, создающие зоны.",
+        setupTech: "Высокий аквариум (от 50 см). Фильтр умеренный, свет средний." 
+      }
     ];
 
     const fishGrid = document.getElementById("fishGrid");
     const searchInput = document.getElementById("searchInput");
-    const filterRow = document.getElementById("filterRow");
     const overlay = document.getElementById("modalOverlay");
-    let currentFilter = "all";
     let currentFish = [];
 
     function renderFish() {
       const query = searchInput.value.toLowerCase().trim();
-      currentFish = fishData.filter(fish => {
-        const matchesSearch = fish.name.toLowerCase().includes(query) || fish.desc.toLowerCase().includes(query) || fish.latin.toLowerCase().includes(query) || fish.tagNames.some(t => t.toLowerCase().includes(query));
-        const matchesFilter = currentFilter === "all" || fish.tags.includes(currentFilter);
-        return matchesSearch && matchesFilter;
-      });
-      fishGrid.innerHTML = currentFish.map((fish, i) => {
-        const iconSvg = fishIcons[i % fishIcons.length]; // Уникальная иконка
-        return `
+      currentFish = fishData.filter(fish => 
+        fish.name.toLowerCase().includes(query) || fish.desc.toLowerCase().includes(query)
+      );
+      
+      fishGrid.innerHTML = currentFish.map((fish, i) => `
         <article class="card fish-card" onclick="openModal(${i})">
+          <div class="fish-photo">
+            <img src="${fish.photo}" alt="${fish.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=font-size:4rem>${fish.icon}</div>';">
+          </div>
           <div class="fish-top">
-            <div class="fish-icon">${iconSvg}</div>
+            <div class="fish-icon">${fish.icon}</div>
             <div><h3>${fish.name}</h3><span class="latin">${fish.latin}</span></div>
           </div>
           <p>${fish.desc}</p>
-          <div class="tags">${fish.tagNames.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+          <div class="tags">
+             <span class="tag">${fish.temp}</span>
+          </div>
           <div class="fish-details">
-            <div class="detail"><strong>Размер:</strong> ${fish.size}</div>
-            <div class="detail"><strong>Температура:</strong> ${fish.temp}</div>
+            <div class="detail"><strong>Объем:</strong> ${fish.volume}</div>
+            <div class="detail"><strong>Сложность:</strong> Легко</div>
           </div>
         </article>
-      `}).join("");
+      `).join("");
     }
 
     function openModal(index) {
       const f = currentFish[index];
       if (!f) return;
-      const iconSvg = fishIcons[index % fishIcons.length];
-      document.getElementById("modalPhoto").innerHTML = iconSvg;
+      
+      document.getElementById("modalPhoto").innerHTML = `<img src="${f.photo}" alt="${f.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=font-size:5rem>${f.icon}</div>';">`;
       document.getElementById("modalIcon").textContent = f.icon;
       document.getElementById("modalName").textContent = f.name;
       document.getElementById("modalLatin").textContent = f.latin;
       document.getElementById("modalDesc").textContent = f.desc;
-      document.getElementById("modalSize").textContent = f.size;
+      
+      document.getElementById("modalVolume").textContent = f.volume;
       document.getElementById("modalTemp").textContent = f.temp;
-      document.getElementById("modalVolume").textContent = f.volume || "—";
-      document.getElementById("modalWater").textContent = f.water || "—";
-      document.getElementById("modalTemper").textContent = f.temper || "—";
-      document.getElementById("modalLayer").textContent = f.layer || "—";
-      document.getElementById("modalCompat").textContent = f.compat || "—";
-      document.getElementById("modalGroup").textContent = f.group || "—";
-      document.getElementById("modalOrigin").textContent = f.origin || "—";
-      document.getElementById("modalHistory").textContent = f.history || "—";
-      document.getElementById("modalAbout").textContent = f.about || "—";
-      document.getElementById("modalFood").textContent = f.food || "—";
-      document.getElementById("modalBreed").textContent = f.breed || "—";
-      document.getElementById("modalCare").textContent = f.care || "—";
-      document.getElementById("modalFact").textContent = f.fact || "—";
+      document.getElementById("modalWater").textContent = f.water;
+      document.getElementById("modalCompat").textContent = f.compat;
       
-      document.getElementById("factSection").style.display = f.fact ? "" : "none";
-      
-      document.getElementById("modalTags").innerHTML = f.tagNames.map(t => `<span class="tag">${t}</span>`).join("");
-      overlay.classList.add("open");
-      document.body.style.overflow = "hidden";
-    }
-
-    const plantGrid = document.getElementById("plantGrid");
-    
-    function renderPlants() {
-      plantGrid.innerHTML = plantData.map((p, i) => `
-        <article class="card plant-card" onclick="openPlantModal(${i})">
-          <div class="plant-icon-big">${svgPlant}</div>
-          <h3>${p.name}</h3><span class="latin">${p.latin}</span>
-          <p>${p.desc}</p>
-          <div class="tags"><span class="tag">Свет: ${p.light}</span></div>
-        </article>
-      `).join("");
-    }
-
-    function openPlantModal(index) {
-      const p = plantData[index];
-      if (!p) return;
-      document.getElementById("modalPhoto").innerHTML = svgPlant;
-      document.getElementById("modalIcon").textContent = p.icon;
-      document.getElementById("modalName").textContent = p.name;
-      document.getElementById("modalLatin").textContent = p.latin;
-      document.getElementById("modalDesc").textContent = p.desc;
-      
-      document.getElementById("modalSize").textContent = p.size;
-      document.getElementById("modalTemp").textContent = p.temp;
-      document.getElementById("modalVolume").textContent = "—";
-      document.getElementById("modalWater").textContent = p.water;
-      document.getElementById("modalTemper").textContent = "—";
-      document.getElementById("modalLayer").textContent = "—";
-      document.getElementById("modalCompat").textContent = "—";
-      document.getElementById("modalGroup").textContent = "—";
-      
-      document.getElementById("modalOrigin").textContent = "—";
-      document.getElementById("modalHistory").textContent = "—";
-      document.getElementById("modalAbout").textContent = `Свет: ${p.light}. CO2: ${p.co2}.`;
-      document.getElementById("modalFood").textContent = p.food;
-      document.getElementById("modalBreed").textContent = "—";
-      document.getElementById("modalCare").textContent = p.care;
-      document.getElementById("modalFact").textContent = p.fact;
-      
-      document.getElementById("factSection").style.display = p.fact ? "" : "none";
-      
-      document.getElementById("modalTags").innerHTML = `<span class="tag">Свет: ${p.light}</span>`;
+      document.getElementById("setupGround").textContent = f.setupGround;
+      document.getElementById("setupPlants").textContent = f.setupPlants;
+      document.getElementById("setupDecor").textContent = f.setupDecor;
+      document.getElementById("setupTech").textContent = f.setupTech;
       
       overlay.classList.add("open");
       document.body.style.overflow = "hidden";
@@ -540,15 +364,7 @@
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 
     searchInput.addEventListener("input", renderFish);
-    filterRow.addEventListener("click", (e) => {
-      if (e.target.classList.contains("filter-button")) {
-        document.querySelectorAll(".filter-button").forEach(b => b.classList.remove("active"));
-        e.target.classList.add("active");
-        currentFilter = e.target.dataset.filter;
-        renderFish();
-      }
-    });
-
+    
     const menuButton = document.getElementById("menuButton");
     const navLinks = document.getElementById("navLinks");
     if (menuButton && navLinks) {
@@ -556,7 +372,6 @@
     }
 
     renderFish();
-    renderPlants();
   </script>
 </body>
 </html>
