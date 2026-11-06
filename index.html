@@ -134,14 +134,22 @@
 
   <div id="page-equipment" class="page container">
     <h2 class="section-title">Оборудование</h2>
+    <p class="section-desc">Как правильно подобрать технику под свой аквариум, чтобы рыбы не задохнулись.</p>
+    
     <div class="info-block">
       <h3>Фильтры</h3>
-      <p><strong>Правило:</strong> 3–4 объема в час. 100 л = фильтр на 300–400 л/ч.</p>
-      <p><strong>Запас:</strong> Если рыб много или они крупные (золотые), берите фильтр на 1.5–2 объема больше.</p>
+      <p><strong>Правило подбора по объему:</strong> Для аквариума с небольшим количеством рыб фильтр должен прокачивать <strong>3–4 объема в час</strong> (100 л = 300–400 л/ч).</p>
+      <p><strong>Ошибка новичка:</strong> Считать фильтр только по литражу. Если у вас <strong>плотное население</strong> (много рыб) или крупные рыбы (золотые, цихлиды), которые сильно загрязняют воду, мощность фильтра нужно увеличивать. В таких случаях фильтр должен прокачивать <strong>от 8 объемов в час</strong>.</p>
+      <ul>
+        <li><strong>До 40–60 л (плотно):</strong> Внутренние фильтры (Aquael Fan, Tetra In Plus).</li>
+        <li><strong>60–150 л:</strong> Внешние канистры (Tetra EX Plus, JBL CristalProfi).</li>
+        <li><strong>150+ л:</strong> Мощные внешние фильтры с большим объемом наполнителей.</li>
+      </ul>
     </div>
     
     <div class="info-block">
       <h3>Калькулятор объема</h3>
+      <p>Введи размеры аквариума (в см), чтобы узнать его литраж.</p>
       <div class="calc-box">
         <input type="number" id="len" placeholder="Длина">
         <input type="number" id="wid" placeholder="Ширина">
@@ -486,7 +494,18 @@
       document.getElementById("modalPhoto").textContent = f.icon;
       document.getElementById("modalName").textContent = f.name;
       document.getElementById("modalLatin").textContent = f.latin;
-      document.getElementById("modalDesc").textContent = f.desc;
+      
+      // Добавляем инфу про совместимость прямо в модалку
+      let compatInfo = "";
+      if (f.category === "predator") {
+        compatInfo = "Хищник. Сажать только с рыбами, которые не помещаются в рот.";
+      } else if (f.category === "bottom") {
+        compatInfo = "Донная рыба. Нужны укрытия и мягкий грунт. Отлично уживается с мирными соседями.";
+      } else {
+        compatInfo = "Мирная рыба. Держать стаей или с другими спокойными видами.";
+      }
+      document.getElementById("modalDesc").innerHTML = f.desc + "<br><br><strong>Совместимость:</strong> " + compatInfo;
+      
       document.getElementById("modalVolume").textContent = f.volume;
       document.getElementById("modalTemp").textContent = f.temp;
       document.getElementById("modalWater").textContent = f.water;
