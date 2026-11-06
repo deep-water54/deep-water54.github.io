@@ -1,1 +1,608 @@
-https://chatgpt.com/codex/desktop-auth?authorize_url=https%3A%2F%2Fauth.openai.com%2Foauth%2Fauthorize%3Fresponse_type%3Dcode%26client_id%3Dapp_EMoamEEZ73f0CkXaXp7hrann%26redirect_uri%3Dhttp%253A%252F%252F127.0.0.1%253A1455%252Fauth%252Fcallback%26code_challenge%3DU3cRg7PE_3JY3PVpgmqYmewX7Nqa_xkUCyS6d3MDMQw%26code_challenge_method%3DS256%26state%3DgjcMwisYrgSzDyIeaNDSgp8eWNEShc2Rt1ZEU2CV8ms%26scope%3Dopenid%2Bprofile%2Bemail%2Boffline_access%2Bapi.connectors.read%2Bapi.connectors.invoke%26id_token_add_organizations%3Dtrue%26codex_cli_simplified_flow%3Dtrue%26originator%3DCodex%2BDesktop%26codex_app_version%3D26.1103.31037%26source_surface_stable_id%3Dc215bfa4-4483-42b5-8e8e-aef7ba9590d5%26codex_origin_stable_id%3Dc215bfa4-4483-42b5-8e8e-aef7ba9590d5%26codex_streamlined_login%3Dtrue&codex_streamlined_login=true
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Аквариумная энциклопедия для начинающих и опытных аквариумистов.">
+  <title>Аквариум — большая энциклопедия</title>
+  <style>
+    :root {
+      --ink: #183331;
+      --muted: #637774;
+      --paper: #f5f7f2;
+      --card: #ffffff;
+      --green: #267263;
+      --green-dark: #174e46;
+      --mint: #dceee5;
+      --line: #dbe5df;
+      --sand: #f1e6d2;
+      --shadow: 0 14px 40px rgba(25, 61, 53, .09);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.65;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(245, 247, 242, .92);
+      border-bottom: 1px solid rgba(219, 229, 223, .9);
+      backdrop-filter: blur(12px);
+    }
+    .nav {
+      max-width: 1180px;
+      min-height: 72px;
+      margin: auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: bold;
+      font-size: 1.15rem;
+      white-space: nowrap;
+    }
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--green);
+      border-radius: 50% 50% 45% 55%;
+      font-family: sans-serif;
+      font-size: 1.3rem;
+    }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: .9rem;
+    }
+    .nav-links a { transition: color .25s ease; }
+    .nav-links a:hover { color: var(--green); }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 82px 24px 74px;
+      background:
+        radial-gradient(ellipse at 85% 20%, rgba(191, 224, 204, .7), transparent 34%),
+        radial-gradient(ellipse at 10% 100%, rgba(221, 234, 214, .8), transparent 38%),
+        linear-gradient(135deg, #edf5ed, #f8f7ef);
+    }
+    .hero-inner {
+      max-width: 1180px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      align-items: center;
+      gap: 50px;
+    }
+    .eyebrow {
+      color: var(--green);
+      font: 700 .76rem/1.3 Arial, sans-serif;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 750px;
+      margin-bottom: 20px;
+      font-size: clamp(2.6rem, 6vw, 5.2rem);
+      line-height: .99;
+      letter-spacing: -.045em;
+    }
+    .hero p {
+      max-width: 650px;
+      color: var(--muted);
+      font: 1.08rem/1.75 Arial, sans-serif;
+    }
+    .hero-note {
+      display: inline-flex;
+      margin-top: 12px;
+      padding: 9px 14px;
+      border: 1px solid #cfe0d4;
+      border-radius: 999px;
+      color: var(--green-dark);
+      background: rgba(255,255,255,.55);
+      font: .82rem Arial, sans-serif;
+    }
+    .hero-art {
+      min-height: 300px;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+    .bubble {
+      position: absolute;
+      border: 1px solid rgba(38,114,99,.18);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+    .bubble.one { width: 245px; height: 245px; background: rgba(255,255,255,.46); }
+    .bubble.two { width: 180px; height: 180px; transform: translate(75px, 45px); animation-delay: -2s; }
+    .fish-art {
+      position: relative;
+      z-index: 1;
+      font-size: clamp(7rem, 18vw, 12rem);
+      filter: drop-shadow(0 22px 18px rgba(34, 89, 75, .18));
+      animation: swim 5s ease-in-out infinite;
+    }
+
+    @keyframes float { 50% { transform: translateY(-12px); } }
+    @keyframes swim { 50% { transform: translate(10px, -7px) rotate(-2deg); } }
+
+    .search-wrap {
+      max-width: 1180px;
+      margin: -27px auto 0;
+      padding: 0 24px;
+      position: relative;
+      z-index: 3;
+    }
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+    .search-box span { font-family: Arial, sans-serif; font-size: 1.2rem; }
+    .search-box input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      padding: 9px 2px;
+      color: var(--ink);
+      background: transparent;
+      font: 1rem Arial, sans-serif;
+    }
+
+    main { max-width: 1180px; margin: auto; padding: 68px 24px 90px; }
+    .section { margin-bottom: 78px; scroll-margin-top: 100px; }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 25px;
+      margin-bottom: 25px;
+    }
+    .section-head h2 {
+      margin: 7px 0 0;
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      line-height: 1.08;
+      letter-spacing: -.03em;
+    }
+    .section-head p {
+      max-width: 480px;
+      margin-bottom: 2px;
+      color: var(--muted);
+      font: .96rem/1.6 Arial, sans-serif;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .card {
+      padding: 23px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 6px 20px rgba(25,61,53,.035);
+      transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: #b6d4c3;
+      box-shadow: var(--shadow);
+    }
+    .card-icon {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 17px;
+      border-radius: 17px;
+      background: var(--mint);
+      font-size: 1.7rem;
+    }
+    .card h3 { margin-bottom: 8px; font-size: 1.35rem; line-height: 1.2; }
+    .card p {
+      margin-bottom: 14px;
+      color: var(--muted);
+      font: .93rem/1.6 Arial, sans-serif;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; }
+    .tag {
+      padding: 5px 9px;
+      color: var(--green-dark);
+      background: #edf5ef;
+      border-radius: 999px;
+      font: .75rem Arial, sans-serif;
+    }
+    .read-more {
+      display: inline-block;
+      margin-top: 15px;
+      color: var(--green);
+      font: 700 .88rem Arial, sans-serif;
+    }
+    .read-more:hover { text-decoration: underline; }
+    .empty {
+      display: none;
+      padding: 24px;
+      color: var(--muted);
+      background: white;
+      border: 1px dashed var(--line);
+      border-radius: 16px;
+      font-family: Arial, sans-serif;
+    }
+
+    .guide {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      counter-reset: guide;
+    }
+    .guide-step {
+      position: relative;
+      min-height: 160px;
+      padding: 20px;
+      overflow: hidden;
+      background: #e8f1e9;
+      border-radius: 18px;
+    }
+    .guide-step:nth-child(even) { background: var(--sand); }
+    .guide-step::before {
+      counter-increment: guide;
+      content: "0" counter(guide);
+      display: block;
+      margin-bottom: 17px;
+      color: var(--green);
+      font: 700 .8rem Arial, sans-serif;
+      letter-spacing: .1em;
+    }
+    .guide-step h3 { margin-bottom: 6px; font-size: 1.1rem; }
+    .guide-step p { margin: 0; color: var(--muted); font: .88rem/1.5 Arial, sans-serif; }
+
+    .notice {
+      padding: 23px 25px;
+      background: #fff9e9;
+      border: 1px solid #eee0b6;
+      border-radius: 17px;
+      color: #61522d;
+      font: .94rem/1.65 Arial, sans-serif;
+    }
+    .notice strong { color: #433719; }
+
+    footer {
+      padding: 28px 24px;
+      color: #dcebe4;
+      background: #173c37;
+      font: .88rem/1.6 Arial, sans-serif;
+    }
+    .footer-inner {
+      max-width: 1180px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 850px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 10px; }
+      .hero-art { min-height: 210px; }
+      .fish-art { font-size: 8rem; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .guide { grid-template-columns: repeat(2, 1fr); }
+      .section-head { align-items: start; flex-direction: column; gap: 9px; }
+    }
+    @media (max-width: 560px) {
+      .nav { align-items: flex-start; flex-direction: column; gap: 10px; }
+      .nav-links { gap: 8px 14px; }
+      .hero { padding-top: 55px; }
+      .grid { grid-template-columns: 1fr; }
+      .guide { grid-template-columns: 1fr 1fr; }
+      main { padding-top: 50px; }
+      .footer-inner { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="nav" aria-label="Главная навигация">
+      <a class="brand" href="#top">
+        <span class="brand-mark">≈</span>
+        <span>Аквариумная энциклопедия</span>
+      </a>
+      <div class="nav-links">
+        <a href="#start">С чего начать</a>
+        <a href="#fish">Рыбы</a>
+        <a href="#plants">Растения</a>
+        <a href="#ground">Грунт</a>
+        <a href="#equipment">Оборудование</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">Большая база знаний об аквариуме</div>
+        <h1>Подводный мир — без загадок</h1>
+        <p>
+          Понятная энциклопедия для тех, кто только начинает, и тех, кто хочет разобраться глубже:
+          рыбы, растения, грунт, оборудование, запуск и ежедневный уход.
+        </p>
+        <span class="hero-note">Материалы проекта подготовлены при участии DeepSeek</span>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="bubble one"></div>
+        <div class="bubble two"></div>
+        <div class="fish-art">🐠</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="search-wrap">
+    <label class="search-box">
+      <span aria-hidden="true">⌕</span>
+      <input id="search" type="search" placeholder="Найти рыбу, растение или тему…" aria-label="Поиск по энциклопедии">
+    </label>
+  </div>
+
+  <main>
+    <section class="section reveal" id="start">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Путеводитель</div>
+          <h2>С чего начинается аквариум</h2>
+        </div>
+        <p>Порядок важен: сначала подготавливают систему и воду, а уже потом заселяют рыб.</p>
+      </div>
+      <div class="guide">
+        <article class="guide-step">
+          <h3>Выбери объём</h3>
+          <p>Продумай место и размер. В устойчивом аквариуме проще поддерживать параметры воды.</p>
+        </article>
+        <article class="guide-step">
+          <h3>Подготовь оборудование</h3>
+          <p>Обычно нужны фильтр, освещение и обогреватель — в зависимости от обитателей.</p>
+        </article>
+        <article class="guide-step">
+          <h3>Запусти систему</h3>
+          <p>Дай фильтру и полезным бактериям время сформировать биологическое равновесие.</p>
+        </article>
+        <article class="guide-step">
+          <h3>Заселяй постепенно</h3>
+          <p>Подбирай виды по параметрам воды, поведению и взрослому размеру рыб.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="fish">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Животные</div>
+          <h2>Рыбы: отдельные карточки видов</h2>
+        </div>
+        <p>Короткие справки для старта. Перед покупкой уточняй взрослый размер, параметры воды и особенности конкретного вида.</p>
+      </div>
+      <div class="grid searchable">
+        <article class="card" data-search="гуппи рыба живородящая новичок">
+          <div class="card-icon">🐟</div>
+          <h3>Гуппи</h3>
+          <p>Небольшая живородящая рыба. Нужны стабильная чистая вода, фильтрация и место для плавания. <strong>Важно:</strong> в небольшом объёме (до 40–50 л) держи только самцов, иначе аквариум быстро перенаселится мальками.</p>
+          <div class="tags"><span class="tag">Мирная</span><span class="tag">Живородящая</span><span class="tag">Для новичков</span></div>
+          <a class="read-more" href="#compatibility">Смотреть совместимость →</a>
+        </article>
+        
+        <article class="card" data-search="неон тетра рыба стайная">
+          <div class="card-icon">🐟</div>
+          <h3>Неоны</h3>
+          <p>Мелкие стайные рыбки. Держать нужно группой от 6 штук. Любят мягкую, слабокислую воду и приглушённый свет. Нельзя сажать к крупным рыбам — съедят.</p>
+          <div class="tags"><span class="tag">Стайная</span><span class="tag">Тропическая</span></div>
+          <a class="read-more" href="#compatibility">Смотреть совместимость →</a>
+        </article>
+
+        <article class="card" data-search="скалярия цихлида рыба">
+          <div class="card-icon">🐠</div>
+          <h3>Скалярии</h3>
+          <p>Высокие, красивые цихлиды. Нужен высокий аквариум (от 50 см). Могут быть агрессивны к мелкой рыбе и друг к другу в период нереста.</p>
+          <div class="tags"><span class="tag">Цихлида</span><span class="tag">Территориальная</span></div>
+          <a class="read-more" href="#compatibility">Смотреть совместимость →</a>
+        </article>
+
+        <article class="card" data-search="гурами лабиринтовая рыба">
+          <div class="card-icon">🐟</div>
+          <h3>Гурами</h3>
+          <p>Спокойные лабиринтовые рыбы. Дышат атмосферным воздухом, поэтому не любят сильное течение. Отлично уживаются со скаляриями и коридорасами.</p>
+          <div class="tags"><span class="tag">Мирная</span><span class="tag">Лабиринтовая</span></div>
+          <a class="read-more" href="#compatibility">Смотреть совместимость →</a>
+        </article>
+
+        <article class="card" data-search="коридорас сомик донная рыба">
+          <div class="card-icon">🐟</div>
+          <h3>Коридорасы</h3>
+          <p>Мирные донные сомики. Держать нужно стайкой от 6 штук. Любят мягкий песок, чтобы не травмировать усики. Отлично чистят дно.</p>
+          <div class="tags"><span class="tag">Донная</span><span class="tag">Стайная</span></div>
+          <a class="read-more" href="#compatibility">Смотреть совместимость →</a>
+        </article>
+
+        <article class="card" data-search="золотая рыбка холодноводная">
+          <div class="card-icon">🐠</div>
+          <h3>Золотые рыбки</h3>
+          <p>Холодноводные рыбы. Им нужен большой объём (от 50 л на рыбу) и мощная фильтрация. <strong>Нельзя</strong> содержать с тропическими рыбами из-за разницы температур.</p>
+          <div class="tags"><span class="tag">Холодноводная</span><span class="tag">Крупная</span></div>
+          <a class="read-more" href="#compatibility">Смотреть совместимость →</a>
+        </article>
+      </div>
+      <div class="empty" id="empty">Ничего не найдено. Попробуй изменить запрос.</div>
+    </section>
+
+    <section class="section reveal" id="compatibility">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Совместимость</div>
+          <h2>Кто с кем уживается</h2>
+        </div>
+        <p>Помни: даже совместимые виды могут конфликтовать в маленьком объёме.</p>
+      </div>
+      <div class="notice">
+        <strong>Внимание:</strong> Золотых рыбок нельзя содержать с тропическими видами (неоны, гурами, скалярии). У них разные требования к температуре. Гуппи быстро размножаются — в маленьком аквариуме держи только самцов.
+      </div>
+    </section>
+
+    <section class="section reveal" id="plants">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Флора</div>
+          <h2>Растения</h2>
+        </div>
+        <p>Живые растения помогают поддерживать баланс и служат укрытием для рыб.</p>
+      </div>
+      <div class="guide">
+        <article class="guide-step">
+          <h3>Роголистник</h3>
+          <p>Быстрорастущее плавающее растение. Отлично тянет нитраты из воды. Идеально для мальков.</p>
+        </article>
+        <article class="guide-step">
+          <h3>Анубиас</h3>
+          <p>Медленнорастущее растение с жёсткими листьями. Крепится к корягам и камням. Рыбы его не едят.</p>
+        </article>
+        <article class="guide-step">
+          <h3>Валлиснерия</h3>
+          <p>Длинные ленты, быстро разрастается. Хорошо смотрится на заднем плане. Может заполонить весь аквариум.</p>
+        </article>
+        <article class="guide-step">
+          <h3>Пистия</h3>
+          <p>Плавающее растение с длинными корнями. Даёт тень и укрытие. Не давай ей закрыть весь свет.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="ground">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Субстрат</div>
+          <h2>Грунт</h2>
+        </div>
+        <p>Основа для растений и дом для полезных бактерий.</p>
+      </div>
+      <div class="notice">
+        <strong>Совет:</strong> Для коридорасов и растений лучше использовать мелкий окатанный песок или гальку фракции 2-4 мм. Крупный грунт может травмировать сомиков и плохо держит корни.
+      </div>
+    </section>
+
+    <section class="section reveal" id="equipment">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Техника</div>
+          <h2>Оборудование</h2>
+        </div>
+        <p>Без этого аквариум не будет стабильным.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="card-icon">⚙️</div>
+          <h3>Фильтр</h3>
+          <p>Самый важный элемент. Для новичков лучше внешний или внутренний с губкой и керамикой. Производительность — 3-5 объёмов в час.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">💡</div>
+          <h3>Освещение</h3>
+          <p>Нужно для растений. Светодиодные лампы (8-10 часов в день). Не оставляй свет на ночь.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">🌡️</div>
+          <h3>Обогреватель</h3>
+          <p>Нужен для тропических рыб (25-28°C). Для золотых рыбок не обязателен, если в комнате тепло.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>© 2026 Аквариумная энциклопедия</span>
+      <span>Сделано с заботой о рыбах</span>
+    </div>
+  </footer>
+
+  <script>
+    // Анимация появления при скролле
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+
+    // Поиск по карточкам
+    const searchInput = document.getElementById('search');
+    const searchables = document.querySelectorAll('.searchable .card');
+    const emptyMsg = document.getElementById('empty');
+
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        searchables.forEach(card => {
+          const text = card.getAttribute('data-search').toLowerCase();
+          if (text.includes(query)) {
+            card.style.display = 'block';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (emptyMsg) {
+          emptyMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
