@@ -41,7 +41,11 @@
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
     .card { background: white; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: 0.2s; }
     .card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--red); }
-    .card-img { height: 140px; background: #f0f0f0; display: grid; place-items: center; font-size: 4rem; }
+    
+    .card-img { height: 140px; background: #f0f0f0; display: grid; place-items: center; }
+    .card-img svg { width: 80px; height: 80px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); transition: transform 0.3s; }
+    .card:hover .card-img svg { transform: scale(1.1) rotate(-5deg); }
+
     .card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
     .card-title { font-weight: 700; font-size: 1.2rem; margin-bottom: 5px; }
     .card-desc { color: var(--muted); font-size: 0.9rem; flex-grow: 1; margin-bottom: 15px; }
@@ -69,7 +73,8 @@
     .modal-overlay.open .modal { transform: translateY(0); }
     .modal-close { position: absolute; top: 20px; right: 20px; border: 0; background: #eee; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; }
     .modal-head { display: flex; gap: 20px; align-items: center; margin-bottom: 20px; }
-    .modal-head-img { width: 100px; height: 100px; background: #f0f0f0; border-radius: 12px; display: grid; place-items: center; font-size: 3rem; }
+    .modal-head-img { width: 100px; height: 100px; background: #f0f0f0; border-radius: 12px; display: grid; place-items: center; }
+    .modal-head-img svg { width: 70px; height: 70px; }
     .modal-head-text h2 { margin: 0; font-size: 1.8rem; }
     .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
     .info-box { background: #f9f9f9; padding: 15px; border-radius: 12px; }
@@ -156,7 +161,7 @@
     
     <div class="grid">
       <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img">🦠</div>
+        <div class="card-img" style="font-size:4rem">🦠</div>
         <div class="card-body">
           <div class="card-title">Ихтиофтириоз (Манка)</div>
           <p><strong>Кто болеет:</strong> Неоны, тетры, петушки.</p>
@@ -164,7 +169,7 @@
         </div>
       </div>
       <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img">🍂</div>
+        <div class="card-img" style="font-size:4rem">🍂</div>
         <div class="card-body">
           <div class="card-title">Плавниковая гниль</div>
           <p><strong>Кто болеет:</strong> Петушки, гурами.</p>
@@ -172,7 +177,7 @@
         </div>
       </div>
       <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img">🌫️</div>
+        <div class="card-img" style="font-size:4rem">🌫️</div>
         <div class="card-body">
           <div class="card-title">Оодиниоз («Бархатная»)</div>
           <p><strong>Кто болеет:</strong> Гуппи, меченосцы.</p>
@@ -180,7 +185,7 @@
         </div>
       </div>
       <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img">👁️</div>
+        <div class="card-img" style="font-size:4rem">👁️</div>
         <div class="card-body">
           <div class="card-title">Помутнение глаз</div>
           <p><strong>Причина:</strong> Бактериальная инфекция.</p>
@@ -188,7 +193,7 @@
         </div>
       </div>
       <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img">☠️</div>
+        <div class="card-img" style="font-size:4rem">☠️</div>
         <div class="card-body">
           <div class="card-title">Аммиачное отравление</div>
           <p><strong>Кто болеет:</strong> Любые рыбы в новом аквариуме.</p>
@@ -196,7 +201,7 @@
         </div>
       </div>
       <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img">🫧</div>
+        <div class="card-img" style="font-size:4rem">🫧</div>
         <div class="card-body">
           <div class="card-title">Грибок</div>
           <p><strong>Кто болеет:</strong> Рыбы с травмами.</p>
@@ -204,7 +209,7 @@
         </div>
       </div>
       <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img">💚</div>
+        <div class="card-img" style="font-size:4rem">💚</div>
         <div class="card-body">
           <div class="card-title">Цветение воды</div>
           <p><strong>Причина:</strong> Избыток света.</p>
@@ -212,7 +217,7 @@
         </div>
       </div>
       <div class="card" style="cursor: default; border-color: #2a9d8f;">
-        <div class="card-img">🌱</div>
+        <div class="card-img" style="font-size:4rem">🌱</div>
         <div class="card-body">
           <div class="card-title">Черные пятна на листьях</div>
           <p><strong>Причина:</strong> Повреждение корней.</p>
@@ -220,7 +225,7 @@
         </div>
       </div>
       <div class="card" style="cursor: default; border-color: #2a9d8f;">
-        <div class="card-img">🌿</div>
+        <div class="card-img" style="font-size:4rem">🌿</div>
         <div class="card-body">
           <div class="card-title">Черная борода</div>
           <p><strong>Причина:</strong> Органика + течение.</p>
@@ -306,47 +311,56 @@
   </div>
 
   <script>
+    // Набор уникальных SVG-рыб
+    const fishSVGs = [
+      `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#ff7f50"/><path d="M20,50 L5,35 L5,65 Z" fill="#ff6347"/><circle cx="65" cy="45" r="4" fill="#173b47"/></svg>`, // Оранжевая
+      `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#4fc3f7"/><path d="M20,50 L5,35 L5,65 Z" fill="#29b6f6"/><circle cx="65" cy="45" r="4" fill="#173b47"/></svg>`, // Голубая
+      `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#ffd54f"/><path d="M20,50 L5,35 L5,65 Z" fill="#ffca28"/><circle cx="65" cy="45" r="4" fill="#173b47"/></svg>`, // Жёлтая
+      `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#ba68c8"/><path d="M20,50 L5,35 L5,65 Z" fill="#ab47bc"/><circle cx="65" cy="45" r="4" fill="#173b47"/></svg>`, // Фиолетовая
+      `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#aed581"/><path d="M20,50 L5,35 L5,65 Z" fill="#8bc34a"/><circle cx="65" cy="45" r="4" fill="#173b47"/></svg>` // Зелёная
+    ];
+
     const fishData = [
-      { name: "Гуппи", latin: "Poecilia reticulata", icon: "🐟", desc: "Живородящая рыбка, идеальна для новичков. Самцы меньше и ярче, самки крупнее.", category: "peaceful", minVolume: "30 л", comfortVolume: "50 л", difficulty: "Новичкам", growth: "Быстрый", temp: "22–26°C", water: "pH 6.5–7.5, GH 5–15", compat: "С любыми мирными рыбами", food: "Хлопья, микрочервь", layer: "Средний и верхний", setupGround: "Мелкий темный гравий", setupPlants: "Валлиснерия, роголистник", setupDecor: "Коряги, гроты", setupTech: "Свет 8 ч, слабый внутренний фильтр" },
-      { name: "Неон", latin: "Paracheirodon innesi", icon: "🐠", desc: "Стайная рыбка с яркой неоновой полосой. Любит мягкую, кислую воду и приглушенный свет.", category: "peaceful", minVolume: "40 л", comfortVolume: "60 л", difficulty: "Новичкам", growth: "Средний", temp: "24–28°C", water: "pH 6.0–7.0, GH 1–5", compat: "С мирными тетрами, сомиками", food: "Мелкие хлопья, циклоп", layer: "Средний", setupGround: "Темный песок или гравий", setupPlants: "Криптокорины, папоротники, мох", setupDecor: "Коряги, создающие тень", setupTech: "Приглушенный свет, фильтр без бурного течения" },
-      { name: "Коридорас", latin: "Corydoras panda", icon: "🐟", desc: "Донный сомик, держится стайкой. Чистит дно и любит копаться в грунте.", category: "bottom", minVolume: "40 л", comfortVolume: "60 л", difficulty: "Новичкам", growth: "Средний", temp: "22–26°C", water: "pH 6.0–7.0, GH 2–12", compat: "С мирными рыбами", food: "Таблетки для дна, мотыль", layer: "Донный", setupGround: "Мягкий песок без острых камней", setupPlants: "Не принципиально, важны укрытия", setupDecor: "Коряги, керамические трубки", setupTech: "Стандартный фильтр, приглушенный свет" },
-      { name: "Петушок", latin: "Betta splendens", icon: "🐠", desc: "Одиночная рыбка с роскошными плавниками. Дышит атмосферным воздухом. Не любит сильное течение.", category: "peaceful", minVolume: "20 л", comfortVolume: "30 л", difficulty: "Новичкам", growth: "Медленный", temp: "26–30°C", water: "pH 6.0–7.5, GH 2–12", compat: "Только один самец", food: "Гранулы, мотыль", layer: "Средний и верхний", setupGround: "Темный нейтральный грунт", setupPlants: "Анубиасы, мох, плавающие растения", setupDecor: "Гроты, горшки, без острых краев", setupTech: "Слабый фильтр (без течения), обогреватель, крышка" },
-      { name: "Золотая рыбка", latin: "Carassius auratus", icon: "🐟", desc: "Крупная холодноводная рыба. Очень прожорлива и сильно загрязняет воду.", category: "peaceful", minVolume: "50 л", comfortVolume: "100 л", difficulty: "Средне", growth: "Быстрый", temp: "18–23°C", water: "pH 6.5–8.0, GH 5–20", compat: "С холодноводными рыбами", food: "Гранулы, овощи", layer: "Средний и нижний", setupGround: "Крупный гладкий гравий (чтобы не глотали)", setupPlants: "Жесткие растения (анубиасы)", setupDecor: "Крупные камни", setupTech: "Мощный внешний фильтр, яркий свет" },
-      { name: "Скалярия", latin: "Pterophyllum scalare", icon: "🐠", desc: "Величественная цихлида. Нужен высокий аквариум с крупными растениями.", category: "peaceful", minVolume: "100 л", comfortVolume: "150 л", difficulty: "Средне", growth: "Средний", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "С гурами, крупными тетрами", food: "Гранулы, мотыль", layer: "Средний", setupGround: "Мелкий песок", setupPlants: "Эхинодорусы, криптокорины", setupDecor: "Вертикальные коряги", setupTech: "Высокий аквариум (от 50 см), умеренный фильтр" },
-      { name: "Анциструс", latin: "Ancistrus", icon: "🐟", desc: "Сом-присоска. Чистит стенки аквариума и коряги от водорослей.", category: "bottom", minVolume: "90 л", comfortVolume: "120 л", difficulty: "Новичкам", growth: "Средний", temp: "24–28°C", water: "pH 6.0–8.0, GH 5–15", compat: "С мирными рыбами", food: "Таблетки, овощи", layer: "Донный", setupGround: "Гравий", setupPlants: "Не ест растения", setupDecor: "Обязательно коряга!", setupTech: "Стандартный фильтр, свет средний" },
-      { name: "Барбус", latin: "Puntigrus tetrazona", icon: "🐠", desc: "Активная стайная рыбка. Может щипать плавники медленным рыбам.", category: "peaceful", minVolume: "80 л", comfortVolume: "100 л", difficulty: "Средне", growth: "Быстрый", temp: "22–26°C", water: "pH 6.0–7.5, GH 5–15", compat: "С крупными и быстрыми рыбами", food: "Хлопья, мотыль", layer: "Средний", setupGround: "Гравий", setupPlants: "Жесткие растения", setupDecor: "Коряги для укрытий", setupTech: "Фильтр с хорошим течением" },
-      { name: "Данио", latin: "Danio rerio", icon: "🐟", desc: "Активная полосатая рыбка. Любит течение и прохладную воду.", category: "peaceful", minVolume: "40 л", comfortVolume: "60 л", difficulty: "Новичкам", growth: "Быстрый", temp: "18–24°C", water: "pH 6.0–7.5, GH 6–12", compat: "С мирными рыбами", food: "Хлопья, микрочервь", layer: "Верхний и средний", setupGround: "Гравий", setupPlants: "Растения по бокам", setupDecor: "Камни", setupTech: "Создай течение фильтром" },
-      { name: "Тернеция", latin: "Gymnocorymbus ternetzi", icon: "🐠", desc: "Активная стайная рыбка. Есть светящиеся формы Гло.", category: "peaceful", minVolume: "60 л", comfortVolume: "80 л", difficulty: "Новичкам", growth: "Средний", temp: "22–26°C", water: "pH 5.7–7.0, GH до 6–16", compat: "С мирными рыбами", food: "Хлопья, мотыль", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Живые или искусственные растения", setupDecor: "Коряги", setupTech: "Свет средний, стандартный фильтр" },
-      { name: "Молинезия", latin: "Poecilia sphenops", icon: "🐟", desc: "Живородящая рыбка. Любит жесткую и теплую воду.", category: "peaceful", minVolume: "50 л", comfortVolume: "80 л", difficulty: "Новичкам", growth: "Средний", temp: "24–28°C", water: "pH 7.0–8.0, GH 10–20", compat: "С мирными рыбами", food: "Хлопья, овощи", layer: "Средний", setupGround: "Крупный песок", setupPlants: "Валлиснерия, роголистник", setupDecor: "Камни, коряги", setupTech: "Яркий свет, фильтр с умеренным течением" },
-      { name: "Астронотус", latin: "Astronotus ocellatus", icon: "🐠", desc: "Умная крупная цихлида. Узнает хозяина, но съест любую мелочь.", category: "predator", minVolume: "300 л", comfortVolume: "500 л", difficulty: "Профи", growth: "Быстрый", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "Только с крупными рыбами", food: "Гранулы, креветки, рыба", layer: "Средний", setupGround: "Крупный гравий", setupPlants: "Не ест, но выкапывает", setupDecor: "Крупные камни", setupTech: "Мощный фильтр!" },
-      { name: "Пиранья обыкновенная", latin: "Pygocentrus nattereri", icon: "🐟", desc: "Стайный хищник. Содержать можно только в видовом аквариуме.", category: "predator", minVolume: "300 л (для стаи)", comfortVolume: "500+ л", difficulty: "Профи", growth: "Средний", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "Только своих", food: "Мясо, рыба", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
-      { name: "Пиранья чёрная", latin: "Serrasalmus rhombeus", icon: "🐠", desc: "Крупный одиночный хищник, территориальный.", category: "predator", minVolume: "300 л", comfortVolume: "500 л", difficulty: "Профи", growth: "Средний", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "Только один", food: "Рыба", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
-      { name: "Дискус", latin: "Symphysodon", icon: "🐟", desc: "Королевская цихлида. Стайная, требовательна к воде.", category: "peaceful", minVolume: "300 л на группу", comfortVolume: "400+ л", difficulty: "Профи", growth: "Средний", temp: "26–30°C", water: "pH 6.0–7.0, GH 2–8", compat: "Со скаляриями", food: "Спецкорм, мотыль", layer: "Средний", setupGround: "Песок", setupPlants: "Крупные растения", setupDecor: "Коряги", setupTech: "Очень мощный фильтр, стабильная температура" },
-      { name: "Боция Клоун", latin: "Chromobotia macracanthus", icon: "🐟", desc: "Активная полосатая рыбка. Живет стаей.", category: "bottom", minVolume: "300 л", comfortVolume: "400 л", difficulty: "Средне", growth: "Средний", temp: "24–26°C", water: "мягкая, без азотистых", compat: "С мирными рыбами", food: "Таблетки, мотыль", layer: "Донный", setupGround: "Мелкий песок", setupPlants: "Не ест", setupDecor: "Много укрытий", setupTech: "Хорошее течение" },
-      { name: "Акулий Балу", latin: "Balantiocheilos melanopterus", icon: "🐠", desc: "Крупная стайная рыба с акульим плавником.", category: "peaceful", minVolume: "300 л", comfortVolume: "500 л", difficulty: "Средне", growth: "Быстрый", temp: "22–26°C", water: "pH 6.5–7.5, GH 5–15", compat: "С крупными рыбами", food: "Гранулы", layer: "Средний", setupGround: "Крупный гравий", setupPlants: "Не ест", setupDecor: "Коряги", setupTech: "Мощный фильтр, крышка обязательна!" },
-      { name: "Апистограмма", latin: "Apistogramma cacatuoides", icon: "🐟", desc: "Карликовая цихлида. Самец ярче и крупнее самки.", category: "peaceful", minVolume: "54 л", comfortVolume: "80 л", difficulty: "Средне", growth: "Средний", temp: "24–28°C", water: "pH 6.0–7.0, GH 2–10", compat: "С мирными рыбами", food: "Гранулы, мотыль", layer: "Средний", setupGround: "Песок", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Лялиус", latin: "Colisa lalia", icon: "🐠", desc: "Красивый лабиринтовый гурами. Самец строит гнездо.", category: "peaceful", minVolume: "40 л", comfortVolume: "60 л", difficulty: "Новичкам", growth: "Средний", temp: "24–28°C", water: "pH 6.5–7.5, GH 5–15", compat: "С мирными рыбами", food: "Хлопья, трубочник", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Меченосец", latin: "Xiphophorus hellerii", icon: "🐟", desc: "Живородящая рыбка. У самцов длинный 'меч' на хвосте.", category: "peaceful", minVolume: "50 л", comfortVolume: "80 л", difficulty: "Новичкам", growth: "Средний", temp: "22–26°C", water: "pH 7.0–8.0, GH 10–20", compat: "С мирными рыбами", food: "Хлопья, овощи", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения для укрытия", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
-      { name: "Расбора", latin: "Trigonostigma heteromorpha", icon: "🐠", desc: "Стайная рыбка с яркой окраской. Любит мягкую, кислую воду.", category: "peaceful", minVolume: "20 л", comfortVolume: "40 л", difficulty: "Новичкам", growth: "Средний", temp: "24–26°C", water: "pH 5.0–7.5, GH 2–10", compat: "С мирными рыбами", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Макрогнатус", latin: "Macrognathus", icon: "🐟", desc: "Аквариумный угорь. Ночной, любит зарываться в грунт.", category: "bottom", minVolume: "100 л", comfortVolume: "150 л", difficulty: "Средне", growth: "Средний", temp: "22–26°C", water: "pH 6.5–7.0, GH 5–10", compat: "С мирными рыбами", food: "Живой корм, таблетки", layer: "Донный", setupGround: "Мелкий песок (обязательно)", setupPlants: "Заросли для укрытий", setupDecor: "Коряги, крышка обязательна", setupTech: "Стандартный фильтр, аэрация" },
-      { name: "Гурами жемчужный", latin: "Trichopodus leerii", icon: "🐟", desc: "Спокойный, крупный.", category: "peaceful", minVolume: "80 л", comfortVolume: "120 л", difficulty: "Средне", growth: "Средний", temp: "23–28°C", water: "pH 6.0–8.0, GH 5–15", compat: "Со скаляриями", food: "Хлопья, мотыль", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Пангасиус", latin: "Pangasius hypophthalmus", icon: "🐟", desc: "Крупный сом, быстро растет. Не для обычных аквариумов.", category: "bottom", minVolume: "2000–3000 л", comfortVolume: "5000+ л", difficulty: "Профи", growth: "Очень быстрый (до 60 см за год)", temp: "24–28°C", water: "pH 6.5–7.5, GH 5–15", compat: "Только с крупными", food: "Гранулы", layer: "Средний", setupGround: "Нет", setupPlants: "Нет", setupDecor: "Нет", setupTech: "Спецбассейн, длина от 2 м" },
-      { name: "Аксолотль", latin: "Ambystoma mexicanum", icon: "🐠", desc: "Амфибия, критична низкая температура.", category: "peaceful", minVolume: "40–50 л", comfortVolume: "100 л", difficulty: "Профи", growth: "Средний", temp: "16–20°C (макс 22°C)", water: "pH 6.5–7.5, GH 5–15", compat: "Один", food: "Черви", layer: "Донный", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Гроты", setupTech: "Охладитель воды!" },
-      { name: "Клариас", latin: "Clarias batrachus", icon: "🐟", desc: "Крупный сом, выпрыгивает из воды.", category: "predator", minVolume: "1000 л", comfortVolume: "2000 л", difficulty: "Профи", growth: "Быстрый", temp: "24–28°C", water: "pH 6.5–7.5, GH 5–15", compat: "Только крупные", food: "Мясо", layer: "Донный", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Нет", setupTech: "Мощный фильтр, крышка!" },
-      { name: "Арована серебряная", latin: "Osteoglossum bicirrhosum", icon: "🐠", desc: "Крупный хищник, длина от 2.5 м.", category: "predator", minVolume: "1500 л", comfortVolume: "3000+ л", difficulty: "Профи", growth: "Быстрый", temp: "26–30°C", water: "pH 6.0–7.5, GH 5–15", compat: "Только крупные", food: "Рыба", layer: "Верхний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр, крышка" },
-      { name: "Арована азиатская", latin: "Scleropages formosus", icon: "🐟", desc: "Крупный хищник, под защитой CITES.", category: "predator", minVolume: "1500 л", comfortVolume: "3000+ л", difficulty: "Профи", growth: "Быстрый", temp: "26–30°C", water: "pH 6.0–7.5, GH 5–15", compat: "Только крупные", food: "Рыба", layer: "Верхний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр, крышка, CITES" },
-      { name: "Арапайма", latin: "Arapaima gigas", icon: "🐟", desc: "Гигант, до 3 м. Только для бассейнов.", category: "predator", minVolume: "5000 л (только для малька)", comfortVolume: "10 000+ л", difficulty: "Профи", growth: "Очень быстрый", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "Только видовой", food: "Рыба", layer: "Верхний", setupGround: "Нет", setupPlants: "Нет", setupDecor: "Нет", setupTech: "Публичный аквариум/бассейн" },
-      { name: "Паку", latin: "Piaractus brachypomus", icon: "🐠", desc: "Крупный травоядный, до 60 см.", category: "peaceful", minVolume: "500 л", comfortVolume: "1000+ л", difficulty: "Профи", growth: "Быстрый", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "С крупными", food: "Овощи", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
-      { name: "Тамбаки", latin: "Colossoma macropomum", icon: "🐟", desc: "Крупный травоядный, до 1 м.", category: "peaceful", minVolume: "1000 л", comfortVolume: "2000+ л", difficulty: "Профи", growth: "Быстрый", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "С крупными", food: "Овощи", layer: "Средний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
-      { name: "Сом электрический", latin: "Malapterurus electricus", icon: "🐠", desc: "Опасен, разряд до 350 В.", category: "predator", minVolume: "1500 л", comfortVolume: "2000+ л", difficulty: "Профи", growth: "Средний", temp: "24–28°C", water: "pH 6.5–7.5, GH 5–15", compat: "Только один", food: "Рыба", layer: "Донный", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Спецоборудование, безопасность!" },
-      { name: "Панцирная щука", latin: "Lepisosteus", icon: "🐟", desc: "Древний хищник, только для профи.", category: "predator", minVolume: "1000 л", comfortVolume: "2000+ л", difficulty: "Профи", growth: "Средний", temp: "20–26°C", water: "pH 6.5–8.0, GH 5–20", compat: "Только крупные", food: "Рыба", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
-      { name: "Индийский нож", latin: "Chitala chitala", icon: "🐠", desc: "Крупный ночной хищник, до 1 м.", category: "predator", minVolume: "1000 л", comfortVolume: "2000+ л", difficulty: "Профи", growth: "Быстрый", temp: "24–28°C", water: "pH 6.5–7.5, GH 5–15", compat: "Только крупные", food: "Мясо", layer: "Средний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Осётр", latin: "Acipenser", icon: "🐟", desc: "Род осетровых, требования зависят от вида.", category: "peaceful", minVolume: "2000 л", comfortVolume: "5000+ л", difficulty: "Профи", growth: "Средний", temp: "18–22°C", water: "pH 7.0–8.0, GH 5–15", compat: "С крупными", food: "Донный корм", layer: "Донный", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Нет", setupTech: "Пруд/протока, кислород" },
-      { name: "Стерлядь", latin: "Acipenser ruthenus", icon: "🐠", desc: "Мелкий осётр, для пруда.", category: "peaceful", minVolume: "1000 л", comfortVolume: "2000+ л", difficulty: "Профи", growth: "Средний", temp: "15–20°C", water: "pH 7.0–8.0, GH 5–15", compat: "С крупными", food: "Донный корм", layer: "Донный", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Нет", setupTech: "Пруд/протока" },
-      { name: "Бестер", latin: "Huso huso x Acipenser ruthenus", icon: "🐟", desc: "Гибрид, требования зависят от размера.", category: "peaceful", minVolume: "2000 л", comfortVolume: "5000+ л", difficulty: "Профи", growth: "Средний", temp: "15–24°C", water: "pH 7.0–8.0, GH 5–15", compat: "С крупными", food: "Донный корм", layer: "Донный", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Нет", setupTech: "Пруд/протока" },
-      { name: "Серебряный карась", latin: "Carassius gibelio", icon: "🐠", desc: "Прудовая рыба, объём зависит от размера.", category: "peaceful", minVolume: "зависит от размера", comfortVolume: "пруд", difficulty: "Средне", growth: "Средний", temp: "15–24°C", water: "pH 6.5–8.0, GH 5–20", compat: "С холодноводными", food: "Всё ест", layer: "Донный", setupGround: "Гравий", setupPlants: "Не важно", setupDecor: "Камни", setupTech: "Пруд" },
-      { name: "Золотой карась", latin: "Carassius carassius", icon: "🐟", desc: "Прудовая рыба, объём зависит от размера.", category: "peaceful", minVolume: "зависит от размера", comfortVolume: "пруд", difficulty: "Средне", growth: "Средний", temp: "15–24°C", water: "pH 6.5–8.0, GH 5–20", compat: "С холодноводными", food: "Всё ест", layer: "Донный", setupGround: "Гравий", setupPlants: "Не важно", setupDecor: "Камни", setupTech: "Пруд" },
-      { name: "Тритон", latin: "Triturus", icon: "🐠", desc: "Амфибия, требования зависят от вида.", category: "peaceful", minVolume: "зависит от вида", comfortVolume: "60+ л", difficulty: "Профи", growth: "Средний", temp: "18–22°C", water: "pH 6.5–7.5, GH 5–15", compat: "Только один", food: "Черви", layer: "Донный", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Суша/вода, зависит от вида" }
+      { name: "Гуппи", latin: "Poecilia reticulata", desc: "Живородящая рыбка, идеальна для новичков. Самцы меньше и ярче, самки крупнее.", category: "peaceful", minVolume: "30 л", comfortVolume: "50 л", difficulty: "Новичкам", growth: "Быстрый", temp: "22–26°C", water: "pH 6.5–7.5, GH 5–15", compat: "С любыми мирными рыбами", food: "Хлопья, микрочервь", layer: "Средний и верхний", setupGround: "Мелкий темный гравий", setupPlants: "Валлиснерия, роголистник", setupDecor: "Коряги, гроты", setupTech: "Свет 8 ч, слабый внутренний фильтр" },
+      { name: "Неон", latin: "Paracheirodon innesi", desc: "Стайная рыбка с яркой неоновой полосой. Любит мягкую, кислую воду и приглушенный свет.", category: "peaceful", minVolume: "40 л", comfortVolume: "60 л", difficulty: "Новичкам", growth: "Средний", temp: "24–28°C", water: "pH 6.0–7.0, GH 1–5", compat: "С мирными тетрами, сомиками", food: "Мелкие хлопья, циклоп", layer: "Средний", setupGround: "Темный песок или гравий", setupPlants: "Криптокорины, папоротники, мох", setupDecor: "Коряги, создающие тень", setupTech: "Приглушенный свет, фильтр без бурного течения" },
+      { name: "Коридорас", latin: "Corydoras panda", desc: "Донный сомик, держится стайкой. Чистит дно и любит копаться в грунте.", category: "bottom", minVolume: "40 л", comfortVolume: "60 л", difficulty: "Новичкам", growth: "Средний", temp: "22–26°C", water: "pH 6.0–7.0, GH 2–12", compat: "С мирными рыбами", food: "Таблетки для дна, мотыль", layer: "Донный", setupGround: "Мягкий песок без острых камней", setupPlants: "Не принципиально, важны укрытия", setupDecor: "Коряги, керамические трубки", setupTech: "Стандартный фильтр, приглушенный свет" },
+      { name: "Петушок", latin: "Betta splendens", desc: "Одиночная рыбка с роскошными плавниками. Дышит атмосферным воздухом. Не любит сильное течение.", category: "peaceful", minVolume: "20 л", comfortVolume: "30 л", difficulty: "Новичкам", growth: "Медленный", temp: "26–30°C", water: "pH 6.0–7.5, GH 2–12", compat: "Только один самец", food: "Гранулы, мотыль", layer: "Средний и верхний", setupGround: "Темный нейтральный грунт", setupPlants: "Анубиасы, мох, плавающие растения", setupDecor: "Гроты, горшки, без острых краев", setupTech: "Слабый фильтр (без течения), обогреватель, крышка" },
+      { name: "Золотая рыбка", latin: "Carassius auratus", desc: "Крупная холодноводная рыба. Очень прожорлива и сильно загрязняет воду.", category: "peaceful", minVolume: "50 л", comfortVolume: "100 л", difficulty: "Средне", growth: "Быстрый", temp: "18–23°C", water: "pH 6.5–8.0, GH 5–20", compat: "С холодноводными рыбами", food: "Гранулы, овощи", layer: "Средний и нижний", setupGround: "Крупный гладкий гравий (чтобы не глотали)", setupPlants: "Жесткие растения (анубиасы)", setupDecor: "Крупные камни", setupTech: "Мощный внешний фильтр, яркий свет" },
+      { name: "Скалярия", latin: "Pterophyllum scalare", desc: "Величественная цихлида. Нужен высокий аквариум с крупными растениями.", category: "peaceful", minVolume: "100 л", comfortVolume: "150 л", difficulty: "Средне", growth: "Средний", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "С гурами, крупными тетрами", food: "Гранулы, мотыль", layer: "Средний", setupGround: "Мелкий песок", setupPlants: "Эхинодорусы, криптокорины", setupDecor: "Вертикальные коряги", setupTech: "Высокий аквариум (от 50 см), умеренный фильтр" },
+      { name: "Анциструс", latin: "Ancistrus", desc: "Сом-присоска. Чистит стенки аквариума и коряги от водорослей.", category: "bottom", minVolume: "90 л", comfortVolume: "120 л", difficulty: "Новичкам", growth: "Средний", temp: "24–28°C", water: "pH 6.0–8.0, GH 5–15", compat: "С мирными рыбами", food: "Таблетки, овощи", layer: "Донный", setupGround: "Гравий", setupPlants: "Не ест растения", setupDecor: "Обязательно коряга!", setupTech: "Стандартный фильтр, свет средний" },
+      { name: "Барбус", latin: "Puntigrus tetrazona", desc: "Активная стайная рыбка. Может щипать плавники медленным рыбам.", category: "peaceful", minVolume: "80 л", comfortVolume: "100 л", difficulty: "Средне", growth: "Быстрый", temp: "22–26°C", water: "pH 6.0–7.5, GH 5–15", compat: "С крупными и быстрыми рыбами", food: "Хлопья, мотыль", layer: "Средний", setupGround: "Гравий", setupPlants: "Жесткие растения", setupDecor: "Коряги для укрытий", setupTech: "Фильтр с хорошим течением" },
+      { name: "Данио", latin: "Danio rerio", desc: "Активная полосатая рыбка. Любит течение и прохладную воду.", category: "peaceful", minVolume: "40 л", comfortVolume: "60 л", difficulty: "Новичкам", growth: "Быстрый", temp: "18–24°C", water: "pH 6.0–7.5, GH 6–12", compat: "С мирными рыбами", food: "Хлопья, микрочервь", layer: "Верхний и средний", setupGround: "Гравий", setupPlants: "Растения по бокам", setupDecor: "Камни", setupTech: "Создай течение фильтром" },
+      { name: "Тернеция", latin: "Gymnocorymbus ternetzi", desc: "Активная стайная рыбка. Есть светящиеся формы Гло.", category: "peaceful", minVolume: "60 л", comfortVolume: "80 л", difficulty: "Новичкам", growth: "Средний", temp: "22–26°C", water: "pH 5.7–7.0, GH до 6–16", compat: "С мирными рыбами", food: "Хлопья, мотыль", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Живые или искусственные растения", setupDecor: "Коряги", setupTech: "Свет средний, стандартный фильтр" },
+      { name: "Молинезия", latin: "Poecilia sphenops", desc: "Живородящая рыбка. Любит жесткую и теплую воду.", category: "peaceful", minVolume: "50 л", comfortVolume: "80 л", difficulty: "Новичкам", growth: "Средний", temp: "24–28°C", water: "pH 7.0–8.0, GH 10–20", compat: "С мирными рыбами", food: "Хлопья, овощи", layer: "Средний", setupGround: "Крупный песок", setupPlants: "Валлиснерия, роголистник", setupDecor: "Камни, коряги", setupTech: "Яркий свет, фильтр с умеренным течением" },
+      { name: "Астронотус", latin: "Astronotus ocellatus", desc: "Умная крупная цихлида. Узнает хозяина, но съест любую мелочь.", category: "predator", minVolume: "300 л", comfortVolume: "500 л", difficulty: "Профи", growth: "Быстрый", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "Только с крупными рыбами", food: "Гранулы, креветки, рыба", layer: "Средний", setupGround: "Крупный гравий", setupPlants: "Не ест, но выкапывает", setupDecor: "Крупные камни", setupTech: "Мощный фильтр!" },
+      { name: "Пиранья обыкновенная", latin: "Pygocentrus nattereri", desc: "Стайный хищник. Содержать можно только в видовом аквариуме.", category: "predator", minVolume: "300 л (для стаи)", comfortVolume: "500+ л", difficulty: "Профи", growth: "Средний", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "Только своих", food: "Мясо, рыба", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
+      { name: "Пиранья чёрная", latin: "Serrasalmus rhombeus", desc: "Крупный одиночный хищник, территориальный.", category: "predator", minVolume: "300 л", comfortVolume: "500 л", difficulty: "Профи", growth: "Средний", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "Только один", food: "Рыба", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
+      { name: "Дискус", latin: "Symphysodon", desc: "Королевская цихлида. Стайная, требовательна к воде.", category: "peaceful", minVolume: "300 л на группу", comfortVolume: "400+ л", difficulty: "Профи", growth: "Средний", temp: "26–30°C", water: "pH 6.0–7.0, GH 2–8", compat: "Со скаляриями", food: "Спецкорм, мотыль", layer: "Средний", setupGround: "Песок", setupPlants: "Крупные растения", setupDecor: "Коряги", setupTech: "Очень мощный фильтр, стабильная температура" },
+      { name: "Боция Клоун", latin: "Chromobotia macracanthus", desc: "Активная полосатая рыбка. Живет стаей.", category: "bottom", minVolume: "300 л", comfortVolume: "400 л", difficulty: "Средне", growth: "Средний", temp: "24–26°C", water: "мягкая, без азотистых", compat: "С мирными рыбами", food: "Таблетки, мотыль", layer: "Донный", setupGround: "Мелкий песок", setupPlants: "Не ест", setupDecor: "Много укрытий", setupTech: "Хорошее течение" },
+      { name: "Акулий Балу", latin: "Balantiocheilos melanopterus", desc: "Крупная стайная рыба с акульим плавником.", category: "peaceful", minVolume: "300 л", comfortVolume: "500 л", difficulty: "Средне", growth: "Быстрый", temp: "22–26°C", water: "pH 6.5–7.5, GH 5–15", compat: "С крупными рыбами", food: "Гранулы", layer: "Средний", setupGround: "Крупный гравий", setupPlants: "Не ест", setupDecor: "Коряги", setupTech: "Мощный фильтр, крышка обязательна!" },
+      { name: "Апистограмма", latin: "Apistogramma cacatuoides", desc: "Карликовая цихлида. Самец ярче и крупнее самки.", category: "peaceful", minVolume: "54 л", comfortVolume: "80 л", difficulty: "Средне", growth: "Средний", temp: "24–28°C", water: "pH 6.0–7.0, GH 2–10", compat: "С мирными рыбами", food: "Гранулы, мотыль", layer: "Средний", setupGround: "Песок", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Лялиус", latin: "Colisa lalia", desc: "Красивый лабиринтовый гурами. Самец строит гнездо.", category: "peaceful", minVolume: "40 л", comfortVolume: "60 л", difficulty: "Новичкам", growth: "Средний", temp: "24–28°C", water: "pH 6.5–7.5, GH 5–15", compat: "С мирными рыбами", food: "Хлопья, трубочник", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Меченосец", latin: "Xiphophorus hellerii", desc: "Живородящая рыбка. У самцов длинный 'меч' на хвосте.", category: "peaceful", minVolume: "50 л", comfortVolume: "80 л", difficulty: "Новичкам", growth: "Средний", temp: "22–26°C", water: "pH 7.0–8.0, GH 10–20", compat: "С мирными рыбами", food: "Хлопья, овощи", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения для укрытия", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
+      { name: "Расбора", latin: "Trigonostigma heteromorpha", desc: "Стайная рыбка с яркой окраской. Любит мягкую, кислую воду.", category: "peaceful", minVolume: "20 л", comfortVolume: "40 л", difficulty: "Новичкам", growth: "Средний", temp: "24–26°C", water: "pH 5.0–7.5, GH 2–10", compat: "С мирными рыбами", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Макрогнатус", latin: "Macrognathus", desc: "Аквариумный угорь. Ночной, любит зарываться в грунт.", category: "bottom", minVolume: "100 л", comfortVolume: "150 л", difficulty: "Средне", growth: "Средний", temp: "22–26°C", water: "pH 6.5–7.0, GH 5–10", compat: "С мирными рыбами", food: "Живой корм, таблетки", layer: "Донный", setupGround: "Мелкий песок (обязательно)", setupPlants: "Заросли для укрытий", setupDecor: "Коряги, крышка обязательна", setupTech: "Стандартный фильтр, аэрация" },
+      { name: "Гурами жемчужный", latin: "Trichopodus leerii", desc: "Спокойный, крупный.", category: "peaceful", minVolume: "80 л", comfortVolume: "120 л", difficulty: "Средне", growth: "Средний", temp: "23–28°C", water: "pH 6.0–8.0, GH 5–15", compat: "Со скаляриями", food: "Хлопья, мотыль", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Пангасиус", latin: "Pangasius hypophthalmus", desc: "Крупный сом, быстро растет. Не для обычных аквариумов.", category: "bottom", minVolume: "2000–3000 л", comfortVolume: "5000+ л", difficulty: "Профи", growth: "Очень быстрый (до 60 см за год)", temp: "24–28°C", water: "pH 6.5–7.5, GH 5–15", compat: "Только с крупными", food: "Гранулы", layer: "Средний", setupGround: "Нет", setupPlants: "Нет", setupDecor: "Нет", setupTech: "Спецбассейн, длина от 2 м" },
+      { name: "Аксолотль", latin: "Ambystoma mexicanum", desc: "Амфибия, критична низкая температура.", category: "peaceful", minVolume: "40–50 л", comfortVolume: "100 л", difficulty: "Профи", growth: "Средний", temp: "16–20°C (макс 22°C)", water: "pH 6.5–7.5, GH 5–15", compat: "Один", food: "Черви", layer: "Донный", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Гроты", setupTech: "Охладитель воды!" },
+      { name: "Клариас", latin: "Clarias batrachus", desc: "Крупный сом, выпрыгивает из воды.", category: "predator", minVolume: "1000 л", comfortVolume: "2000 л", difficulty: "Профи", growth: "Быстрый", temp: "24–28°C", water: "pH 6.5–7.5, GH 5–15", compat: "Только крупные", food: "Мясо", layer: "Донный", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Нет", setupTech: "Мощный фильтр, крышка!" },
+      { name: "Арована серебряная", latin: "Osteoglossum bicirrhosum", desc: "Крупный хищник, длина от 2.5 м.", category: "predator", minVolume: "1500 л", comfortVolume: "3000+ л", difficulty: "Профи", growth: "Быстрый", temp: "26–30°C", water: "pH 6.0–7.5, GH 5–15", compat: "Только крупные", food: "Рыба", layer: "Верхний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр, крышка" },
+      { name: "Арована азиатская", latin: "Scleropages formosus", desc: "Крупный хищник, под защитой CITES.", category: "predator", minVolume: "1500 л", comfortVolume: "3000+ л", difficulty: "Профи", growth: "Быстрый", temp: "26–30°C", water: "pH 6.0–7.5, GH 5–15", compat: "Только крупные", food: "Рыба", layer: "Верхний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр, крышка, CITES" },
+      { name: "Арапайма", latin: "Arapaima gigas", desc: "Гигант, до 3 м. Только для бассейнов.", category: "predator", minVolume: "5000 л (только для малька)", comfortVolume: "10 000+ л", difficulty: "Профи", growth: "Очень быстрый", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "Только видовой", food: "Рыба", layer: "Верхний", setupGround: "Нет", setupPlants: "Нет", setupDecor: "Нет", setupTech: "Публичный аквариум/бассейн" },
+      { name: "Паку", latin: "Piaractus brachypomus", desc: "Крупный травоядный, до 60 см.", category: "peaceful", minVolume: "500 л", comfortVolume: "1000+ л", difficulty: "Профи", growth: "Быстрый", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "С крупными", food: "Овощи", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
+      { name: "Тамбаки", latin: "Colossoma macropomum", desc: "Крупный травоядный, до 1 м.", category: "peaceful", minVolume: "1000 л", comfortVolume: "2000+ л", difficulty: "Профи", growth: "Быстрый", temp: "24–28°C", water: "pH 6.0–7.5, GH 5–15", compat: "С крупными", food: "Овощи", layer: "Средний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
+      { name: "Сом электрический", latin: "Malapterurus electricus", desc: "Опасен, разряд до 350 В.", category: "predator", minVolume: "1500 л", comfortVolume: "2000+ л", difficulty: "Профи", growth: "Средний", temp: "24–28°C", water: "pH 6.5–7.5, GH 5–15", compat: "Только один", food: "Рыба", layer: "Донный", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Спецоборудование, безопасность!" },
+      { name: "Панцирная щука", latin: "Lepisosteus", desc: "Древний хищник, только для профи.", category: "predator", minVolume: "1000 л", comfortVolume: "2000+ л", difficulty: "Профи", growth: "Средний", temp: "20–26°C", water: "pH 6.5–8.0, GH 5–20", compat: "Только крупные", food: "Рыба", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
+      { name: "Индийский нож", latin: "Chitala chitala", desc: "Крупный ночной хищник, до 1 м.", category: "predator", minVolume: "1000 л", comfortVolume: "2000+ л", difficulty: "Профи", growth: "Быстрый", temp: "24–28°C", water: "pH 6.5–7.5, GH 5–15", compat: "Только крупные", food: "Мясо", layer: "Средний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Осётр", latin: "Acipenser", desc: "Род осетровых, требования зависят от вида.", category: "peaceful", minVolume: "2000 л", comfortVolume: "5000+ л", difficulty: "Профи", growth: "Средний", temp: "18–22°C", water: "pH 7.0–8.0, GH 5–15", compat: "С крупными", food: "Донный корм", layer: "Донный", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Нет", setupTech: "Пруд/протока, кислород" },
+      { name: "Стерлядь", latin: "Acipenser ruthenus", desc: "Мелкий осётр, для пруда.", category: "peaceful", minVolume: "1000 л", comfortVolume: "2000+ л", difficulty: "Профи", growth: "Средний", temp: "15–20°C", water: "pH 7.0–8.0, GH 5–15", compat: "С крупными", food: "Донный корм", layer: "Донный", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Нет", setupTech: "Пруд/протока" },
+      { name: "Бестер", latin: "Huso huso x Acipenser ruthenus", desc: "Гибрид, требования зависят от размера.", category: "peaceful", minVolume: "2000 л", comfortVolume: "5000+ л", difficulty: "Профи", growth: "Средний", temp: "15–24°C", water: "pH 7.0–8.0, GH 5–15", compat: "С крупными", food: "Донный корм", layer: "Донный", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Нет", setupTech: "Пруд/протока" },
+      { name: "Серебряный карась", latin: "Carassius gibelio", desc: "Прудовая рыба, объём зависит от размера.", category: "peaceful", minVolume: "зависит от размера", comfortVolume: "пруд", difficulty: "Средне", growth: "Средний", temp: "15–24°C", water: "pH 6.5–8.0, GH 5–20", compat: "С холодноводными", food: "Всё ест", layer: "Донный", setupGround: "Гравий", setupPlants: "Не важно", setupDecor: "Камни", setupTech: "Пруд" },
+      { name: "Золотой карась", latin: "Carassius carassius", desc: "Прудовая рыба, объём зависит от размера.", category: "peaceful", minVolume: "зависит от размера", comfortVolume: "пруд", difficulty: "Средне", growth: "Средний", temp: "15–24°C", water: "pH 6.5–8.0, GH 5–20", compat: "С холодноводными", food: "Всё ест", layer: "Донный", setupGround: "Гравий", setupPlants: "Не важно", setupDecor: "Камни", setupTech: "Пруд" },
+      { name: "Тритон", latin: "Triturus", desc: "Амфибия, требования зависят от вида.", category: "peaceful", minVolume: "зависит от вида", comfortVolume: "60+ л", difficulty: "Профи", growth: "Средний", temp: "18–22°C", water: "pH 6.5–7.5, GH 5–15", compat: "Только один", food: "Черви", layer: "Донный", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Суша/вода, зависит от вида" }
     ];
 
     const plantData = [
@@ -392,16 +406,18 @@
         return matchSearch && matchFilter;
       });
 
-      fishGrid.innerHTML = filtered.map((fish) => `
+      fishGrid.innerHTML = filtered.map((fish) => {
+        const svg = fishSVGs[fishData.indexOf(fish) % fishSVGs.length];
+        return `
         <article class="card" onclick="openModal(${fishData.indexOf(fish)})">
-          <div class="card-img">${fish.icon}</div>
+          <div class="card-img">${svg}</div>
           <div class="card-body">
             <div class="card-title">${fish.name}</div>
             <div class="card-desc">${fish.latin}</div>
             <button class="btn-view">Подробнее</button>
           </div>
         </article>
-      `).join("");
+      `}).join("");
     }
 
     function renderPlants() {
@@ -420,7 +436,10 @@
     function openModal(index) {
       const f = fishData[index];
       if (!f) return;
-      document.getElementById("modalPhoto").textContent = f.icon;
+      
+      const svg = fishSVGs[index % fishSVGs.length];
+      
+      document.getElementById("modalPhoto").innerHTML = svg;
       document.getElementById("modalName").textContent = f.name;
       document.getElementById("modalLatin").textContent = f.latin;
       
