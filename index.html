@@ -43,6 +43,8 @@
     .info-block { background: white; border: 1px solid var(--line); border-radius: var(--radius); padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,.02); }
     .info-block h3 { margin-top: 0; color: var(--ocean); border-bottom: 2px solid var(--aqua); padding-bottom: 10px; display: inline-block; font-size: 1.4rem; }
     .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 4px; margin: 15px 0; }
+    
+    .sub-title { color: var(--ocean); margin-top: 30px; margin-bottom: 15px; font-size: 1.6rem; border-left: 4px solid var(--ocean); padding-left: 10px; }
 
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); opacity: 0; pointer-events: none; transition: 0.3s; display: flex; align-items: flex-end; justify-content: center; z-index: 100; }
     .modal-overlay.open { opacity: 1; pointer-events: auto; }
@@ -113,21 +115,21 @@
     </div>
   </div>
 
-    <div id="page-disease" class="page container">
+  <div id="page-disease" class="page container">
     <h2 class="section-title">Болезни и лечение</h2>
     <p class="section-desc">Подробный разбор частых проблем, методы лечения и конкретные препараты.</p>
     
-    <h3 style="color: #087f8c; margin-top: 30px;">🐟 Болезни рыб</h3>
+    <h3 class="sub-title">🐟 Болезни рыб</h3>
     <div class="grid" style="margin-bottom: 40px;">
       
       <div class="card" style="cursor: default; border-color: #e63946;">
         <div class="card-img">🦠</div>
         <div class="card-body">
           <div class="card-title">Ихтиофтириоз («Манка»)</div>
-          <p><strong>Кто болеет чаще:</strong> Неоны, тетры, петушки, гурами (у них слабый иммунитет).</p>
-          <p><strong>Симптомы:</strong> Белые точки, похожие на манную крупу. Рыба чешется о камни, сжимает плавники.</p>
-          <p><strong>Лечение:</strong> Поднять температуру до 28–30°C. Внести <strong>Малахитовый зелёный</strong> (5 мл на 10 л) или комплексный <strong>Sera Omnipur</strong>.</p>
-          <p class="warning"><strong>Важно:</strong> Убрать уголь из фильтра, выключить УФ-лампу, усилить аэрацию!</p>
+          <p><strong>Кто болеет:</strong> Неоны, тетры, петушки, гурами.</p>
+          <p><strong>Симптомы:</strong> Белые точки, похожие на манную крупу. Рыба чешется о камни.</p>
+          <p><strong>Лечение:</strong> Температура 28–30°C + <strong>Малахитовый зелёный</strong> (5 мл на 10 л) или <strong>Sera Omnipur</strong>.</p>
+          <p class="warning">Убрать уголь, выключить УФ!</p>
         </div>
       </div>
 
@@ -135,9 +137,9 @@
         <div class="card-img">🍂</div>
         <div class="card-body">
           <div class="card-title">Плавниковая гниль</div>
-          <p><strong>Кто болеет чаще:</strong> Петушки, гурами, макроподы (у них длинные плавники, их легко повредить).</p>
-          <p><strong>Симптомы:</strong> Плавники рвутся, белеют по краям и гниют. Рыба становится вялой.</p>
-          <p><strong>Лечение:</strong> Подмены воды, чистка фильтра. Препараты: <strong>Sera Baktopur</strong> или <strong>Tetra General Tonic</strong>.</p>
+          <p><strong>Кто болеет:</strong> Петушки, гурами, макроподы.</p>
+          <p><strong>Симптомы:</strong> Плавники рвутся, белеют по краям и гниют.</p>
+          <p><strong>Лечение:</strong> Подмены воды, чистка фильтра. <strong>Sera Baktopur</strong> или <strong>Tetra General Tonic</strong>.</p>
         </div>
       </div>
 
@@ -145,9 +147,9 @@
         <div class="card-img">🌫️</div>
         <div class="card-body">
           <div class="card-title">Оодиниоз («Бархатная болезнь»)</div>
-          <p><strong>Кто болеет чаще:</strong> Гуппи, меченосцы, данио.</p>
-          <p><strong>Симптомы:</strong> Мелкая золотистая пыль на теле, рыба тяжело дышит.</p>
-          <p><strong>Лечение:</strong> Препараты с малахитовым зелёным и формалином. Например, <strong>Sera Omnipur</strong> или <strong>JBL Punktol</strong>.</p>
+          <p><strong>Кто болеет:</strong> Гуппи, меченосцы, данио.</p>
+          <p><strong>Симптомы:</strong> Мелкая золотистая пыль на теле, тяжелое дыхание.</p>
+          <p><strong>Лечение:</strong> Препараты с малахитовым зелёным и формалином. <strong>Sera Omnipur</strong>.</p>
         </div>
       </div>
 
@@ -155,9 +157,9 @@
         <div class="card-img">☠️</div>
         <div class="card-body">
           <div class="card-title">Аммиачное отравление</div>
-          <p><strong>Кто болеет чаще:</strong> Любые рыбы в новом или перекормленном аквариуме.</p>
-          <p><strong>Симптомы:</strong> Жабры красные, рыба висит у поверхности и хватает воздух.</p>
-          <p><strong>Лечение:</strong> Срочная подмена 50% воды, внести кондиционер (Seachem Prime или Tetra AquaSafe). Не кормить 2 дня.</p>
+          <p><strong>Кто болеет:</strong> Любые рыбы в новом или перекормленном аквариуме.</p>
+          <p><strong>Симптомы:</strong> Жабры красные, рыба висит у поверхности.</p>
+          <p><strong>Лечение:</strong> Срочная подмена 50% воды, кондиционер (Seachem Prime). Не кормить 2 дня.</p>
         </div>
       </div>
 
@@ -165,23 +167,73 @@
         <div class="card-img">🫧</div>
         <div class="card-body">
           <div class="card-title">Грибок (Сапролегния)</div>
-          <p><strong>Кто болеет чаще:</strong> Рыбы с травмами (после драк или ударов о декор).</p>
+          <p><strong>Кто болеет:</strong> Рыбы с травмами.</p>
           <p><strong>Симптомы:</strong> Белые ватные комки на теле или плавниках.</p>
-          <p><strong>Лечение:</strong> <strong>Sera mycopur</strong> или добавление соли (1 ст. ложка на 10 л) в отдельном карантинном аквариуме.</p>
+          <p><strong>Лечение:</strong> <strong>Sera mycopur</strong> или соль (1 ст. ложка на 10 л) в карантине.</p>
+        </div>
+      </div>
+
+      <div class="card" style="cursor: default; border-color: #e63946;">
+        <div class="card-img">🪱</div>
+        <div class="card-body">
+          <div class="card-title">Гельминты (Черви)</div>
+          <p><strong>Кто болеет:</strong> Дикие или новые рыбы.</p>
+          <p><strong>Симптомы:</strong> Тонкие белые нити из анального отверстия, худоба.</p>
+          <p><strong>Лечение:</strong> <strong>Sera med Professional Tremazol</strong> или <strong>API General Cure</strong>.</p>
+        </div>
+      </div>
+
+      <div class="card" style="cursor: default; border-color: #e63946;">
+        <div class="card-img">👁️</div>
+        <div class="card-body">
+          <div class="card-title">Пучеглазие (Экзофтальм)</div>
+          <p><strong>Кто болеет:</strong> Золотые рыбки, цихлиды.</p>
+          <p><strong>Симптомы:</strong> Глаз вылезает из орбиты. Причина — бактерия или травма.</p>
+          <p><strong>Лечение:</strong> Антибиотики (например, <strong>API Melafix</strong> или <strong>Tetra General Tonic</strong>).</p>
+        </div>
+      </div>
+
+      <div class="card" style="cursor: default; border-color: #e63946;">
+        <div class="card-img">⚪</div>
+        <div class="card-body">
+          <div class="card-title">Белые наросты (Лимфоцистоз)</div>
+          <p><strong>Кто болеет:</strong> Гуппи, пецилии, золотые рыбки.</p>
+          <p><strong>Симптомы:</strong> Белые бугорки на плавниках, похожие на цветную капусту.</p>
+          <p><strong>Лечение:</strong> Вирусное. Лекарств нет. Стабилизировать воду, поднять температуру.</p>
+        </div>
+      </div>
+
+      <div class="card" style="cursor: default; border-color: #e63946;">
+        <div class="card-img">🎈</div>
+        <div class="card-body">
+          <div class="card-title">Водянка (Асцит)</div>
+          <p><strong>Кто болеет:</strong> Петушки, золотые рыбки.</p>
+          <p><strong>Симптомы:</strong> Раздутый живот, ерошение чешуи.</p>
+          <p><strong>Лечение:</strong> Часто смертельно. Антибиотики (API Erythromycin) + соль.</p>
+        </div>
+      </div>
+
+      <div class="card" style="cursor: default; border-color: #e63946;">
+        <div class="card-img">💨</div>
+        <div class="card-body">
+          <div class="card-title">Плавательный пузырь</div>
+          <p><strong>Кто болеет:</strong> Золотые рыбки, петушки.</p>
+          <p><strong>Симптомы:</strong> Рыба плавает кверху брюхом или тонет.</p>
+          <p><strong>Лечение:</strong> Не кормить 3 дня (голодная диета), затем давать размоченный горошек.</p>
         </div>
       </div>
 
     </div>
 
-    <h3 style="color: #087f8c; margin-top: 30px;">🌿 Болезни растений</h3>
+    <h3 class="sub-title">🌿 Болезни растений</h3>
     <div class="grid">
 
       <div class="card" style="cursor: default; border-color: #2a9d8f;">
         <div class="card-img">🪨</div>
         <div class="card-body">
           <div class="card-title">Черные пятна на листьях</div>
-          <p><strong>Причина:</strong> Часто это <strong>повреждение корневой системы</strong> (неаккуратная посадка или сифонка рядом с корнями), либо грибок.</p>
-          <p><strong>Лечение:</strong> Не трогать корни, дать растению адаптироваться. Если это грибок — подмены воды и затемнение на 3 дня.</p>
+          <p><strong>Причина:</strong> Часто это <strong>повреждение корневой системы</strong> (неаккуратная посадка), либо грибок.</p>
+          <p><strong>Лечение:</strong> Не трогать корни, дать растению адаптироваться. Если грибок — затемнение на 3 дня.</p>
         </div>
       </div>
 
@@ -190,7 +242,7 @@
         <div class="card-body">
           <div class="card-title">Черная борода (водоросли)</div>
           <p><strong>Причина:</strong> Избыток органики (перекорм), сильное течение и яркий свет.</p>
-          <p><strong>Лечение:</strong> <strong>Сайдекс (глутаровый альдегид)</strong> точечно шприцем. Уменьшить световой день и сифонить грунт.</p>
+          <p><strong>Лечение:</strong> <strong>Сайдекс (глутаровый альдегид)</strong> точечно шприцем. Уменьшить свет.</p>
         </div>
       </div>
 
@@ -198,8 +250,8 @@
         <div class="card-img">🟢</div>
         <div class="card-body">
           <div class="card-title">Нитчатка (зеленая тина)</div>
-          <p><strong>Причина:</strong> Избыток света и питательных веществ в воде.</p>
-          <p><strong>Лечение:</strong> Убрать руками, добавить быстрорастущие растения (роголистник). Препарат: <strong>Algumin</strong> или <strong>Сайдекс</strong>.</p>
+          <p><strong>Причина:</strong> Избыток света и питательных веществ.</p>
+          <p><strong>Лечение:</strong> Убрать руками, добавить быстрорастущие растения (роголистник). <strong>Algumin</strong> или <strong>Сайдекс</strong>.</p>
         </div>
       </div>
 
@@ -207,7 +259,7 @@
         <div class="card-img">🟡</div>
         <div class="card-body">
           <div class="card-title">Пожелтение листьев</div>
-          <p><strong>Причина:</strong> Нехватка железа или калия. Либо слишком яркий свет.</p>
+          <p><strong>Причина:</strong> Нехватка железа или калия.</p>
           <p><strong>Лечение:</strong> Добавить микроудобрения (например, <strong>Tetra PlantaMin</strong>).</p>
         </div>
       </div>
@@ -217,13 +269,39 @@
         <div class="card-body">
           <div class="card-title">«Криптокориновая болезнь»</div>
           <p><strong>Кто болеет:</strong> Криптокорины.</p>
-          <p><strong>Симптомы:</strong> Растение резко сбрасывает все листья, они становятся стеклянными.</p>
-          <p><strong>Лечение:</strong> Не выкапывать! Оставить корни в покое, стабилизировать параметры воды. Через 2–3 недели оно даст новые листья.</p>
+          <p><strong>Симптомы:</strong> Резко сбрасывает все листья, они становятся стеклянными.</p>
+          <p><strong>Лечение:</strong> Не выкапывать! Стабилизировать воду. Через 2–3 недели даст новые листья.</p>
+        </div>
+      </div>
+
+      <div class="card" style="cursor: default; border-color: #2a9d8f;">
+        <div class="card-img">🦠</div>
+        <div class="card-body">
+          <div class="card-title">Гниль корней</div>
+          <p><strong>Причина:</strong> Закисание грунта (слишком толстый слой или нет сифонки).</p>
+          <p><strong>Лечение:</strong> Аккуратно промыть корни, подменить грунт (тонкий слой 2-3 см), добавить улиток меланий для рыхления.</p>
+        </div>
+      </div>
+
+      <div class="card" style="cursor: default; border-color: #2a9d8f;">
+        <div class="card-img">🔴</div>
+        <div class="card-body">
+          <div class="card-title">Красные водоросли</div>
+          <p><strong>Причина:</strong> Избыток фосфатов.</p>
+          <p><strong>Лечение:</strong> Подмены воды, использование тестов на фосфаты. Уменьшить кормление.</p>
+        </div>
+      </div>
+
+      <div class="card" style="cursor: default; border-color: #2a9d8f;">
+        <div class="card-img">🌵</div>
+        <div class="card-body">
+          <div class="card-title">Замедление роста</div>
+          <p><strong>Причина:</strong> Нехватка CO2 или света.</p>
+          <p><strong>Лечение:</strong> Увеличить световой день, добавить подачу CO2 (брага или баллон).</p>
         </div>
       </div>
 
     </div>
-  </div>
   </div>
 
   <div id="page-start" class="page container">
@@ -293,6 +371,7 @@
   </div>
 
   <script>
+    // Генератор рыб
     const baseFishNames = ["Гуппи", "Неон", "Коридорас", "Петушок", "Золотая рыбка", "Данио", "Анциструс", "Пецилия", "Расбора", "Тернеция", "Молинезия", "Меченосец", "Скалярия", "Гурами", "Лялиус", "Барбус", "Боция", "Апистограмма", "Дискус", "Астронотус", "Арована", "Пиранья", "Аксолотль", "Креветка", "Тетра", "Сом", "Цихлида", "Вьюн", "Радужница", "Нож"];
     const variants = ["обыкновенный", "красный", "синий", "зеленый", "золотой", "мраморный", "альбинос", "карликовый", "гигантский", "полосатый"];
     
@@ -321,6 +400,7 @@
       }
     }
 
+    // Генератор растений
     const plantNames = [
       { name: "Анубиас", light: "Слабый", desc: "Прирастает к камням. Не закапывать." },
       { name: "Криптокорина", light: "Слабый", desc: "Любит тень, может сбрасывать листья." },
