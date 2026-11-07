@@ -47,8 +47,8 @@
     .card:hover .card-img svg { transform: scale(1.1) rotate(-5deg); }
 
     .card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
-    .card-title { font-weight: 700; font-size: 1.2rem; margin-bottom: 5px; }
-    .card-desc { color: var(--muted); font-size: 0.9rem; flex-grow: 1; margin-bottom: 15px; }
+    .card-title { font-weight: 700; font-size: 1.2rem; margin-bottom: 5px; line-height: 1.3; word-break: break-word; }
+    .card-desc { color: var(--muted); font-size: 0.9rem; flex-grow: 1; margin-bottom: 15px; word-break: break-word; }
     .btn-view { background: var(--red); color: white; border: 0; border-radius: 8px; padding: 10px 15px; font-weight: 600; align-self: flex-start; }
 
     .info-block { background: white; border: 1px solid var(--line); border-radius: var(--radius); padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,.02); }
@@ -75,7 +75,7 @@
     .modal-head { display: flex; gap: 20px; align-items: center; margin-bottom: 20px; }
     .modal-head-img { width: 100px; height: 100px; background: #f0f0f0; border-radius: 12px; display: grid; place-items: center; overflow: hidden; }
     .modal-head-img svg { width: 70px; height: 70px; }
-    .modal-head-text h2 { margin: 0; font-size: 1.8rem; }
+    .modal-head-text h2 { margin: 0; font-size: 1.8rem; word-break: break-word; }
     .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
     .info-box { background: #f9f9f9; padding: 15px; border-radius: 12px; }
     .info-box strong { display: block; font-size: 0.8rem; color: var(--muted); text-transform: uppercase; margin-bottom: 5px; }
@@ -392,7 +392,7 @@
     const fishData = [
       // ===== МИРНЫЕ =====
       { name: "Гуппи", latin: "Poecilia reticulata", desc: "Живородящая рыбка, идеальна для новичков.", category: "peaceful", difficulty: "Новичкам", minVolume: "30 л", comfortVolume: "50 л", temp: "22–26°C", water: "pH 6.5–7.5, GH 5–15", compat: "С мирными рыбами", food: "Хлопья, микрочервь", layer: "Средний и верхний", setupGround: "Мелкий темный гравий", setupPlants: "Валлиснерия, роголистник", setupDecor: "Коряги, гроты", setupTech: "Свет 8 ч, слабый внутренний фильтр" },
-      { name: "Неон", latin: "Paracheirodon innesi", desc: "Стайная рыбка с яркой неоновой полосой.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", comfortVolume: "60 л", temp: "24–28°C", water: "pH 6.0–7.0, GH 1–5", compat: "С мирными тетрами, сомиками", food: "Мелкие хлопья, циклоп", layer: "Средний", setupGround: "Темный песок", setupPlants: "Криптокорины, папоротники, мох", setupDecor: "Коряги, создающие тень", setupTech: "Приглушенный свет, фильтр без течения" },
+      { name: "Неон", latin: "Paracheirodon innesi", desc: "Стайная рыбка с яркой неоновой полосой.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", comfortVolume: "60 л", temp: "24–28°C", water: "pH 5.5–6.8, GH 1–5", compat: "С мирными тетрами, сомиками", food: "Мелкие хлопья, циклоп", layer: "Средний", setupGround: "Темный песок", setupPlants: "Криптокорины, папоротники, мох", setupDecor: "Коряги, создающие тень", setupTech: "Приглушенный свет, фильтр без течения" },
       { name: "Петушок", latin: "Betta splendens", desc: "Одиночная рыбка с роскошными плавниками.", category: "peaceful", difficulty: "Новичкам", minVolume: "20 л", comfortVolume: "30 л", temp: "26–30°C", water: "pH 6.0–7.5, GH 2–12", compat: "Только один самец", food: "Гранулы, мотыль", layer: "Средний и верхний", setupGround: "Темный нейтральный грунт", setupPlants: "Анубиасы, мох, плавающие", setupDecor: "Гроты, горшки", setupTech: "Слабый фильтр, обогреватель, крышка" },
       { name: "Пецилия", latin: "Xiphophorus maculatus", desc: "Живородящая, очень неприхотлива.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", comfortVolume: "60 л", temp: "22–26°C", water: "pH 7.0–8.0, GH 10–20", compat: "С гуппи, меченосцами", food: "Хлопья, овощи", layer: "Средний", setupGround: "Гравий", setupPlants: "Валлиснерия, роголистник", setupDecor: "Коряги, камни", setupTech: "Стандартный фильтр" },
       { name: "Гурами мраморный", latin: "Trichopodus trichopterus", desc: "Мирный лабиринтовый гурами.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", comfortVolume: "80 л", temp: "24–28°C", water: "pH 6.5–7.5, GH 5–15", compat: "С мирными рыбами", food: "Хлопья, мотыль", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет, крышка" },
