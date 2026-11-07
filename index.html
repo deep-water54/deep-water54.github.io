@@ -135,96 +135,33 @@
     <div class="grid" id="plantGrid"></div>
   </div>
 
-  <!-- ОБОРУДОВАНИЕ (ТЕХНИЧЕСКИЙ ГАЙД) -->
   <div id="page-equipment" class="page container">
     <h2 class="section-title">Как подобрать оборудование</h2>
-    <p class="section-desc">Правила подбора и проверенные бренды.</p>
-    
-    <div class="info-block">
-      <h3>Фильтры</h3>
-      <p><strong>Как подобрать:</strong> Считаем по объёму аквариума. На банку 100 л нужен фильтр, который прокачивает 500–600 л/ч (5-6 объёмов в час) для небольшого населения. Если рыб много, то бери с запасом (до 1000 л/ч).</p>
-      <p><strong>Бренды (внутренние):</strong> Aquael (aquael.com), Tetra (tetra-fish.com).</p>
-      <p><strong>Бренды (внешние):</strong> Fluval (fluvalaquatics.com), Eheim (eheim.com).</p>
-    </div>
-
-    <div class="info-block">
-      <h3>Освещение</h3>
-      <p><strong>Как подобрать:</strong> Для простых растений хватит любой LED-лампы (6-8 часов). Для сложных нужен спектральный свет (таймер обязателен).</p>
-      <p><strong>Бренды:</strong> Chihiros (chihirosaquatic.com), Twinstar (twinstaraqua.com).</p>
-    </div>
-
-    <div class="info-block">
-      <h3>Обогреватели</h3>
-      <p><strong>Как подобрать:</strong> 1 Ватт на 1 литр. На 50 литров берём 50 Вт, на 100 литров — 100 Вт.</p>
-      <p><strong>Бренды:</strong> Eheim Jäger (eheim.com), Tetra (tetra-fish.com), Fluval (fluvalaquatics.com).</p>
-    </div>
-
-    <div class="info-block">
-      <h3>Аэрация</h3>
-      <p><strong>Как подобрать:</strong> Можно взять встроенную помпу с аэрацией (трубка для воздуха), либо отдельный компрессор (например, Barbus, JBL). Для травников аэрация ночью обязательна.</p>
-    </div>
-
-    <div class="info-block">
-      <h3>Калькулятор объема</h3>
-      <div class="calc-box">
-        <input type="number" id="len" placeholder="Длина (см)">
-        <input type="number" id="wid" placeholder="Ширина (см)">
-        <input type="number" id="hei" placeholder="Высота (см)">
-        <button onclick="calcVolume()">Рассчитать</button>
-        <span class="calc-result" id="calcResult"></span>
-      </div>
+    <div class="info-block"><h3>Фильтры</h3><p><strong>Правило:</strong> 5–6 объемов в час для небольших банок. <strong>Бренды:</strong> Aquael (aquael.com), Fluval (fluvalaquatics.com).</p></div>
+    <div class="info-block"><h3>Освещение</h3><p><strong>Правило:</strong> Свет 6-8 часов. <strong>Бренды:</strong> Chihiros (chihirosaquatic.com).</p></div>
+    <div class="info-block"><h3>Обогреватели</h3><p><strong>Правило:</strong> 1 Ватт на 1 литр. <strong>Бренды:</strong> Eheim Jäger (eheim.com).</p></div>
+    <div class="info-block"><h3>Калькулятор объема</h3>
+      <div class="calc-box"><input type="number" id="len" placeholder="Длина (см)"><input type="number" id="wid" placeholder="Ширина (см)"><input type="number" id="hei" placeholder="Высота (см)"><button onclick="calcVolume()">Рассчитать</button><span class="calc-result" id="calcResult"></span></div>
     </div>
   </div>
 
-  <!-- ГРУНТ И ДЕКОР -->
   <div id="page-ground" class="page container">
     <h2 class="section-title">Грунт и декор</h2>
-    <p class="section-desc">Оформление — это не только красота, но и здоровье рыб.</p>
-    
-    <div class="info-block">
-      <h3>Грунт</h3>
-      <p><strong>Для сомов (коридорасы, анциструсы):</strong> Нужен <strong>мягкий песок</strong> или окатанный гравий без острых краев, чтобы они не поранили усы и брюшко.</p>
-      <p><strong>Для растений:</strong> Питательный грунт (например, Tetra CompleteSubstrate, JBL Manado).</p>
-      <p><strong>Для цихлид:</strong> Крупный гравий или специальный песок (часто с коралловой крошкой для жесткости воды).</p>
-    </div>
-
-    <div class="info-block">
-      <h3>Коряги</h3>
-      <p><strong>Правило:</strong> Берем <strong>только</strong> твердые породы (коряга, мопани, мангра). Хвойные (ель, сосна) выделяют смолы — нельзя.</p>
-      <p>Перед установкой обязательно кипятим 1-2 часа.</p>
-    </div>
-
-    <div class="info-block">
-      <h3>Камни</h3>
-      <p><strong>Правило:</strong> Проверяем уксусом (если шипит — не подходит, повышает жесткость). Безопасные: сланец, базальт, гранит.</p>
-    </div>
-
-    <div class="info-block">
-      <h3>Укрытия</h3>
-      <p>Обязательны для ктенопом, астронотусов, петушков. Гроты, керамические трубки, половинки кокоса.</p>
-    </div>
+    <div class="info-block"><h3>Грунт</h3><p>Для сомов — мягкий песок. Для растений — питательный грунт (Tetra, JBL).</p></div>
+    <div class="info-block"><h3>Камни</h3><p>Проверять уксусом. Безопасные: сланец, базальт.</p></div>
   </div>
 
   <div id="page-disease" class="page container">
     <h2 class="section-title">Болезни и проблемы</h2>
-    <p class="section-desc">Введи симптом, и мы найдем болезнь.</p>
     <div class="controls" style="margin-bottom: 20px;">
-      <input type="text" class="search-input" id="symptomSearch" placeholder="Например: белые точки, плавники, глаза..." oninput="renderDiseases()">
+      <input type="text" class="search-input" id="symptomSearch" placeholder="Введи симптом (например: белые точки)..." oninput="renderDiseases()">
     </div>
     <div class="grid" id="diseaseGrid"></div>
   </div>
 
   <div id="page-compatibility" class="page container">
     <h2 class="section-title">Таблица совместимости</h2>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Вид</th><th>С кем можно</th><th>С кем нельзя</th></tr></thead>
-        <tbody>
-          <tr><td>Гуппи</td><td>Неоны, коридорасы</td><td>Крупные цихлиды</td></tr>
-          <tr><td>Неоны</td><td>Гуппи, тетры</td><td>Крупные хищники</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <div class="table-wrap"><table><thead><tr><th>Вид</th><th>С кем можно</th><th>С кем нельзя</th></tr></thead><tbody><tr><td>Гуппи</td><td>Неоны, коридорасы</td><td>Крупные цихлиды</td></tr><tr><td>Неоны</td><td>Гуппи, тетры</td><td>Крупные хищники</td></tr></tbody></table></div>
   </div>
 
   <div id="page-start" class="page container">
@@ -254,24 +191,56 @@
   <script>
     const fishSVGs = [
       `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#ff7f50"/></svg>`,
-      `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#4fc3f7"/></svg>`
+      `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#4fc3f7"/></svg>`,
+      `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#ffd54f"/></svg>`,
+      `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#ba68c8"/></svg>`,
+      `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#aed581"/></svg>`
     ];
 
+    // ТВОИ ЛОКАЛЬНЫЕ КАРТИНКИ
     const fishImages = {
       "Краснохвостый сом": "img/krasnoschovst.jpg",
-      "Ктенопома леопардовая": "img/ktenopoma.jpg",
+      "Ктенопома леопардовая": "img/kteopoma leoard.jpg",
       "Макрогнатус": "img/macrogrnatys.jpg",
       "Меченосец": "img/meschenosec.jpg",
       "Торакатум": "img/som_tarakatym.jpg",
-      "Вишнёвый барбус": "img/Barbus_vishna.jpg",
+      "Вишнёвый барбус": "img/Barbus vishna.jpg",
       "Гуппи": "Guppy_02.jpg",
-      "Неон": "Neonka_obecna_paracheirodon_innesi.jpg"
+      "Неон": "Neonka_obecna_paracheirodon_innesi.jpg",
+      "Петушок": "Yellow_halfmoon_Betta_splendens.jpg",
+      "Пецилия": "Xiphophorus_maculatus.jpg",
+      "Гурами мраморный": "Trichopodus_trichopterus.jpg",
+      "Краснохвостая расбора": "Rasbora_borapetensis.jpg",
+      "Скалярия": "Pterophyllum_scalare.jpg",
+      "Барбус": "Tigerbarbe_Puntius_tetrazona.jpg",
+      "Данио": "Brachydanio_rerio.jpg",
+      "Тернеция": "BlackTetras.JPG",
+      "Моллинезия": "Poecilia_sphenops.jpg",
+      "Расбора": "03.Trigonostigma_heteromorpha.JPG",
+      "Лялиус": "Colisa_lalia.jpg",
+      "Гурами жемчужный": "Trichopodus_leerii.jpg",
+      "Апистограмма": "Apistogramma_cacatuoides.jpg",
+      "Дискус": "Symphysodon_aequifasciatus.jpg",
+      "Акулий Балу": "Balantiocheilos_melanopterus.jpg",
+      "Коридорас": "Corydoras_panda2.JPG",
+      "Анциструс": "Ancistrus_sp.jpg",
+      "Отоцинклюс": "Otocinclus_affinis.jpg",
+      "Платидорас": "Platydoras_armatulus.jpg",
+      "Боция Клоун": "Chromobotia_macracanthus.jpg",
+      "Астронотус": "Astronotus_ocellatus.jpg",
+      "Пиранья обыкновенная": "Pygocentrus_nattereri.jpg",
+      "Пиранья чёрная": "BlackPirahna2010.jpg",
+      "Панцирная щука": "Lepisosteus_oculatus.jpg",
+      "Индийский нож": "Chitala_chitala.jpg",
+      "Аксолотль": "Ambystoma_mexicanum.jpg",
+      "Тритон": "Triturus_vulgaris.jpg"
     };
 
     function fishPhotoHTML(fish, idx) {
       const file = fishImages[fish.name];
       if (!file) return fishSVGs[idx % fishSVGs.length];
       let src = file.startsWith("img/") ? file : "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(file) + "?width=400";
+      src = src.replace(/ /g, "%20"); // Фикс для пробелов в названиях!
       return '<img src="' + src + '" alt="' + fish.name + '" referrerpolicy="no-referrer" loading="lazy" onerror="imgFallback(this,' + idx + ')">';
     }
 
@@ -282,7 +251,39 @@
     const fishData = [
       { name: "Гуппи", latin: "Poecilia reticulata", desc: "Живородящая рыбка.", category: "peaceful", difficulty: "Новичкам", minVolume: "30 л", temp: "22–26°C", water: "pH 6.5–7.5" },
       { name: "Неон", latin: "Paracheirodon innesi", desc: "Стайная рыбка.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "24–28°C", water: "pH 5.5–6.8" },
-      { name: "Ктенопома леопардовая", latin: "Ctenopoma acutirostre", desc: "Африканская цихлида.", category: "predator", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5" }
+      { name: "Петушок", latin: "Betta splendens", desc: "Одиночная рыбка.", category: "peaceful", difficulty: "Новичкам", minVolume: "20 л", temp: "26–30°C", water: "pH 6.0–7.5" },
+      { name: "Пецилия", latin: "Xiphophorus maculatus", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 7.0–8.0" },
+      { name: "Гурами мраморный", latin: "Trichopodus trichopterus", desc: "Мирный гурами.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "24–28°C", water: "pH 6.5–7.5" },
+      { name: "Краснохвостая расбора", latin: "Rasbora borapetensis", desc: "Стайная.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5" },
+      { name: "Вишнёвый барбус", latin: "Puntius titteya", desc: "Спокойный барбус.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5" },
+      { name: "Скалярия", latin: "Pterophyllum scalare", desc: "Величественная цихлида.", category: "peaceful", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5" },
+      { name: "Барбус", latin: "Puntigrus tetrazona", desc: "Активная рыбка.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "22–26°C", water: "pH 6.0–7.5" },
+      { name: "Данио", latin: "Danio rerio", desc: "Активная рыбка.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "18–24°C", water: "pH 6.0–7.5" },
+      { name: "Тернеция", latin: "Gymnocorymbus ternetzi", desc: "Стайная.", category: "peaceful", difficulty: "Новичкам", minVolume: "60 л", temp: "22–26°C", water: "pH 5.7–7.0" },
+      { name: "Моллинезия", latin: "Poecilia sphenops", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "24–28°C", water: "pH 7.0–8.0" },
+      { name: "Меченосец", latin: "Xiphophorus hellerii", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 7.0–8.0" },
+      { name: "Расбора", latin: "Trigonostigma heteromorpha", desc: "Стайная.", category: "peaceful", difficulty: "Новичкам", minVolume: "20 л", temp: "24–26°C", water: "pH 5.0–7.5" },
+      { name: "Лялиус", latin: "Colisa lalia", desc: "Красивый гурами.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "24–28°C", water: "pH 6.5–7.5" },
+      { name: "Гурами жемчужный", latin: "Trichopodus leerii", desc: "Спокойный.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "23–28°C", water: "pH 6.0–8.0" },
+      { name: "Апистограмма", latin: "Apistogramma cacatuoides", desc: "Карликовая цихлида.", category: "peaceful", difficulty: "Средне", minVolume: "54 л", temp: "24–28°C", water: "pH 6.0–7.0" },
+      { name: "Дискус", latin: "Symphysodon", desc: "Королевская цихлида.", category: "peaceful", difficulty: "Профи", minVolume: "300 л", temp: "26–30°C", water: "pH 6.0–7.0" },
+      { name: "Акулий Балу", latin: "Balantiocheilos melanopterus", desc: "Крупная стайная.", category: "peaceful", difficulty: "Средне", minVolume: "300 л", temp: "22–26°C", water: "pH 6.5–7.5" },
+      { name: "Коридорас", latin: "Corydoras panda", desc: "Донный сомик.", category: "bottom", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.0" },
+      { name: "Анциструс", latin: "Ancistrus", desc: "Сом-присоска.", category: "bottom", difficulty: "Новичкам", minVolume: "90 л", temp: "24–28°C", water: "pH 6.0–8.0" },
+      { name: "Отоцинклюс", latin: "Otocinclus affinis", desc: "Маленький сомик.", category: "bottom", difficulty: "Новичкам", minVolume: "30 л", temp: "22–26°C", water: "pH 6.0–7.5" },
+      { name: "Торакатум", latin: "Hoplosternum thoracatum", desc: "Мирный сомик.", category: "bottom", difficulty: "Средне", minVolume: "80 л", temp: "24–28°C", water: "pH 6.0–7.5" },
+      { name: "Платидорас", latin: "Platydoras armatulus", desc: "Полосатый сомик.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5" },
+      { name: "Боция Клоун", latin: "Chromobotia macracanthus", desc: "Активная рыбка.", category: "bottom", difficulty: "Средне", minVolume: "300 л", temp: "24–26°C", water: "pH 6.0–7.0" },
+      { name: "Макрогнатус", latin: "Macrognathus", desc: "Аквариумный угорь.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "22–26°C", water: "pH 6.5–7.0" },
+      { name: "Астронотус", latin: "Astronotus ocellatus", desc: "Крупная цихлида.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5" },
+      { name: "Пиранья обыкновенная", latin: "Pygocentrus nattereri", desc: "Стайный хищник.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5" },
+      { name: "Пиранья чёрная", latin: "Serrasalmus rhombeus", desc: "Одиночный хищник.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5" },
+      { name: "Ктенопома леопардовая", latin: "Ctenopoma acutirostre", desc: "Африканская цихлида.", category: "predator", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5" },
+      { name: "Краснохвостый сом", latin: "Phractocephalus hemioliopterus", desc: "Гигант с красным хвостом.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "21–26°C", water: "pH 6.0–7.5" },
+      { name: "Панцирная щука", latin: "Lepisosteus", desc: "Древний хищник.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "20–26°C", water: "pH 6.5–8.0" },
+      { name: "Индийский нож", latin: "Chitala chitala", desc: "Ночной хищник.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "24–28°C", water: "pH 6.5–7.5" },
+      { name: "Аксолотль", latin: "Ambystoma mexicanum", desc: "Амфибия.", category: "peaceful", difficulty: "Профи", minVolume: "40–50 л", temp: "16–20°C", water: "pH 6.5–7.5" },
+      { name: "Тритон", latin: "Triturus", desc: "Амфибия.", category: "peaceful", difficulty: "Профи", minVolume: "60+ л", temp: "18–22°C", water: "pH 6.5–7.5" }
     ];
 
     const plantData = [{ name: "Анубиас", desc: "Прирастает к камням." }, { name: "Криптокорина", desc: "Любит тень." }];
@@ -290,16 +291,44 @@
     const diseaseData = [
       { name: "Ихтиофтириоз (Манка)", symptoms: "белые точки, крупинки, налет, белые пятна", treat: "28-30°C + Sera Omnipur" },
       { name: "Оодиниоз", symptoms: "бархат, пыль, золотистый налет", treat: "Sera Omnipur" },
-      { name: "Плавниковая гниль", symptoms: "плавники, гниль, обрывки", treat: "Sera Baktopur" },
-      { name: "Грибок", symptoms: "грибок, вата, пух", treat: "Sera mycopur" },
-      { name: "Водянка", symptoms: "водянка, вздутие, ерошится чешуя", treat: "Антибиотики" },
+      { name: "Плавниковая гниль", symptoms: "плавники, гниль, обрывки, рваные плавники", treat: "Sera Baktopur" },
+      { name: "Грибок (Сапролегния)", symptoms: "грибок, вата, пух, белый налет", treat: "Sera mycopur" },
+      { name: "Водянка (Асцит)", symptoms: "водянка, вздутие, ерошится чешуя", treat: "Антибиотики, карантин" },
       { name: "Гексамитоз", symptoms: "дырки в голове, белый кал", treat: "Метронидазол" },
-      { name: "Аммиачное отравление", symptoms: "аммиак, красные жабры", treat: "Подмена 50%" },
-      { name: "Отравление хлором", symptoms: "хлор, красные жабры", treat: "Кондиционер" }
+      { name: "Аэромоноз", symptoms: "краснуха, красные язвы", treat: "Антибиотики" },
+      { name: "Дермоцистидиум", symptoms: "пузыри на плавниках", treat: "Sera Omnipur" },
+      { name: "Триходиноз", symptoms: "голубой налет, слизь", treat: "Sera Omnipur" },
+      { name: "Отравление хлором", symptoms: "хлор, красные жабры, ожог", treat: "Кондиционер" },
+      { name: "Аммиачное отравление", symptoms: "аммиак, красные жабры, тяжелое дыхание", treat: "Подмена 50%" },
+      { name: "Нитритное отравление", symptoms: "нитриты, бурый цвет крови", treat: "Подмена, аэрация" },
+      { name: "Помутнение глаз", symptoms: "глаза, помутнение, бельмо", treat: "Melafix" },
+      { name: "Экзофтальм (Пучеглазие)", symptoms: "глаза наружу, пучеглазие", treat: "Антибиотики" },
+      { name: "Ожирение / Запор", symptoms: "толстая рыба, запор", treat: "Разгрузка, горошек" },
+      { name: "Седловина", symptoms: "впадина на спине", treat: "Антибиотики" },
+      { name: "Туберкулез рыб", symptoms: "исхудание, впалый живот", treat: "Карантин" },
+      { name: "Кишечные паразиты", symptoms: "белый кал, нитчатый кал", treat: "Метронидазол" },
+      { name: "Грибок на плавниках", symptoms: "вата на плавниках", treat: "Sera mycopur" },
+      { name: "Псевдомоноз", symptoms: "язвы, кровоизлияния", treat: "Антибиотики" },
+      { name: "Флексибактериоз", symptoms: "жабры, слизь, вялость", treat: "Антибиотики" },
+      { name: "Колумнарис", symptoms: "пушистые жабы, язвы", treat: "Антибиотики" },
+      { name: "Микобактериоз", symptoms: "исхудание, язвы", treat: "Не лечится" },
+      { name: "Стрептококкоз", symptoms: "пучеглазие, вялость", treat: "Антибиотики" },
+      { name: "Липидоидоз", symptoms: "чешуя, налет", treat: "Не лечится" },
+      { name: "Плистофороз", symptoms: "исхудание, пучеглазие", treat: "Карантин" },
+      { name: "Неоновая болезнь", symptoms: "неоны, белые пятна", treat: "Не лечится" },
+      { name: "Карповые оспины", symptoms: "восковой налет", treat: "Карантин" },
+      { name: "Лимфоцистоз", symptoms: "серые наросты", treat: "Карантин" },
+      { name: "Аргулез", symptoms: "клещи, точки", treat: "Соль, препараты" },
+      { name: "Лернеоз", symptoms: "червяки, нити", treat: "Соль, препараты" },
+      { name: "Гиродактилез", symptoms: "слизь, чешутся", treat: "Соль" },
+      { name: "Дактилогироз", symptoms: "жабры, вялость", treat: "Соль" },
+      { name: "Плавниковая гниль", symptoms: "плавники, гниль", treat: "Sera Baktopur" },
+      { name: "Ихтик", symptoms: "белые точки", treat: "Sera Omnipur" }
     ];
 
-    // РЕНДЕР РЫБ
     const fishGrid = document.getElementById("fishGrid");
+    const plantGrid = document.getElementById("plantGrid");
+    const diseaseGrid = document.getElementById("diseaseGrid");
     let currentFilter = "all";
     let currentDifficulty = "all";
     let currentSearch = "";
@@ -329,34 +358,22 @@
     }
 
     function renderPlants() {
-      const plantGrid = document.getElementById("plantGrid");
       plantGrid.innerHTML = plantData.map(function(plant, i) {
         return '<article class="card" onclick="openPlantModal(' + i + ')">' +
           '<div class="card-img" style="font-size:4rem; position:static; display:flex;">🌿</div>' +
-          '<div class="card-body">' +
-            '<div class="card-title">' + plant.name + '</div>' +
-            '<div class="card-desc">' + plant.desc + '</div>' +
-            '<button class="btn-view">Подробнее</button>' +
-          '</div></article>';
+          '<div class="card-body"><div class="card-title">' + plant.name + '</div><div class="card-desc">' + plant.desc + '</div><button class="btn-view">Подробнее</button></div></article>';
       }).join("");
     }
 
     function renderDiseases() {
-      const query = document.getElementById('symptomSearch').value.toLowerCase();
-      const grid = document.getElementById('diseaseGrid');
-      
+      const q = document.getElementById('symptomSearch').value.toLowerCase();
       const filtered = diseaseData.filter(function(d) {
-        return d.symptoms.toLowerCase().includes(query) || d.name.toLowerCase().includes(query);
+        return d.symptoms.toLowerCase().includes(q) || d.name.toLowerCase().includes(q);
       });
-
-      grid.innerHTML = filtered.map(function(d) {
+      diseaseGrid.innerHTML = filtered.map(function(d) {
         return '<article class="card" style="cursor: default;">' +
           '<div class="card-img" style="font-size:3rem; position:static; display:flex;">🦠</div>' +
-          '<div class="card-body">' +
-            '<div class="card-title">' + d.name + '</div>' +
-            '<p><strong>Симптомы:</strong> ' + d.symptoms + '</p>' +
-            '<p><strong>Лечение:</strong> ' + d.treat + '</p>' +
-          '</div></article>';
+          '<div class="card-body"><div class="card-title">' + d.name + '</div><p><strong>Симптомы:</strong> ' + d.symptoms + '</p><p><strong>Лечение:</strong> ' + d.treat + '</p></div></article>';
       }).join("");
     }
 
