@@ -28,6 +28,21 @@
     .page.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+    /* БАННЕР */
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(8, 127, 140, 0.9), rgba(230, 57, 70, 0.8)), url('https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+      border-radius: var(--radius);
+      margin-bottom: 40px;
+      box-shadow: var(--shadow);
+    }
+    .hero-banner h1 { font-size: 3rem; margin: 0 0 15px; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+    .hero-banner p { font-size: 1.2rem; margin: 0 0 30px; opacity: 0.9; max-width: 600px; margin-inline: auto; }
+    .hero-btn { background: var(--red); color: white; border: none; padding: 15px 40px; font-size: 1.1rem; font-weight: 700; border-radius: 30px; text-transform: uppercase; letter-spacing: 1px; transition: transform 0.2s, background 0.2s; box-shadow: 0 4px 15px rgba(230,57,70,.4); }
+    .hero-btn:hover { background: var(--red-dark); transform: scale(1.05); }
+
     .section-title { font-size: 2.2rem; color: var(--red); margin-top: 0; margin-bottom: 10px; }
     .section-desc { color: var(--muted); font-size: 1.1rem; margin-bottom: 25px; max-width: 800px; }
 
@@ -66,6 +81,18 @@
     tr:last-child td { border-bottom: 0; }
     td:first-child { font-weight: 600; }
 
+    /* МОЙ АКВАРИУМ */
+    .my-tank-form { display: flex; flex-direction: column; gap: 15px; max-width: 500px; }
+    .my-tank-form label { font-weight: 600; color: var(--ocean); }
+    .my-tank-form input, .my-tank-form select { padding: 12px; border: 1px solid var(--line); border-radius: 8px; font-size: 1rem; width: 100%; }
+    .my-tank-form button { background: var(--red); color: white; border: none; padding: 15px; border-radius: 8px; font-weight: 700; font-size: 1.1rem; margin-top: 10px; }
+    
+    .my-tank-list { margin-top: 30px; }
+    .my-tank-item { display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--ocean); }
+    .my-tank-item span { font-weight: 600; }
+    .btn-del { background: transparent; color: var(--red); border: 1px solid var(--red); border-radius: 6px; padding: 5px 10px; font-size: 0.8rem; }
+    .btn-del:hover { background: var(--red); color: white; }
+
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); opacity: 0; pointer-events: none; transition: 0.3s; display: flex; align-items: flex-end; justify-content: center; z-index: 100; }
     .modal-overlay.open { opacity: 1; pointer-events: auto; }
     .modal { width: min(750px, 100%); background: white; border-radius: 20px 20px 0 0; padding: 30px; transform: translateY(100%); transition: 0.4s; max-height: 90vh; overflow-y: auto; position: relative; }
@@ -95,6 +122,7 @@
     @media (max-width: 600px) {
       .info-grid { grid-template-columns: 1fr; }
       .nav { flex-direction: column; align-items: flex-start; }
+      .hero-banner h1 { font-size: 2rem; }
     }
   </style>
 </head>
@@ -102,9 +130,10 @@
 
   <header class="site-header">
     <div class="container nav">
-      <div class="brand" onclick="showPage('novice')">АкваДом</div>
+      <div class="brand" onclick="showPage('home')">АкваДом</div>
       <div class="nav-links">
-        <a onclick="showPage('novice')" class="active" id="link-novice">Новичку</a>
+        <a onclick="showPage('home')" class="active" id="link-home">Главная</a>
+        <a onclick="showPage('novice')" id="link-novice">Новичку</a>
         <a onclick="showPage('fish')" id="link-fish">Рыбы</a>
         <a onclick="showPage('plants')" id="link-plants">Растения</a>
         <a onclick="showPage('equipment')" id="link-equipment">Оборудование</a>
@@ -112,12 +141,22 @@
         <a onclick="showPage('disease')" id="link-disease">Болезни</a>
         <a onclick="showPage('compatibility')" id="link-compatibility">Совместимость</a>
         <a onclick="showPage('start')" id="link-start">Запуск</a>
+        <a onclick="showPage('my-tank')" id="link-my-tank">Мой аквариум</a>
       </div>
     </div>
   </header>
 
+  <!-- ГЛАВНАЯ СТРАНИЦА С БАННЕРОМ -->
+  <div id="page-home" class="page active container">
+    <div class="hero-banner">
+      <h1>АкваДом</h1>
+      <p>Твой гид в мире аквариумов. От первых шагов до профессионального содержания.</p>
+      <button class="hero-btn" onclick="showPage('fish')">Смотреть рыбок</button>
+    </div>
+  </div>
+
   <!-- НОВАЯ СТРАНИЦА "НОВИЧКУ" -->
-  <div id="page-novice" class="page active container">
+  <div id="page-novice" class="page container">
     <h2 class="section-title">Новичку: с чего начать</h2>
     <div class="info-block" style="background-color: #eaf6f3; border-color: #ccebe2;">
       <p>Если ты покупаешь свой первый аквариум, не бери всё подряд. Вот проверенная связка, которая не создаст проблем.</p>
@@ -299,6 +338,41 @@
     <div class="info-block"><h3>Шаг 1</h3><p>Промой грунт, уложи слоем 3–5 см.</p></div>
     <div class="info-block"><h3>Шаг 2</h3><p>Залей отстоянную воду, добавь кондиционер.</p></div>
     <div class="info-block"><h3>Шаг 3</h3><p>Добавь бактерии (Tetra SafeStart).</p></div>
+  </div>
+
+  <!-- МОЙ АКВАРИУМ -->
+  <div id="page-my-tank" class="page container">
+    <h2 class="section-title">Мой аквариум</h2>
+    <p class="section-desc">Сохрани параметры своего аквариума и список рыбок. Данные хранятся только в твоем браузере.</p>
+
+    <div class="info-block">
+      <h3>Параметры аквариума</h3>
+      <div class="my-tank-form">
+        <label>Объем (литры):
+          <input type="number" id="tankVolume" placeholder="Например, 60">
+        </label>
+        <label>Температура (°C):
+          <input type="number" id="tankTemp" placeholder="Например, 25">
+        </label>
+        <button onclick="saveTank()">Сохранить</button>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <h3>Мои рыбки</h3>
+      <div class="my-tank-form" style="flex-direction: row; align-items: flex-end;">
+        <label style="flex-grow: 1;">Выбери рыбку:
+          <select id="tankFishSelect">
+            <!-- Заполняется через JS -->
+          </select>
+        </label>
+        <button onclick="addFishToTank()" style="width: auto; margin-top: 0;">Добавить</button>
+      </div>
+      
+      <div class="my-tank-list" id="myTankList">
+        <!-- Список добавленных рыб -->
+      </div>
+    </div>
   </div>
 
   <div class="modal-overlay" id="modalOverlay">
@@ -699,9 +773,68 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // МОЙ АКВАРИУМ
+    function loadTankData() {
+      const savedVolume = localStorage.getItem('tankVolume');
+      const savedTemp = localStorage.getItem('tankTemp');
+      if (savedVolume) document.getElementById('tankVolume').value = savedVolume;
+      if (savedTemp) document.getElementById('tankTemp').value = savedTemp;
+
+      const select = document.getElementById('tankFishSelect');
+      select.innerHTML = '<option value="">-- Выбери рыбку --</option>' + fishData.map(f => `<option value="${f.name}">${f.name}</option>`).join('');
+
+      renderMyTankList();
+    }
+
+    function saveTank() {
+      const vol = document.getElementById('tankVolume').value;
+      const temp = document.getElementById('tankTemp').value;
+      localStorage.setItem('tankVolume', vol);
+      localStorage.setItem('tankTemp', temp);
+      alert('Параметры аквариума сохранены!');
+    }
+
+    function addFishToTank() {
+      const select = document.getElementById('tankFishSelect');
+      const fishName = select.value;
+      if (!fishName) return;
+
+      let myFish = JSON.parse(localStorage.getItem('myFish') || '[]');
+      myFish.push(fishName);
+      localStorage.setItem('myFish', JSON.stringify(myFish));
+      
+      renderMyTankList();
+      select.value = "";
+    }
+
+    function removeFishFromTank(index) {
+      let myFish = JSON.parse(localStorage.getItem('myFish') || '[]');
+      myFish.splice(index, 1);
+      localStorage.setItem('myFish', JSON.stringify(myFish));
+      renderMyTankList();
+    }
+
+    function renderMyTankList() {
+      const list = document.getElementById('myTankList');
+      let myFish = JSON.parse(localStorage.getItem('myFish') || '[]');
+      
+      if (myFish.length === 0) {
+        list.innerHTML = '<p style="color:#777;">Пока никого нет. Добавь рыбок!</p>';
+        return;
+      }
+
+      list.innerHTML = myFish.map((name, i) => `
+        <div class="my-tank-item">
+          <span>${name}</span>
+          <button class="btn-del" onclick="removeFishFromTank(${i})">Удалить</button>
+        </div>
+      `).join('');
+    }
+
     renderFish();
     renderPlants();
     renderDiseases();
+    loadTankData();
   </script>
 </body>
 </html>
