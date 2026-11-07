@@ -660,6 +660,13 @@
       document.getElementById("modalTemp").textContent = f.temp;
       document.getElementById("modalWater").textContent = f.water;
       document.getElementById("modalDiff").textContent = f.difficulty;
+      
+      // Восстановленные данные обустройства
+      document.getElementById("setupGround").textContent = f.setupGround || "—";
+      document.getElementById("setupPlants").textContent = f.setupPlants || "—";
+      document.getElementById("setupDecor").textContent = f.setupDecor || "—";
+      document.getElementById("setupTech").textContent = f.setupTech || "—";
+
       document.getElementById("modalOverlay").classList.add("open");
     }
 
