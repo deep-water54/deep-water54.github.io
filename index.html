@@ -102,9 +102,10 @@
 
   <header class="site-header">
     <div class="container nav">
-      <div class="brand" onclick="showPage('fish')">АкваДом</div>
+      <div class="brand" onclick="showPage('novice')">АкваДом</div>
       <div class="nav-links">
-        <a onclick="showPage('fish')" class="active" id="link-fish">Рыбы</a>
+        <a onclick="showPage('novice')" class="active" id="link-novice">Новичку</a>
+        <a onclick="showPage('fish')" id="link-fish">Рыбы</a>
         <a onclick="showPage('plants')" id="link-plants">Растения</a>
         <a onclick="showPage('equipment')" id="link-equipment">Оборудование</a>
         <a onclick="showPage('ground')" id="link-ground">Грунт и декор</a>
@@ -115,11 +116,10 @@
     </div>
   </header>
 
-  <div id="page-fish" class="page active container">
-    
-    <!-- БЛОК "НОВИЧКУ" (ТЕПЕРЬ САМЫЙ ВЕРХ) -->
-    <div class="info-block" style="background-color: #eaf6f3; border-color: #ccebe2; margin-bottom: 30px;">
-      <h3 style="color: var(--ocean); margin-top: 0;">Новичку: с чего начать</h3>
+  <!-- НОВАЯ СТРАНИЦА "НОВИЧКУ" -->
+  <div id="page-novice" class="page active container">
+    <h2 class="section-title">Новичку: с чего начать</h2>
+    <div class="info-block" style="background-color: #eaf6f3; border-color: #ccebe2;">
       <p>Если ты покупаешь свой первый аквариум, не бери всё подряд. Вот проверенная связка, которая не создаст проблем.</p>
       
       <p><strong>Объем:</strong> Бери <strong>60 литров</strong> (или 50–70 л). В маленькой банке (10–30 л) вода портится мгновенно, новичок не успеет среагировать. В большой (100+ л) сложнее ухаживать и дороже оборудование. 60 л — золотая середина.</p>
@@ -138,7 +138,9 @@
 
       <p><strong>Обогреватель:</strong> Бери на <strong>50 Вт</strong> (если в комнате прохладно) или <strong>75 Вт</strong> (с запасом). Правило простое: 1 Вт на 1 литр. На 60 литров — 60 Вт. Главное — с терморегулятором, чтобы он сам выключался, когда вода нагреется.</p>
     </div>
+  </div>
 
+  <div id="page-fish" class="page container">
     <h2 class="section-title">Каталог рыб</h2>
     <p class="section-desc">Ищи нужную рыбу или фильтруй по категориям.</p>
 
@@ -173,7 +175,7 @@
     <div class="grid" id="plantGrid"></div>
   </div>
 
-  <!-- ОБОРУДОВАНИЕ (КАРТОЧКИ) -->
+  <!-- КАРТОЧКИ ОБОРУДОВАНИЯ -->
   <div id="page-equipment" class="page container">
     <h2 class="section-title">Как подобрать оборудование</h2>
     <p class="section-desc">Правила подбора и проверенные бренды.</p>
