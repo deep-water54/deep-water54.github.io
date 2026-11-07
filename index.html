@@ -328,17 +328,16 @@
       `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#aed581"/><path d="M20,50 L5,35 L5,65 Z" fill="#8bc34a"/><circle cx="65" cy="45" r="4" fill="#173b47"/></svg>`
     ];
 
-    // ================== ФОТО (Локальные и Викисклад) ==================
+    // ================== ФОТО ==================
+    // Прописаны точные имена твоих локальных файлов (с пробелами)
     const fishImages = {
-      // Твои локальные картинки (лежат в папке img)
       "Краснохвостый сом": "img/krasnoschovst.jpg",
-      "Ктенопома леопардовая": "img/ktenopoma.jpg", // Убедись, что файл в папке img называется ровно так!
+      "Ктенопома леопардовая": "img/kteopoma leoard.jpg",
       "Макрогнатус": "img/macrogrnatys.jpg",
       "Меченосец": "img/meschenosec.jpg",
-      "Торакатум": "img/som_tarakatym.jpg", // Если у тебя в названии пробел, замени на "img/som tarakatym.jpg"
-      "Вишнёвый барбус": "img/Barbus_vishna.jpg", // Если пробел - "img/Barbus vishna.jpg"
+      "Торакатум": "img/som tarakatym.jpg",
+      "Вишнёвый барбус": "img/Barbus vishna.jpg",
 
-      // Остальные (с Викисклада)
       "Гуппи": "Guppy_02.jpg",
       "Неон": "Neonka_obecna_paracheirodon_innesi.jpg",
       "Петушок": "Yellow_halfmoon_Betta_splendens.jpg",
@@ -380,13 +379,14 @@
       if (!file) return fishSVGs[idx % fishSVGs.length];
 
       let src = file;
-      // Если это не локальный путь (не начинается с img/), то это файл с Викисклада
       if (!file.startsWith("img/")) {
         src = wikiUrl(file);
       }
 
-      // ВАЖНО: encodeURI нужен для правильной обработки пробелов в локальных файлах
-      return '<img src="' + encodeURI(src) + '" alt="' + fish.name + '" ' +
+      // Кодируем пробелы, чтобы браузер не ругался
+      src = src.replace(/ /g, "%20");
+
+      return '<img src="' + src + '" alt="' + fish.name + '" ' +
              'referrerpolicy="no-referrer" loading="lazy" ' +
              'onerror="imgFallback(this,' + idx + ')">';
     }
