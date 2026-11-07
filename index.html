@@ -42,9 +42,9 @@
     .card { background: white; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: 0.2s; }
     .card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--red); }
     
-    /* ИСПРАВЛЕННЫЙ БЛОК КАРТИНОК */
+    /* ЖЕСТКИЕ ПРАВИЛА ДЛЯ КАРТИНОК, ЧТОБЫ НИЧЕГО НЕ СЪЕЗЖАЛО */
     .card-img { 
-      height: 180px; /* Чуть увеличил, чтобы фото лучше смотрелось */
+      height: 180px; 
       background: #f0f0f0; 
       position: relative; 
       overflow: hidden; 
@@ -92,6 +92,7 @@
     .modal-head { display: flex; gap: 20px; align-items: center; margin-bottom: 20px; }
     .modal-head-img { width: 100px; height: 100px; background: #f0f0f0; border-radius: 12px; display: grid; place-items: center; overflow: hidden; }
     .modal-head-img svg { width: 70px; height: 70px; }
+    .modal-head-img img { width: 100%; height: 100%; object-fit: cover; }
     .modal-head-text h2 { margin: 0; font-size: 1.8rem; word-break: break-word; }
     .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
     .info-box { background: #f9f9f9; padding: 15px; border-radius: 12px; }
@@ -395,6 +396,7 @@
       if (!file) return svg;
       return '<img src="' + wikiUrl(file) + '" alt="' + fish.name + '" ' +
              'referrerpolicy="no-referrer" loading="lazy" ' +
+             'style="width:100%;height:100%;object-fit:cover;display:block" ' +
              'onerror="imgFallback(this,' + idx + ')">';
     }
 
