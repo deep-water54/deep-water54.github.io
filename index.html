@@ -12,7 +12,7 @@
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body { margin: 0; color: var(--ink); background: var(--bg); font-family: system-ui, sans-serif; line-height: 1.6; }
+    body { margin: 0; color: var(--ink); background: var(--bg); font-family: system-ui, sans-serif; line-height: 1.6; padding-bottom: 80px; }
     a { color: inherit; text-decoration: none; }
     button { cursor: pointer; }
     .container { width: min(1200px, calc(100% - 40px)); margin-inline: auto; }
@@ -84,13 +84,21 @@
     .setup-item { margin-bottom: 8px; font-size: 0.95rem; }
     .setup-item strong { color: #087f8c; }
 
-    #scrollTopBtn {
-      display: none; position: fixed; bottom: 20px; right: 30px;
-      z-index: 99; border: none; outline: none; background-color: var(--red); color: white;
-      cursor: pointer; padding: 15px; border-radius: 50%; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: background-color 0.3s;
-    }
+    .checklist-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding: 10px; background: #f9f9f9; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+    .checklist-item:hover { background: #f0f0f0; }
+    .checklist-item input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; }
+    .checklist-item.done { text-decoration: line-through; color: var(--muted); background: #eaf6f3; }
+
+    .shopping-list { display: flex; flex-direction: column; gap: 10px; }
+    .shop-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #f9f9f9; border-radius: 8px; }
+    .shop-item button { background: var(--red); color: white; border: none; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+
+    #scrollTopBtn { display: none; position: fixed; bottom: 20px; right: 30px; z-index: 99; border: none; outline: none; background-color: var(--red); color: white; cursor: pointer; padding: 15px; border-radius: 50%; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: background-color 0.3s; }
     #scrollTopBtn:hover { background-color: var(--red-dark); }
+
+    .app-banner { position: fixed; bottom: -150px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 500px; background: #222; color: white; padding: 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 9999; display: flex; align-items: center; justify-content: space-between; gap: 15px; transition: bottom 0.5s ease-in-out; font-family: system-ui, sans-serif; }
+    .app-banner.open { bottom: 20px; }
+    .app-banner button { background: none; border: none; color: #777; font-size: 1.5rem; cursor: pointer; }
 
     @media (max-width: 600px) {
       .info-grid { grid-template-columns: 1fr; }
@@ -104,6 +112,7 @@
     <div class="container nav">
       <div class="brand" onclick="showPage('novice')">АкваДом</div>
       <div class="nav-links">
+        <a onclick="showPage('dashboard')" id="link-dashboard">Мой аквариум</a>
         <a onclick="showPage('novice')" class="active" id="link-novice">Новичку</a>
         <a onclick="showPage('fish')" id="link-fish">Рыбы</a>
         <a onclick="showPage('plants')" id="link-plants">Растения</a>
@@ -116,7 +125,80 @@
     </div>
   </header>
 
-  <!-- НОВАЯ СТРАНИЦА "НОВИЧКУ" -->
+  <!-- СТРАНИЦА "МОЙ АКВАРИУМ" -->
+  <div id="page-dashboard" class="page container">
+    <h2 class="section-title">Мой аквариум</h2>
+    <p class="section-desc">Личный дневник. Настрой его один раз — и сайт будет напоминать о важном.</p>
+    
+    <div class="info-block" style="background-color: #eaf6f3; border-color: #ccebe2;">
+      <h3>Настройки</h3>
+      <div style="display: grid; gap: 10px; max-width: 400px;">
+        <label>Объем аквариума (л): <input type="number" id="tankVol" class="search-input" style="width: 100%;"></label>
+        <label>Дата запуска: <input type="date" id="tankDate" class="search-input" style="width: 100%;"></label>
+        <button class="filter-btn active" onclick="saveTankData()">Сохранить данные</button>
+      </div>
+    </div>
+
+    <div id="dashboardStatus" style="display: none;">
+      <div class="info-block">
+        <h3>Статус аквариума</h3>
+        <div class="grid" style="grid-template-columns: 1fr 1fr;">
+          <div class="info-box" style="background: #eaf6f3;">
+            <strong>Возраст</strong>
+            <span id="tankAge" style="font-size: 1.2rem; font-weight: bold;">—</span>
+          </div>
+          <div class="info-box" style="background: #fff3cd;">
+            <strong>Подмена воды</strong>
+            <span id="waterStatus" style="font-size: 1.2rem; font-weight: bold;">—</span>
+            <button class="filter-btn" style="margin-top: 10px; padding: 5px 10px; font-size: 0.9rem;" onclick="updateWaterDate()">Я поменял воду сегодня</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <h3>Календарь ухода</h3>
+        <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 15px;">Отмечай выполненные задачи. Галочки сохраняются.</p>
+        <div id="checklistContainer">
+          <label class="checklist-item" id="task-feed">
+            <input type="checkbox" onchange="toggleTask('feed', this.checked)">
+            <span>Покормить рыб</span>
+          </label>
+          <label class="checklist-item" id="task-light">
+            <input type="checkbox" onchange="toggleTask('light', this.checked)">
+            <span>Включить/выключить свет</span>
+          </label>
+          <label class="checklist-item" id="task-clean">
+            <input type="checkbox" onchange="toggleTask('clean', this.checked)">
+            <span>Просифонить дно</span>
+          </label>
+          <label class="checklist-item" id="task-filter">
+            <input type="checkbox" onchange="toggleTask('filter', this.checked)">
+            <span>Промыть фильтр</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <h3>График параметров воды</h3>
+        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+          <input type="number" id="phInput" class="search-input" placeholder="pH (например 7.2)" step="0.1" style="width: 150px;">
+          <input type="number" id="tempInput" class="search-input" placeholder="Температура °C" style="width: 150px;">
+          <button class="filter-btn active" onclick="addWaterParam()">Добавить</button>
+        </div>
+        <canvas id="waterChart" width="600" height="200" style="max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; background: white;"></canvas>
+      </div>
+
+      <div class="info-block">
+        <h3>Список покупок</h3>
+        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+          <input type="text" id="shopInput" class="search-input" placeholder="Что купить? (корм, губка, тесты)">
+          <button class="filter-btn active" onclick="addShopItem()">Добавить</button>
+        </div>
+        <div id="shopList" class="shopping-list"></div>
+      </div>
+    </div>
+  </div>
+
   <div id="page-novice" class="page active container">
     <h2 class="section-title">Новичку: с чего начать</h2>
     <div class="info-block" style="background-color: #eaf6f3; border-color: #ccebe2;">
@@ -140,568 +222,198 @@
     </div>
   </div>
 
-  <div id="page-fish" class="page container">
-    <h2 class="section-title">Каталог рыб</h2>
-    <p class="section-desc">Ищи нужную рыбу или фильтруй по категориям.</p>
-
-    <div class="controls">
-      <input type="text" class="search-input" id="searchInput" placeholder="Поиск по названию...">
-      <div class="filter-buttons">
-        <button class="filter-btn active" onclick="filterFish('all', 'category')">Все</button>
-        <button class="filter-btn" onclick="filterFish('peaceful', 'category')">Мирные</button>
-        <button class="filter-btn" onclick="filterFish('bottom', 'category')">Донные</button>
-        <button class="filter-btn" onclick="filterFish('predator', 'category')">Хищники</button>
-      </div>
-      <div class="filter-buttons" style="margin-left: auto;">
-        <button class="filter-btn active" onclick="filterFish('all', 'difficulty')">Любая сложность</button>
-        <button class="filter-btn" onclick="filterFish('Новичкам', 'difficulty')">Для новичков</button>
-        <button class="filter-btn" onclick="filterFish('Средне', 'difficulty')">Средние</button>
-        <button class="filter-btn" onclick="filterFish('Профи', 'difficulty')">Для профи</button>
-      </div>
-    </div>
-    
-    <div class="controls" style="background-color: #f9f9f9; border-color: #ddd;">
-      <span style="font-weight: 600; padding: 10px 0;">Подобрать рыбу под мой объем (л):</span>
-      <input type="number" id="volumeInput" class="search-input" style="flex-grow: 0; width: 100px;" placeholder="60">
-      <button class="filter-btn active" onclick="filterByVolume()">Подобрать</button>
-      <button class="filter-btn" onclick="resetVolume()">Сбросить</button>
-    </div>
-    
-    <div class="grid" id="fishGrid"></div>
-  </div>
-
-  <div id="page-plants" class="page container">
-    <h2 class="section-title">Живые растения</h2>
-    <div class="grid" id="plantGrid"></div>
-  </div>
-
-  <div id="page-equipment" class="page container">
-    <h2 class="section-title">Как подобрать оборудование</h2>
-    <p class="section-desc">Правила подбора и проверенные бренды.</p>
-    
-    <!-- КАРТОЧКИ ОБОРУДОВАНИЯ -->
-    <div class="grid">
-      <article class="card" style="cursor: default; border-color: #087f8c;">
-        <div class="card-img" style="font-size:4rem; position:static; display:flex;">⚙️</div>
-        <div class="card-body">
-          <div class="card-title">Фильтры</div>
-          <p><strong>Правило:</strong> 5–6 объемов в час для небольших банок. На 100 л — фильтр на 500–600 л/ч.</p>
-          <p><strong>Бренды:</strong> Aquael (aquael.com), Fluval (fluvalaquatics.com).</p>
-        </div>
-      </article>
-
-      <article class="card" style="cursor: default; border-color: #087f8c;">
-        <div class="card-img" style="font-size:4rem; position:static; display:flex;">💡</div>
-        <div class="card-body">
-          <div class="card-title">Освещение</div>
-          <p><strong>Правило:</strong> Свет 8–10 часов. Для простых растений хватит штатной LED-лампы.</p>
-          <p><strong>Бренды:</strong> Chihiros (chihirosaquatic.com), Twinstar (twinstaraqua.com).</p>
-        </div>
-      </article>
-
-      <article class="card" style="cursor: default; border-color: #087f8c;">
-        <div class="card-img" style="font-size:4rem; position:static; display:flex;">🔥</div>
-        <div class="card-body">
-          <div class="card-title">Обогреватели</div>
-          <p><strong>Правило:</strong> 1 Ватт на 1 литр. На 50 л — 50 Вт, на 100 л — 100 Вт.</p>
-          <p><strong>Бренды:</strong> Eheim Jäger (eheim.com), Tetra (tetra-fish.com).</p>
-        </div>
-      </article>
-
-      <article class="card" style="cursor: default; border-color: #087f8c;">
-        <div class="card-img" style="font-size:4rem; position:static; display:flex;">💨</div>
-        <div class="card-body">
-          <div class="card-title">Аэрация</div>
-          <p><strong>Правило:</strong> Для травников обязательна ночью. Можно взять помпу с аэрацией или отдельный компрессор.</p>
-          <p><strong>Бренды:</strong> Barbus, JBL (jbl.de).</p>
-        </div>
-      </article>
-    </div>
-
-    <div class="info-block" style="margin-top: 30px;">
-      <h3>Сравнение фильтров (Tetra, Barbus, JBL)</h3>
-      <h4 style="color: var(--ocean);">Внутренние фильтры</h4>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Бренд</th><th>Модель</th><th>Объем</th><th>Производительность</th><th>Особенности</th></tr></thead>
-          <tbody>
-            <tr><td>Tetra</td><td>Tetratec IN300</td><td>до 40 л</td><td>~300 л/ч</td><td>Простой, надежный</td></tr>
-            <tr><td>Tetra</td><td>Tetratec IN600</td><td>до 100 л</td><td>~600 л/ч</td><td>Оптимал для 60-100 л</td></tr>
-            <tr><td>Barbus</td><td>Filter 036 (Био-бокс)</td><td>80–160 л</td><td>900 л/ч</td><td>Био-шарики, аэрация, флейта</td></tr>
-            <tr><td>JBL</td><td>CristalProfi i60</td><td>до 60 л</td><td>300–800 л/ч</td><td>Регулировка потока, магнитные держатели</td></tr>
-            <tr><td>JBL</td><td>CristalProfi i80</td><td>до 80 л</td><td>~600 л/ч</td><td>Модульный, расширяемый</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h4 style="color: var(--ocean); margin-top: 20px;">Внешние фильтры</h4>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Бренд</th><th>Модель</th><th>Объем</th><th>Производительность</th><th>Особенности</th></tr></thead>
-          <tbody>
-            <tr><td>Tetra</td><td>EX 600 Plus</td><td>до 120 л</td><td>600 л/ч</td><td>Самая популярная</td></tr>
-            <tr><td>Tetra</td><td>EX 800 Plus</td><td>120–300 л</td><td>800 л/ч</td><td>Для средних банок</td></tr>
-            <tr><td>Barbus</td><td>Filter 102</td><td>до 200 л</td><td>850 л/ч</td><td>Для 100-200 л</td></tr>
-            <tr><td>JBL</td><td>CristalProfi e702</td><td>60–200 л</td><td>700 л/ч</td><td>Средний класс</td></tr>
-            <tr><td>JBL</td><td>CristalProfi e902</td><td>90–300 л</td><td>900 л/ч</td><td>Для 100-300 л</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="info-block" style="margin-top: 30px;">
-      <h3>Калькулятор объема</h3>
-      <div class="calc-box">
-        <input type="number" id="len" placeholder="Длина (см)">
-        <input type="number" id="wid" placeholder="Ширина (см)">
-        <input type="number" id="hei" placeholder="Высота (см)">
-        <button onclick="calcVolume()">Рассчитать</button>
-        <span class="calc-result" id="calcResult"></span>
-      </div>
-    </div>
-  </div>
-
-  <div id="page-ground" class="page container">
-    <h2 class="section-title">Грунт и декор</h2>
-    <p class="section-desc">Оформление — это не только красота, но и здоровье рыб.</p>
-    <div class="info-block"><h3>Грунт</h3><p>Для сомов — мягкий песок. Для растений — питательный грунт (Tetra, JBL).</p></div>
-    <div class="info-block"><h3>Камни</h3><p>Проверять уксусом. Безопасные: сланец, базальт.</p></div>
-    <div class="info-block">
-      <h3>Живые растения вместо пластика</h3>
-      <p>Не превращайте аквариум в пластиковую помойку. Вместо искусственных растений (особенно кислотных цветов) сажайте живые. Они выделяют кислород и служат укрытием. Любые быстрорастущие: Валлиснерия, Роголистник, Элодея.</p>
-      <p>Яркие пластиковые растения вызывают стресс у рыб. А пластиковые декорации могут выделять токсины.</p>
-    </div>
-  </div>
-
-  <div id="page-disease" class="page container">
-    <h2 class="section-title">Болезни и проблемы</h2>
-    <div class="controls" style="margin-bottom: 20px;">
-      <input type="text" class="search-input" id="symptomSearch" placeholder="Введи симптом (например: белые точки)..." oninput="renderDiseases()">
-    </div>
-    <div class="grid" id="diseaseGrid"></div>
-  </div>
-
-  <div id="page-compatibility" class="page container">
-    <h2 class="section-title">Таблица совместимости</h2>
-    <div class="table-wrap"><table><thead><tr><th>Вид</th><th>С кем можно</th><th>С кем нельзя</th></tr></thead><tbody>
-      <tr><td>Гуппи</td><td>Неоны, коридорасы, данио, пецилии, моллинезии, мелкие тетры</td><td>Крупные цихлиды, барбусы, любые хищники</td></tr>
-      <tr><td>Пецилия</td><td>Гуппи, меченосцы, моллинезии, данио, коридорасы</td><td>Крупные цихлиды, хищники</td></tr>
-      <tr><td>Неон</td><td>Гуппи, мелкие тетры, коридорасы, расборы, данио</td><td>Крупные цихлиды (астронотус, скалярия), хищники</td></tr>
-      <tr><td>Тернеция</td><td>Неоны, гуппи, данио, коридорасы</td><td>Крупные хищники, агрессивные цихлиды</td></tr>
-      <tr><td>Петушок</td><td>Коридорасы, сомы-присоски, улитки</td><td>Другие самцы петушков, барбусы, гурами</td></tr>
-      <tr><td>Скалярия</td><td>Гурами, крупные тетры, сомы</td><td>Мелкие неоны (съест), барбусы</td></tr>
-      <tr><td>Астронотус</td><td>Только крупные рыбы или один</td><td>Все, кто меньше 10 см (съест)</td></tr>
-    </tbody></table></div>
-  </div>
-
-  <div id="page-start" class="page container">
-    <h2 class="section-title">Как запустить аквариум</h2>
-    <div class="info-block"><h3>Шаг 1</h3><p>Промой грунт, уложи слоем 3–5 см.</p></div>
-    <div class="info-block"><h3>Шаг 2</h3><p>Залей отстоянную воду, добавь кондиционер.</p></div>
-    <div class="info-block"><h3>Шаг 3</h3><p>Добавь бактерии (Tetra SafeStart).</p></div>
-  </div>
-
-  <div class="modal-overlay" id="modalOverlay">
-    <div class="modal">
-      <button class="modal-close" id="modalClose">✕</button>
-      <div class="modal-head">
-        <div class="modal-head-img" id="modalPhoto"></div>
-        <div class="modal-head-text"><h2 id="modalName"></h2><div id="modalLatin" style="color: #777;"></div></div>
-      </div>
-      <p id="modalDesc"></p>
-      <div class="info-grid">
-        <div class="info-box"><strong>Мин. объем</strong><span id="modalMinVol"></span></div>
-        <div class="info-box"><strong>Температура</strong><span id="modalTemp"></span></div>
-        <div class="info-box"><strong>pH / GH</strong><span id="modalWater"></span></div>
-        <div class="info-box"><strong>Сложность</strong><span id="modalDiff"></span></div>
-      </div>
-      <div class="setup-box" id="modalSetupBox">
-        <h4>🛠 Как обустроить</h4>
-        <div class="setup-item"><strong>Грунт:</strong> <span id="setupGround"></span></div>
-        <div class="setup-item"><strong>Растения:</strong> <span id="setupPlants"></span></div>
-        <div class="setup-item"><strong>Декор:</strong> <span id="setupDecor"></span></div>
-        <div class="setup-item"><strong>Оборудование:</strong> <span id="setupTech"></span></div>
-      </div>
-    </div>
-  </div>
+  <!-- Остальные страницы (Рыбы, Растения, Оборудование, Грунт, Болезни, Совместимость, Запуск) -->
+  <!-- Вставь их сюда, они уже есть в твоем файле, я их не дублирую, чтобы не раздувать сообщение -->
 
   <button id="scrollTopBtn" onclick="scrollToTop()" title="Наверх">↑</button>
 
+  <!-- БАННЕР -->
+  <div class="app-banner" id="app-banner">
+    <div style="display: flex; flex-direction: column; gap: 5px;">
+      <div style="font-weight: 800; font-size: 1.1rem;">📱 Мы в RuStore!</div>
+      <div style="font-size: 0.85rem; color: #ccc;">Скачай приложение для удобного ухода.</div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <a href="#" target="_blank" style="background: #e63946; color: white; padding: 8px 15px; border-radius: 8px; font-weight: bold; font-size: 0.9rem; white-space: nowrap; text-decoration: none;">Скачать</a>
+      <button onclick="closeBanner()">✕</button>
+    </div>
+  </div>
+
   <script>
-    const fishSVGs = [
-      `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#ff7f50"/></svg>`,
-      `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#4fc3f7"/></svg>`,
-      `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#ffd54f"/></svg>`,
-      `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#ba68c8"/></svg>`,
-      `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#aed581"/></svg>`
-    ];
+    // --- ДАННЫЕ (рыбы, растения, болезни) ---
+    // Тут твои массивы fishData, plantData, diseaseData, они уже есть в файле.
+    // Я их не трогаю.
 
-    const fishImages = {
-      "Краснохвостый сом": "img/krasnoschovst.jpg",
-      "Ктенопома леопардовая": "img/kteopoma leoard.jpg",
-      "Макрогнатус": "img/macrogrnatys.jpg",
-      "Меченосец": "img/meschenosec.jpg",
-      "Торакатум": "img/som tarakatym.jpg",
-      "Вишнёвый барбус": "img/Barbus vishna.jpg",
-      "Гуппи": "Guppy_02.jpg",
-      "Неон": "Neonka_obecna_paracheirodon_innesi.jpg",
-      "Петушок": "Yellow_halfmoon_Betta_splendens.jpg",
-      "Пецилия": "Xiphophorus_maculatus.jpg",
-      "Гурами мраморный": "Trichopodus_trichopterus.jpg",
-      "Краснохвостая расбора": "Rasbora_borapetensis.jpg",
-      "Скалярия": "Pterophyllum_scalare.jpg",
-      "Барбус": "Tigerbarbe_Puntius_tetrazona.jpg",
-      "Данио": "Brachydanio_rerio.jpg",
-      "Тернеция": "BlackTetras.JPG",
-      "Моллинезия": "Poecilia_sphenops.jpg",
-      "Расбора": "03.Trigonostigma_heteromorpha.JPG",
-      "Лялиус": "Colisa_lalia.jpg",
-      "Гурами жемчужный": "Trichopodus_leerii.jpg",
-      "Апистограмма": "Apistogramma_cacatuoides.jpg",
-      "Дискус": "Symphysodon_aequifasciatus.jpg",
-      "Акулий Балу": "Balantiocheilos_melanopterus.jpg",
-      "Коридорас": "Corydoras_panda2.JPG",
-      "Анциструс": "Ancistrus_sp.jpg",
-      "Отоцинклюс": "Otocinclus_affinis.jpg",
-      "Платидорас": "Platydoras_armatulus.jpg",
-      "Боция Клоун": "Chromobotia_macracanthus.jpg",
-      "Астронотус": "Astronotus_ocellatus.jpg",
-      "Пиранья обыкновенная": "Pygocentrus_nattereri.jpg",
-      "Пиранья чёрная": "BlackPirahna2010.jpg",
-      "Панцирная щука": "Lepisosteus_oculatus.jpg",
-      "Индийский нож": "Chitala_chitala.jpg",
-      "Аксолотль": "Ambystoma_mexicanum.jpg",
-      "Тритон": "Triturus_vulgaris.jpg",
-      "Тетра кардинал": "Paracheirodon_axelrodi.jpg",
-      "Расбора галактика": "Danio_margaritatus.jpg",
-      "Апистограмма Рамирези": "Mikrogeophagus_ramirezi.jpg",
-      "Радужница неоновая": "Melanotaenia_praecox.jpg",
-      "Тетра конго": "Phenacogrammus_interruptus.jpg",
-      "Орнатус": "Hyphessobrycon_ornatus.jpg",
-      "Гуппи Эндлера": "Poecilia_wingei.jpg",
-      "Барбус огненный": "Puntius_conchonius.jpg",
-      "Тетра фон рио": "Hyphessobrycon_flammeus.jpg",
-      "Микрорасбора": "Boraras_brigittae.jpg",
-      "Псевдомугил": "Pseudomugil_furcatus.jpg",
-      "Ириатерина Вернера": "Iriatherina_werneri.jpg",
-      "Меланотения": "Melanotaenia_boesemani.jpg",
-      "Гирардинус": "Girardinus_metallicus.jpg",
-      "Гамбузия": "Gambusia_affinis.jpg",
-      "Формоза": "Xiphophorus_variatus.jpg",
-      "Боция зебра": "Botia_striata.jpg",
-      "Акантофтальмус": "Pangio_kuhlii.jpg",
-      "Сом таракатум": "Hoplosternum_thoracatum.jpg",
-      "Сом птеригоплихт": "Pterygoplichthys_pardalis.jpg",
-      "Сом синодонтис": "Synodontis_eupterus.jpg",
-      "Сом стеклянный": "Kryptopterus_vitreatus.jpg",
-      "Сом аспидор": "Aspidoras_pauciradiatus.jpg",
-      "Сом лорикария": "Otocinclus_vittatus.jpg",
-      "Сом фарлоуэлла": "Farlowella_acutus.jpg",
-      "Сом леопардовый": "Corydoras_leopardus.jpg",
-      "Аравана": "Osteoglossum_bicirrhosum.jpg",
-      "Рыба-нож": "Apteronotus_albifrons.jpg",
-      "Харацинка": "Hemigrammus_rhodostomus.jpg",
-      "Слепая рыба": "Astyanax_mexicanus.jpg",
-      "Тетра медная": "Hasemania_nana.jpg",
-      "Тетра лимонная": "Hyphessobrycon_pulchripinnis.jpg",
-      "Тетра серебристая": "Gasteropelecus_sternicla.jpg",
-      "Тетра пальмери": "Hyphessobrycon_palmeri.jpg",
-      "Тетра императорская": "Nematobrycon_palmeri.jpg",
-      "Тетра светлячок": "Hemigrammus_erythrozonus.jpg",
-      "Нанностомус": "Nannostomus_marginatus.jpg",
-      "Копеина": "Copella_arnoldi.jpg",
-      "Пиранья паку": "Piaractus_brachypomus.jpg",
-      "Пиранья красная": "Pygocentrus_nattereri.jpg",
-      "Рыба-попугай": "Amphilophus_citrinellus.jpg",
-      "Цихлида дельфин": "Cyrtocara_moorii.jpg",
-      "Цихлида фронтоза": "Cyphotilapia_frontosa.jpg"
-    };
-
-    function fishPhotoHTML(fish, idx) {
-      const file = fishImages[fish.name];
-      if (!file) return fishSVGs[idx % fishSVGs.length];
-      let src = file.startsWith("img/") ? file : "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(file) + "?width=400";
-      src = src.replace(/ /g, "%20");
-      return '<img src="' + src + '" alt="' + fish.name + '" referrerpolicy="no-referrer" loading="lazy" onerror="imgFallback(this,' + idx + ')">';
+    // --- ЛОГИКА МОЕГО АКВАРИУМА ---
+    function saveTankData() {
+      const vol = document.getElementById('tankVol').value;
+      const date = document.getElementById('tankDate').value;
+      localStorage.setItem('tankVol', vol);
+      localStorage.setItem('tankDate', date);
+      localStorage.setItem('lastWaterChange', new Date().toISOString().split('T')[0]);
+      loadTankData();
+      alert('Данные сохранены!');
     }
 
-    function imgFallback(imgEl, idx) {
-      if (imgEl.parentElement) imgEl.parentElement.innerHTML = fishSVGs[idx % fishSVGs.length];
-    }
+    function loadTankData() {
+      const vol = localStorage.getItem('tankVol');
+      const date = localStorage.getItem('tankDate');
+      const lastWater = localStorage.getItem('lastWaterChange');
 
-    const fishData = [
-      { name: "Гуппи", latin: "Poecilia reticulata", desc: "Живородящая рыбка.", category: "peaceful", difficulty: "Новичкам", minVolume: "30 л", temp: "22–26°C", water: "pH 6.5–7.5", size: "до 5 см", compat: "С мирными рыбами", food: "Хлопья, микрочервь", layer: "Средний и верхний", setupGround: "Мелкий темный гравий", setupPlants: "Валлиснерия, роголистник", setupDecor: "Коряги, гроты", setupTech: "Свет 8 ч, слабый внутренний фильтр" },
-      { name: "Неон", latin: "Paracheirodon innesi", desc: "Стайная рыбка. Держать от 10 особей в объеме от 80 л.", category: "peaceful", difficulty: "Новичкам", minVolume: "80 л", temp: "20–26°C", water: "pH 6.8–7.2, gH 4–10", size: "до 4 см", compat: "С мирными тетрами", food: "Мелкие хлопья, циклоп", layer: "Средний", setupGround: "Темный песок", setupPlants: "Криптокорины, папоротники", setupDecor: "Коряги, создающие тень", setupTech: "Приглушенный свет" },
-      { name: "Петушок", latin: "Betta splendens", desc: "Одиночная рыбка.", category: "peaceful", difficulty: "Новичкам", minVolume: "20 л", temp: "26–30°C", water: "pH 6.0–7.5", size: "до 6 см", compat: "Только один самец", food: "Гранулы, мотыль", layer: "Средний и верхний", setupGround: "Темный нейтральный грунт", setupPlants: "Анубиасы, мох", setupDecor: "Гроты, горшки", setupTech: "Слабый фильтр, обогреватель" },
-      { name: "Пецилия", latin: "Xiphophorus maculatus", desc: "Пецилия (она же Плата). Живородящая, неприхотливая.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 7.0–8.0", size: "до 6 см", compat: "С гуппи, меченосцами", food: "Хлопья, овощи", layer: "Средний", setupGround: "Гравий", setupPlants: "Валлиснерия, роголистник", setupDecor: "Коряги, камни", setupTech: "Стандартный фильтр" },
-      { name: "Гурами мраморный", latin: "Trichopodus trichopterus", desc: "Мирный гурами. Вырастает до 13 см, лучше селить парами.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 13 см", compat: "С мирными рыбами", food: "Хлопья, мотыль", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет, крышка" },
-      { name: "Краснохвостая расбора", latin: "Rasbora borapetensis", desc: "Стайная, любит заросли. Вырастает до 4 см.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см", compat: "С мирными рыбами", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения по бокам", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Вишнёвый барбус", latin: "Puntius titteya", desc: "Спокойный барбус, не кусает плавники. Стайный (5-7 особей), до 5 см.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 5 см", compat: "С мирными рыбами", food: "Хлопья, микрочервь", layer: "Средний", setupGround: "Темный гравий", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
-      { name: "Скалярия", latin: "Pterophyllum scalare", desc: "Величественная цихлида.", category: "peaceful", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 15 см", compat: "С гурами, крупными тетрами", food: "Гранулы, мотыль", layer: "Средний", setupGround: "Мелкий песок", setupPlants: "Эхинодорусы, криптокорины", setupDecor: "Вертикальные коряги", setupTech: "Высокий аквариум (от 50 см)" },
-      { name: "Барбус", latin: "Puntigrus tetrazona", desc: "Активная рыбка.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 7 см", compat: "С крупными и быстрыми рыбами", food: "Хлопья, мотыль", layer: "Средний", setupGround: "Гравий", setupPlants: "Жесткие растения", setupDecor: "Коряги", setupTech: "Фильтр с течением" },
-      { name: "Данио", latin: "Danio rerio", desc: "Активная рыбка, стая из 6-8 особей. Вырастают до 5 см.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "18–24°C", water: "pH 6.0–7.5", size: "до 5 см", compat: "С мирными рыбами", food: "Хлопья, микрочервь", layer: "Верхний и средний", setupGround: "Гравий", setupPlants: "Растения по бокам", setupDecor: "Камни", setupTech: "Создай течение фильтром" },
-      { name: "Тернеция", latin: "Gymnocorymbus ternetzi", desc: "Стайная.", category: "peaceful", difficulty: "Новичкам", minVolume: "60 л", temp: "22–26°C", water: "pH 5.7–7.0", size: "до 5 см", compat: "С мирными рыбами", food: "Хлопья, мотыль", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Живые или искусственные", setupDecor: "Коряги", setupTech: "Свет средний" },
-      { name: "Моллинезия", latin: "Poecilia sphenops", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "24–28°C", water: "pH 7.0–8.0", size: "до 10 см", compat: "С мирными рыбами", food: "Хлопья, овощи", layer: "Средний", setupGround: "Крупный песок", setupPlants: "Валлиснерия, роголистник", setupDecor: "Камни, коряги", setupTech: "Яркий свет" },
-      { name: "Меченосец", latin: "Xiphophorus hellerii", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 7.0–8.0", size: "до 12 см", compat: "С мирными рыбами", food: "Хлопья, овощи", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения для укрытия", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
-      { name: "Расбора", latin: "Trigonostigma heteromorpha", desc: "Стайная.", category: "peaceful", difficulty: "Новичкам", minVolume: "20 л", temp: "24–26°C", water: "pH 5.0–7.5", size: "до 4 см", compat: "С мирными рыбами", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Лялиус", latin: "Colisa lalia", desc: "Красивый гурами.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 5 см", compat: "С мирными рыбами", food: "Хлопья, трубочник", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Гурами жемчужный", latin: "Trichopodus leerii", desc: "Спокойный.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "23–28°C", water: "pH 6.0–8.0", size: "до 11 см", compat: "Со скаляриями", food: "Хлопья, мотыль", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Апистограмма", latin: "Apistogramma cacatuoides", desc: "Карликовая цихлида.", category: "peaceful", difficulty: "Средне", minVolume: "54 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 7 см", compat: "С мирными рыбами", food: "Гранулы, мотыль", layer: "Средний", setupGround: "Песок", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Дискус", latin: "Symphysodon", desc: "Королевская цихлида.", category: "peaceful", difficulty: "Профи", minVolume: "300 л", temp: "26–30°C", water: "pH 6.0–7.0", size: "до 20 см", compat: "Со скаляриями", food: "Спецкорм, мотыль", layer: "Средний", setupGround: "Песок", setupPlants: "Крупные растения", setupDecor: "Коряги", setupTech: "Очень мощный фильтр" },
-      { name: "Акулий Балу", latin: "Balantiocheilos melanopterus", desc: "Крупная стайная.", category: "peaceful", difficulty: "Средне", minVolume: "300 л", temp: "22–26°C", water: "pH 6.5–7.5", size: "до 35 см", compat: "С крупными рыбами", food: "Гранулы", layer: "Средний", setupGround: "Крупный гравий", setupPlants: "Не ест", setupDecor: "Коряги", setupTech: "Мощный фильтр, крышка!" },
-      { name: "Коридорас", latin: "Corydoras panda", desc: "Донный сомик.", category: "bottom", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.0", size: "до 5 см", compat: "С мирными рыбами", food: "Таблетки, мотыль", layer: "Донный", setupGround: "Мягкий песок", setupPlants: "Укрытия", setupDecor: "Коряги, трубки", setupTech: "Стандартный фильтр" },
-      { name: "Анциструс", latin: "Ancistrus", desc: "Сом-присоска.", category: "bottom", difficulty: "Новичкам", minVolume: "90 л", temp: "24–28°C", water: "pH 6.0–8.0", size: "до 15 см", compat: "С мирными рыбами", food: "Таблетки, овощи", layer: "Донный", setupGround: "Гравий", setupPlants: "Не ест", setupDecor: "Обязательно коряга!", setupTech: "Стандартный фильтр" },
-      { name: "Отоцинклюс", latin: "Otocinclus affinis", desc: "Маленький сомик.", category: "bottom", difficulty: "Новичкам", minVolume: "30 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см", compat: "С мирными рыбами", food: "Водоросли, таблетки", layer: "Донный", setupGround: "Мелкий гравий", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Торакатум", latin: "Hoplosternum thoracatum", desc: "Мирный сомик.", category: "bottom", difficulty: "Средне", minVolume: "80 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 18 см", compat: "С мирными рыбами", food: "Таблетки, мотыль", layer: "Донный", setupGround: "Мягкий грунт", setupPlants: "Плавающие растения", setupDecor: "Коряги, укрытия", setupTech: "Стандартный фильтр" },
-      { name: "Платидорас", latin: "Platydoras armatulus", desc: "Полосатый сомик.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 20 см", compat: "С мирными рыбами", food: "Таблетки, мотыль", layer: "Донный", setupGround: "Песок", setupPlants: "Не важно", setupDecor: "Коряги, гроты", setupTech: "Стандартный фильтр" },
-      { name: "Боция Клоун", latin: "Chromobotia macracanthus", desc: "Активная рыбка.", category: "bottom", difficulty: "Средне", minVolume: "300 л", temp: "24–26°C", water: "pH 6.0–7.0", size: "до 30 см", compat: "С мирными рыбами", food: "Таблетки, мотыль", layer: "Донный", setupGround: "Мелкий песок", setupPlants: "Не ест", setupDecor: "Много укрытий", setupTech: "Хорошее течение" },
-      { name: "Макрогнатус", latin: "Macrognathus", desc: "Аквариумный угорь.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "22–26°C", water: "pH 6.5–7.0", size: "до 40 см", compat: "С мирными рыбами", food: "Живой корм, таблетки", layer: "Донный", setupGround: "Мелкий песок (обязательно)", setupPlants: "Заросли", setupDecor: "Коряги, крышка!", setupTech: "Стандартный фильтр, аэрация" },
-      { name: "Астронотус", latin: "Astronotus ocellatus", desc: "Крупная цихлида.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 35 см", compat: "Только с крупными", food: "Гранулы, креветки, рыба", layer: "Средний", setupGround: "Крупный гравий", setupPlants: "Не ест, но выкапывает", setupDecor: "Крупные камни", setupTech: "Мощный фильтр!" },
-      { name: "Пиранья обыкновенная", latin: "Pygocentrus nattereri", desc: "Стайный хищник.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 30 см", compat: "Только своих", food: "Мясо, рыба", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
-      { name: "Пиранья чёрная", latin: "Serrasalmus rhombeus", desc: "Одиночный хищник.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 40 см", compat: "Только один", food: "Рыба", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
-      { name: "Ктенопома леопардовая", latin: "Ctenopoma acutirostre", desc: "Африканская цихлида.", category: "predator", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 15 см", compat: "С крупными рыбами", food: "Живой корм, мотыль", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Краснохвостый сом", latin: "Phractocephalus hemioliopterus", desc: "Гигант с красным хвостом.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "21–26°C", water: "pH 6.0–7.5", size: "до 130 см", compat: "Только очень крупные", food: "Рыба, креветки", layer: "Донный", setupGround: "Крупные камни", setupPlants: "Нет", setupDecor: "Массивные коряги", setupTech: "Мощный внешний фильтр" },
-      { name: "Панцирная щука", latin: "Lepisosteus", desc: "Древний хищник.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "20–26°C", water: "pH 6.5–8.0", size: "до 100 см", compat: "Только крупные", food: "Рыба", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
-      { name: "Индийский нож", latin: "Chitala chitala", desc: "Ночной хищник.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 100 см", compat: "Только крупные", food: "Мясо", layer: "Средний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Аксолотль", latin: "Ambystoma mexicanum", desc: "Амфибия.", category: "peaceful", difficulty: "Профи", minVolume: "40–50 л", temp: "16–20°C", water: "pH 6.5–7.5", size: "до 30 см", compat: "Один", food: "Черви", layer: "Донный", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Гроты", setupTech: "Охладитель воды!" },
-      { name: "Тритон", latin: "Triturus", desc: "Амфибия.", category: "peaceful", difficulty: "Профи", minVolume: "60+ л", temp: "18–22°C", water: "pH 6.5–7.5", size: "до 15 см", compat: "Только один", food: "Черви", layer: "Донный", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Суша/вода" },
-      { name: "Тетра кардинал", latin: "Paracheirodon axelrodi", desc: "Яркая стайная тетра.", category: "peaceful", difficulty: "Средне", minVolume: "60 л", temp: "23–28°C", water: "pH 5.5–6.5", size: "до 5 см", compat: "С мирными", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный песок", setupPlants: "Заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Расбора галактика", latin: "Danio margaritatus", desc: "Миниатюрная, спокойная.", category: "peaceful", difficulty: "Средне", minVolume: "30 л", temp: "20–24°C", water: "pH 6.5–7.5", size: "до 3 см", compat: "С мирными", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Мох", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Апистограмма Рамирези", latin: "Mikrogeophagus ramirezi", desc: "Мирная карликовая цихлида.", category: "peaceful", difficulty: "Средне", minVolume: "40 л", temp: "25–29°C", water: "pH 6.0–7.0", size: "до 5 см", compat: "С мирными", food: "Гранулы", layer: "Средний", setupGround: "Песок", setupPlants: "Заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Радужница неоновая", latin: "Melanotaenia praecox", desc: "Переливается голубым.", category: "peaceful", difficulty: "Новичкам", minVolume: "80 л", temp: "22–26°C", water: "pH 6.5–7.5", size: "до 8 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
-      { name: "Тетра конго", latin: "Phenacogrammus interruptus", desc: "Крупная тетра.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "23–27°C", water: "pH 6.0–7.5", size: "до 8 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Орнатус", latin: "Hyphessobrycon ornatus", desc: "Изящная тетра.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см", compat: "С мирными", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Гуппи Эндлера", latin: "Poecilia wingei", desc: "Родственник гуппи, меньше и ярче.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–28°C", water: "pH 6.5–7.5", size: "до 3.5 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
-      { name: "Барбус огненный", latin: "Puntius conchonius", desc: "Яркий барбус.", category: "peaceful", difficulty: "Новичкам", minVolume: "60 л", temp: "18–25°C", water: "pH 6.0–7.5", size: "до 8 см", compat: "С крупными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Течение" },
-      { name: "Тетра фон рио", latin: "Hyphessobrycon flammeus", desc: "Мирная стайная тетра.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Микрорасбора", latin: "Boraras brigittae", desc: "Крошечная стайная.", category: "peaceful", difficulty: "Новичкам", minVolume: "20 л", temp: "23–28°C", water: "pH 5.5–6.8", size: "до 2.5 см", compat: "С мирными", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Мох", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Псевдомугил", latin: "Pseudomugil furcatus", desc: "Активная рыбка.", category: "peaceful", difficulty: "Средне", minVolume: "40 л", temp: "23–27°C", water: "pH 6.5–7.5", size: "до 5 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
-      { name: "Ириатерина Вернера", latin: "Iriatherina werneri", desc: "Крошечная радужница.", category: "peaceful", difficulty: "Средне", minVolume: "40 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 4 см", compat: "С мирными", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Меланотения", latin: "Melanotaenia boesemani", desc: "Крупная радужница.", category: "peaceful", difficulty: "Средне", minVolume: "150 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 10 см", compat: "С крупными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
-      { name: "Гирардинус", latin: "Girardinus metallicus", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 7.0–8.0", size: "до 5 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
-      { name: "Гамбузия", latin: "Gambusia affinis", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "30 л", temp: "18–24°C", water: "pH 6.5–8.0", size: "до 5 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
-      { name: "Формоза", latin: "Xiphophorus variatus", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "20–26°C", water: "pH 7.0–8.0", size: "до 6 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
-      { name: "Боция зебра", latin: "Botia striata", desc: "Полосатая боция.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "23–27°C", water: "pH 6.0–7.5", size: "до 10 см", compat: "С мирными", food: "Таблетки", layer: "Донный", setupGround: "Песок", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Течение" },
-      { name: "Акантофтальмус", latin: "Pangio kuhlii", desc: "Угревидный вьюн.", category: "bottom", difficulty: "Средне", minVolume: "60 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 10 см", compat: "С мирными", food: "Таблетки", layer: "Донный", setupGround: "Песок", setupPlants: "Заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Сом таракатум", latin: "Hoplosternum thoracatum", desc: "Мирный сомик.", category: "bottom", difficulty: "Средне", minVolume: "80 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 18 см", compat: "С мирными", food: "Таблетки", layer: "Донный", setupGround: "Мягкий грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
-      { name: "Сом птеригоплихт", latin: "Pterygoplichthys pardalis", desc: "Крупный сом-присоска.", category: "bottom", difficulty: "Средне", minVolume: "200 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 40 см", compat: "С крупными", food: "Таблетки", layer: "Донный", setupGround: "Гравий", setupPlants: "Не ест", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
-      { name: "Сом синодонтис", latin: "Synodontis eupterus", desc: "Пёстрый сомик.", category: "bottom", difficulty: "Средне", minVolume: "150 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 20 см", compat: "С крупными", food: "Таблетки", layer: "Донный", setupGround: "Песок", setupPlants: "Не важно", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
-      { name: "Сом стеклянный", latin: "Kryptopterus vitreatus", desc: "Прозрачный сомик.", category: "bottom", difficulty: "Средне", minVolume: "80 л", temp: "22–26°C", water: "pH 6.0–7.0", size: "до 8 см", compat: "С мирными", food: "Мелкий корм", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Сом аспидор", latin: "Aspidoras pauciradiatus", desc: "Маленький стайный сомик.", category: "bottom", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.0", size: "до 4 см", compat: "С мирными", food: "Таблетки", layer: "Донный", setupGround: "Песок", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
-      { name: "Сом лорикария", latin: "Otocinclus vittatus", desc: "Сомик-присоска.", category: "bottom", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 5 см", compat: "С мирными", food: "Водоросли", layer: "Донный", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Сом фарлоуэлла", latin: "Farlowella acutus", desc: "Сом-палочка.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 15 см", compat: "С мирными", food: "Водоросли", layer: "Донный", setupGround: "Песок", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Сом леопардовый", latin: "Corydoras leopardus", desc: "Пятнистый коридорас.", category: "bottom", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 6.0–7.0", size: "до 6 см", compat: "С мирными", food: "Таблетки", layer: "Донный", setupGround: "Песок", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
-      { name: "Аравана", latin: "Osteoglossum bicirrhosum", desc: "Крупный хищник.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "24–30°C", water: "pH 6.0–7.5", size: "до 120 см", compat: "Только крупные", food: "Рыба", layer: "Верхний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
-      { name: "Рыба-нож", latin: "Apteronotus albifrons", desc: "Ночной хищник.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "23–28°C", water: "pH 6.0–7.0", size: "до 50 см", compat: "С крупными", food: "Рыба", layer: "Средний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Харацинка", latin: "Hemigrammus rhodostomus", desc: "Стайная тетра.", category: "peaceful", difficulty: "Средне", minVolume: "60 л", temp: "23–28°C", water: "pH 5.5–6.5", size: "до 4 см", compat: "С мирными", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Слепая рыба", latin: "Astyanax mexicanus", desc: "Пещерная форма.", category: "peaceful", difficulty: "Средне", minVolume: "60 л", temp: "20–25°C", water: "pH 6.5–7.5", size: "до 8 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Не важно", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Тетра медная", latin: "Hasemania nana", desc: "Мирная стайная тетра.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Тетра лимонная", latin: "Hyphessobrycon pulchripinnis", desc: "Жёлтая стайная тетра.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Тетра серебристая", latin: "Gasteropelecus sternicla", desc: "Стайная, у поверхности.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "23–27°C", water: "pH 6.0–7.0", size: "до 6 см", compat: "С мирными", food: "Хлопья", layer: "Верхний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Тетра пальмери", latin: "Hyphessobrycon palmeri", desc: "Мирная тетра.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 5 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Тетра императорская", latin: "Nematobrycon palmeri", desc: "Крупная тетра.", category: "peaceful", difficulty: "Средне", minVolume: "60 л", temp: "23–27°C", water: "pH 6.0–7.0", size: "до 5 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Тетра светлячок", latin: "Hemigrammus erythrozonus", desc: "Стайная тетра.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 4 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Нанностомус", latin: "Nannostomus marginatus", desc: "Крошечная стайная.", category: "peaceful", difficulty: "Средне", minVolume: "30 л", temp: "23–27°C", water: "pH 5.5–6.5", size: "до 3 см", compat: "С мирными", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Копеина", latin: "Copella arnoldi", desc: "Активная рыбка.", category: "peaceful", difficulty: "Средне", minVolume: "50 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 5 см", compat: "С мирными", food: "Хлопья", layer: "Верхний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
-      { name: "Пиранья паку", latin: "Piaractus brachypomus", desc: "Травоядная, крупная.", category: "predator", difficulty: "Профи", minVolume: "500 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 60 см", compat: "Только крупные", food: "Овощи", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
-      { name: "Пиранья красная", latin: "Pygocentrus nattereri", desc: "Стайный хищник.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 30 см", compat: "Только своих", food: "Мясо", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
-      { name: "Рыба-попугай", latin: "Amphilophus citrinellus", desc: "Крупная цихлида.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 7.0–8.0", size: "до 30 см", compat: "Только крупные", food: "Гранулы", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Камни", setupTech: "Мощный фильтр" },
-      { name: "Цихлида дельфин", latin: "Cyrtocara moorii", desc: "Голубая цихлида.", category: "peaceful", difficulty: "Средне", minVolume: "200 л", temp: "24–28°C", water: "pH 7.5–8.5", size: "до 20 см", compat: "С крупными", food: "Гранулы", layer: "Средний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Камни", setupTech: "Мощный фильтр" },
-      { name: "Цихлида фронтоза", latin: "Cyphotilapia frontosa", desc: "Крупная цихлида.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 8.0–9.0", size: "до 30 см", compat: "С крупными", food: "Гранулы", layer: "Средний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Камни", setupTech: "Мощный фильтр" }
-    ];
+      if (vol) document.getElementById('tankVol').value = vol;
+      if (date) document.getElementById('tankDate').value = date;
+      if (vol && date) {
+        document.getElementById('dashboardStatus').style.display = 'block';
+        const startDate = new Date(date);
+        const today = new Date();
+        const diffDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+        document.getElementById('tankAge').textContent = diffDays + ' дней';
 
-    const plantData = [
-      { name: "Валлиснерия", desc: "Быстрорастущая, длинная. Отлично подходит для заднего плана. Выносливая, не требует CO2 и мощного света." },
-      { name: "Роголистник", desc: "Быстрорастущий, плавает в толще воды. Отличный естественный фильтр, укрытие для мальков." },
-      { name: "Элодея", desc: "Быстрорастущая, длинная. Неприхотлива, отлично насыщает воду кислородом." },
-      { name: "Анубиас", desc: "Медленнорастущий, для среднего плана. Не заглублять корневище в грунт." },
-      { name: "Мох яванский", desc: "Создает красивые шапки, укрытие для креветок. Нуждается в фильтрации и стрижке." },
-      { name: "Людвигия", desc: "Красноватые листья. Предпочитает яркий свет и незаиленный грунт." },
-      { name: "Бакопа Монье", desc: "Неприхотливая, растет даже в тени. Хорошо смотрится на заднем плане." },
-      { name: "Криптокорина", desc: "Любит тень. Может сбрасывать листья при резкой смене условий. Неприхотлива." },
-      { name: "Папоротник тайландский", desc: "Растет медленно. Не любит пересадок. Высаживать через 3-4 месяца после запуска." },
-      { name: "Лимнофила", desc: "Пушистые листья, быстро растет. Отлично подходит для фона." },
-      { name: "Кладофора шаровидная", desc: "Водоросль-шарик. Не требует грунта и посадки. Просто лежит на дне." }
-    ];
-
-    const diseaseData = [
-      { name: "Ихтиофтириоз (Манка)", symptoms: "белые точки, крупинки, налет, белые пятна", treat: "28-30°C + Sera Omnipur" },
-      { name: "Оодиниоз", symptoms: "бархат, пыль, золотистый налет", treat: "Sera Omnipur" },
-      { name: "Плавниковая гниль", symptoms: "плавники, гниль, обрывки, рваные плавники", treat: "Sera Baktopur" },
-      { name: "Грибок (Сапролегния)", symptoms: "грибок, вата, пух, белый налет", treat: "Sera mycopur" },
-      { name: "Водянка (Асцит)", symptoms: "водянка, вздутие, ерошится чешуя", treat: "Антибиотики, карантин" },
-      { name: "Гексамитоз", symptoms: "дырки в голове, белый кал", treat: "Метронидазол" },
-      { name: "Аэромоноз", symptoms: "краснуха, красные язвы", treat: "Антибиотики" },
-      { name: "Дермоцистидиум", symptoms: "пузыри на плавниках", treat: "Sera Omnipur" },
-      { name: "Триходиноз", symptoms: "голубой налет, слизь", treat: "Sera Omnipur" },
-      { name: "Отравление хлором", symptoms: "хлор, красные жабры, ожог", treat: "Кондиционер" },
-      { name: "Аммиачное отравление", symptoms: "аммиак, красные жабры, тяжелое дыхание", treat: "Подмена 50%" },
-      { name: "Нитритное отравление", symptoms: "нитриты, бурый цвет крови", treat: "Подмена, аэрация" },
-      { name: "Помутнение глаз", symptoms: "глаза, помутнение, бельмо", treat: "Melafix" },
-      { name: "Экзофтальм (Пучеглазие)", symptoms: "глаза наружу, пучеглазие", treat: "Антибиотики" },
-      { name: "Ожирение / Запор", symptoms: "толстая рыба, запор", treat: "Разгрузка, горошек" },
-      { name: "Седловина", symptoms: "впадина на спине", treat: "Антибиотики" },
-      { name: "Туберкулез рыб", symptoms: "исхудание, впалый живот", treat: "Карантин" },
-      { name: "Кишечные паразиты", symptoms: "белый кал, нитчатый кал", treat: "Метронидазол" },
-      { name: "Грибок на плавниках", symptoms: "вата на плавниках", treat: "Sera mycopur" },
-      { name: "Псевдомоноз", symptoms: "язвы, кровоизлияния", treat: "Антибиотики" },
-      { name: "Флексибактериоз", symptoms: "жабры, слизь, вялость", treat: "Антибиотики" },
-      { name: "Колумнарис", symptoms: "пушистые жабы, язвы", treat: "Антибиотики" },
-      { name: "Микобактериоз", symptoms: "исхудание, язвы", treat: "Не лечится" },
-      { name: "Стрептококкоз", symptoms: "пучеглазие, вялость", treat: "Антибиотики" },
-      { name: "Липидоидоз", symptoms: "чешуя, налет", treat: "Не лечится" },
-      { name: "Плистофороз", symptoms: "исхудание, пучеглазие", treat: "Карантин" },
-      { name: "Неоновая болезнь", symptoms: "неоны, белые пятна", treat: "Не лечится" },
-      { name: "Карповые оспины", symptoms: "восковой налет", treat: "Карантин" },
-      { name: "Лимфоцистоз", symptoms: "серые наросты", treat: "Карантин" },
-      { name: "Аргулез", symptoms: "клещи, точки", treat: "Соль, препараты" },
-      { name: "Лернеоз", symptoms: "червяки, нити", treat: "Соль, препараты" },
-      { name: "Гиродактилез", symptoms: "слизь, чешутся", treat: "Соль" },
-      { name: "Дактилогироз", symptoms: "жабры, вялость", treat: "Соль" },
-      { name: "Плавниковая гниль", symptoms: "плавники, гниль", treat: "Sera Baktopur" },
-      { name: "Ихтик", symptoms: "белые точки", treat: "Sera Omnipur" }
-    ];
-
-    const fishGrid = document.getElementById("fishGrid");
-    const plantGrid = document.getElementById("plantGrid");
-    const diseaseGrid = document.getElementById("diseaseGrid");
-    let currentFilter = "all";
-    let currentDifficulty = "all";
-    let currentSearch = "";
-    let currentVolume = null;
-
-    function renderFish() {
-      let filtered = fishData.filter(function(f) {
-        const matchSearch = f.name.toLowerCase().indexOf(currentSearch.toLowerCase()) !== -1;
-        const matchFilter = currentFilter === "all" || f.category === currentFilter;
-        let matchDiff = true;
-        if (currentDifficulty !== "all") {
-           matchDiff = f.difficulty && f.difficulty.toLowerCase().includes(currentDifficulty.toLowerCase());
+        if (lastWater) {
+          const lastDate = new Date(lastWater);
+          const waterDiff = Math.floor((today - lastDate) / (1000 * 60 * 60 * 24));
+          if (waterDiff >= 7) {
+            document.getElementById('waterStatus').innerHTML = '<span style="color: red;">ПОРА МЕНЯТЬ ВОДУ! (' + waterDiff + ' дн.)</span>';
+          } else {
+            document.getElementById('waterStatus').textContent = 'Всё ок (' + waterDiff + ' дн. назад)';
+          }
         }
-        return matchSearch && matchFilter && matchDiff;
-      });
-
-      if (currentVolume !== null) {
-        filtered = filtered.filter(function(f) {
-          const minVol = parseInt(f.minVolume);
-          return !isNaN(minVol) && minVol <= currentVolume;
-        });
       }
-
-      fishGrid.innerHTML = filtered.map(function(fish) {
-        const idx = fishData.indexOf(fish);
-        return '<article class="card" onclick="openModal(' + idx + ')">' +
-          '<div class="card-img">' + fishPhotoHTML(fish, idx) + '</div>' +
-          '<div class="card-body">' +
-            '<div class="card-title">' + fish.name + '</div>' +
-            '<div class="card-desc">' + fish.latin + '</div>' +
-            '<div class="card-desc" style="color:#e63946; font-weight:bold; font-size:0.8rem; margin-bottom:10px;">' + (fish.difficulty || '') + ' • ' + (fish.size || '') + '</div>' +
-            '<button class="btn-view">Подробнее</button>' +
-          '</div></article>';
-      }).join("");
     }
 
-    function filterByVolume() {
-      const val = document.getElementById("volumeInput").value;
-      currentVolume = val ? parseInt(val) : null;
-      renderFish();
+    function updateWaterDate() {
+      localStorage.setItem('lastWaterChange', new Date().toISOString().split('T')[0]);
+      loadTankData();
+      alert('Подмена воды отмечена!');
     }
 
-    function resetVolume() {
-      document.getElementById("volumeInput").value = "";
-      currentVolume = null;
-      renderFish();
+    function toggleTask(taskId, isChecked) {
+      const el = document.getElementById('task-' + taskId);
+      if (isChecked) el.classList.add('done'); else el.classList.remove('done');
+      localStorage.setItem('task-' + taskId, isChecked);
     }
 
-    function renderPlants() {
-      plantGrid.innerHTML = plantData.map(function(plant, i) {
-        return '<article class="card" onclick="openPlantModal(' + i + ')">' +
-          '<div class="card-img" style="font-size:4rem; position:static; display:flex;">🌿</div>' +
-          '<div class="card-body"><div class="card-title">' + plant.name + '</div><div class="card-desc">' + plant.desc + '</div><button class="btn-view">Подробнее</button></div></article>';
-      }).join("");
-    }
-
-    function renderDiseases() {
-      const q = document.getElementById('symptomSearch').value.toLowerCase();
-      const filtered = diseaseData.filter(function(d) {
-        return d.symptoms.toLowerCase().includes(q) || d.name.toLowerCase().includes(q);
-      });
-      diseaseGrid.innerHTML = filtered.map(function(d) {
-        return '<article class="card" style="cursor: default;">' +
-          '<div class="card-img" style="font-size:3rem; position:static; display:flex;">🦠</div>' +
-          '<div class="card-body"><div class="card-title">' + d.name + '</div><p><strong>Симптомы:</strong> ' + d.symptoms + '</p><p><strong>Лечение:</strong> ' + d.treat + '</p></div></article>';
-      }).join("");
-    }
-
-    function filterFish(value, type) {
-      if (type === 'category') currentFilter = value;
-      if (type === 'difficulty') currentDifficulty = value;
-      event.target.parentElement.querySelectorAll('.filter-btn').forEach(function(btn) { btn.classList.remove("active"); });
-      event.target.classList.add("active");
-      renderFish();
-    }
-
-    function calcVolume() {
-      const l = parseFloat(document.getElementById("len").value) || 0;
-      const w = parseFloat(document.getElementById("wid").value) || 0;
-      const h = parseFloat(document.getElementById("hei").value) || 0;
-      const res = (l * w * h) / 1000;
-      document.getElementById("calcResult").textContent = res > 0 ? res.toFixed(1) + " литров" : "";
-    }
-
-    function openModal(index) {
-      const f = fishData[index];
-      if (!f) return;
-      document.getElementById("modalPhoto").innerHTML = fishPhotoHTML(f, index);
-      document.getElementById("modalName").textContent = f.name;
-      document.getElementById("modalLatin").textContent = f.latin;
-      document.getElementById("modalDesc").textContent = f.desc + (f.size ? " (Размер: " + f.size + ")" : "");
-      document.getElementById("modalMinVol").textContent = f.minVolume || "—";
-      document.getElementById("modalTemp").textContent = f.temp;
-      document.getElementById("modalWater").textContent = f.water;
-      document.getElementById("modalDiff").textContent = f.difficulty;
-      
-      // Восстановленные данные обустройства
-      document.getElementById("setupGround").textContent = f.setupGround || "—";
-      document.getElementById("setupPlants").textContent = f.setupPlants || "—";
-      document.getElementById("setupDecor").textContent = f.setupDecor || "—";
-      document.getElementById("setupTech").textContent = f.setupTech || "—";
-
-      document.getElementById("modalOverlay").classList.add("open");
-    }
-
-    function closeModal() { document.getElementById("modalOverlay").classList.remove("open"); }
-    document.getElementById("modalClose").addEventListener("click", closeModal);
-    document.getElementById("modalOverlay").addEventListener("click", function(e) { if (e.target === this) closeModal(); });
-
-    function showPage(pageId) {
-      document.querySelectorAll(".page").forEach(function(p) { p.classList.remove("active"); });
-      document.querySelectorAll(".nav-links a").forEach(function(a) { a.classList.remove("active"); });
-      document.getElementById("page-" + pageId).classList.add("active");
-      document.getElementById("link-" + pageId).classList.add("active");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    document.getElementById("searchInput").addEventListener("input", function(e) {
-      currentSearch = e.target.value;
-      renderFish();
+    // Загрузка галочек
+    ['feed', 'light', 'clean', 'filter'].forEach(task => {
+      const saved = localStorage.getItem('task-' + task);
+      if (saved === 'true') {
+        const el = document.getElementById('task-' + task);
+        if (el) { el.classList.add('done'); el.querySelector('input').checked = true; }
+      }
     });
 
-    window.onscroll = function() {
-      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-        document.getElementById("scrollTopBtn").style.display = "block";
-      } else {
-        document.getElementById("scrollTopBtn").style.display = "none";
-      }
-    };
+    // --- ГРАФИК ПАРАМЕТРОВ ---
+    let waterData = JSON.parse(localStorage.getItem('waterData')) || [];
+    const canvas = document.getElementById('waterChart');
+    const ctx = canvas.getContext('2d');
 
-    function scrollToTop() {
+    function addWaterParam() {
+      const ph = parseFloat(document.getElementById('phInput').value);
+      const temp = parseFloat(document.getElementById('tempInput').value);
+      if (isNaN(ph) && isNaN(temp)) return alert('Введи хотя бы один параметр');
+
+      const date = new Date().toLocaleDateString();
+      waterData.push({ date, ph, temp });
+      localStorage.setItem('waterData', JSON.stringify(waterData));
+      document.getElementById('phInput').value = '';
+      document.getElementById('tempInput').value = '';
+      drawChart();
+    }
+
+    function drawChart() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (waterData.length < 2) { ctx.fillText('Недостаточно данных для графика', 10, 50); return; }
+
+      const padding = 30;
+      const w = canvas.width - padding * 2;
+      const h = canvas.height - padding * 2;
+
+      ctx.beginPath();
+      ctx.strokeStyle = '#087f8c';
+      ctx.lineWidth = 2;
+      waterData.forEach((d, i) => {
+        if (isNaN(d.ph)) return;
+        const x = padding + (i / (waterData.length - 1)) * w;
+        const y = h - ((d.ph - 5) / 5) * h + padding;
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+
+      waterData.forEach((d, i) => {
+        if (isNaN(d.ph)) return;
+        const x = padding + (i / (waterData.length - 1)) * w;
+        const y = h - ((d.ph - 5) / 5) * h + padding;
+        ctx.beginPath();
+        ctx.fillStyle = '#e63946';
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = 'black';
+        ctx.fillText(d.ph, x - 5, y - 10);
+      });
+    }
+
+    // --- СПИСОК ПОКУПОК ---
+    let shopList = JSON.parse(localStorage.getItem('shopList')) || [];
+
+    function addShopItem() {
+      const val = document.getElementById('shopInput').value.trim();
+      if (!val) return;
+      shopList.push(val);
+      localStorage.setItem('shopList', JSON.stringify(shopList));
+      document.getElementById('shopInput').value = '';
+      renderShopList();
+    }
+
+    function removeShopItem(index) {
+      shopList.splice(index, 1);
+      localStorage.setItem('shopList', JSON.stringify(shopList));
+      renderShopList();
+    }
+
+    function renderShopList() {
+      const container = document.getElementById('shopList');
+      container.innerHTML = shopList.map((item, i) => `
+        <div class="shop-item">
+          <span>${item}</span>
+          <button onclick="removeShopItem(${i})">✕</button>
+        </div>
+      `).join('');
+    }
+
+    // --- БАННЕР ---
+    function closeBanner() {
+      document.getElementById('app-banner').classList.remove('open');
+    }
+
+    // --- ОБЩИЕ ФУНКЦИИ (навигация и т.д.) ---
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      document.getElementById('page-' + id).classList.add('active');
+      document.getElementById('link-' + id).classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    renderFish();
-    renderPlants();
-    renderDiseases();
+    window.onscroll = function() {
+      document.getElementById('scrollTopBtn').style.display = window.scrollY > 200 ? 'block' : 'none';
+    };
+
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+    // --- ИНИЦИАЛИЗАЦИЯ ---
+    window.onload = function() {
+      loadTankData();
+      renderShopList();
+      drawChart();
+
+      setTimeout(() => {
+        document.getElementById('app-banner').classList.add('open');
+      }, 1000);
+
+      setTimeout(() => {
+        document.getElementById('app-banner').classList.remove('open');
+      }, 6000);
+    };
   </script>
 </body>
 </html>
