@@ -59,7 +59,7 @@
     .calc-box button { background: var(--ocean); color: white; border: 0; padding: 10px 20px; border-radius: 8px; font-weight: 600; }
     .calc-result { font-weight: 700; font-size: 1.2rem; color: var(--ocean); margin-left: 10px; }
 
-    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: white; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: white; margin-bottom: 20px; }
     table { width: 100%; min-width: 600px; border-collapse: collapse; }
     th, td { padding: 15px; text-align: left; border-bottom: 1px solid var(--line); }
     th { background: #f9f9f9; color: var(--ocean); font-weight: 700; }
@@ -83,6 +83,14 @@
     .setup-box h4 { color: #087f8c; margin: 0 0 10px; }
     .setup-item { margin-bottom: 8px; font-size: 0.95rem; }
     .setup-item strong { color: #087f8c; }
+
+    #scrollTopBtn {
+      display: none; position: fixed; bottom: 20px; right: 30px;
+      z-index: 99; border: none; outline: none; background-color: var(--red); color: white;
+      cursor: pointer; padding: 15px; border-radius: 50%; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: background-color 0.3s;
+    }
+    #scrollTopBtn:hover { background-color: var(--red-dark); }
 
     @media (max-width: 600px) {
       .info-grid { grid-template-columns: 1fr; }
@@ -110,7 +118,29 @@
   <div id="page-fish" class="page active container">
     <h2 class="section-title">Каталог рыб</h2>
     <p class="section-desc">Ищи нужную рыбу или фильтруй по категориям.</p>
-    
+
+    <!-- БЛОК "НОВИЧКУ" -->
+    <div class="info-block" style="background-color: #eaf6f3; border-color: #ccebe2;">
+      <h3 style="color: var(--ocean); margin-top: 0;">👶 Новичку: с чего начать</h3>
+      <p>Если ты покупаешь свой первый аквариум, не бери всё подряд. Вот проверенная связка, которая не создаст проблем.</p>
+      
+      <p><strong>Объем:</strong> Бери <strong>60 литров</strong> (или 50–70 л). В маленькой банке (10–30 л) вода портится мгновенно, новичок не успеет среагировать. В большой (100+ л) сложнее ухаживать и дороже оборудование. 60 л — золотая середина.</p>
+      
+      <p><strong>Кого сажать (пример):</strong> На 60 литров можно безопасно посадить <strong>стайку Данио (6–8 шт)</strong> + <strong>3–4 Коридораса</strong> (они живут на дне, не мешают друг другу). Или <strong>Гуппи (3–4 пары)</strong> + <strong>2 Анциструса</strong> (сом-присоска). Не бери крупных рыб (скалярий, астронотусов) — им нужны другие объемы.</p>
+
+      <p><strong>Грунт:</strong> Бери <strong>мелкий темный гравий (2–4 мм)</strong> или <strong>речной песок</strong>. Темный грунт не бликует, на нем не так видна грязь, и рыбы выглядят ярче. Песок нужен, если берешь коридорасов (они любят копаться, об острый гравий могут поранить усы).</p>
+
+      <p><strong>Фильтр (чтобы не сдувало и не шумело):</strong></p>
+      <ul>
+        <li><strong>Если хочешь навесной (рюкзачок):</strong> <strong>Aquael Versamax 1</strong> (до 100 л, 500 л/ч). Он вешается снаружи, в воде только трубка. Есть <strong>регулировка потока</strong> — для 60 литров ставишь на минимум, чтобы не было бури. Работает тихо, вода стекает «водопадом» .</li>
+        <li><strong>Если хочешь внутренний (проще):</strong> <strong>Tetra EasyCrystal</strong> (для 60 л бери модель с запасом, например, на 100–150 л, но <strong>обязательно с регулятором</strong>). Или <strong>Aquael Fan 1 Plus</strong> — классика, но проверь, чтобы был регулятор потока, иначе для 60 литров может быть сильновато [citation:15].</li>
+        <li><strong>Чего НЕ брать:</strong> Дешевые китайские помпы без регулировки (Sunsun, если только не с регулятором) — они либо гудят, либо создают «стиральную машину». Новичку это не нужно [citation:14].</li>
+      </ul>
+      <p><em>Почему именно так: Фильтр должен прокачивать 5–6 объемов в час, но не больше 10. Для 60 литров это 300–600 л/ч. Но если поток не регулируется, рыбу будет носить. Поэтому <strong>регулятор потока — обязателен</strong> [citation:15].</em></p>
+
+      <p><strong>Обогреватель:</strong> Бери на <strong>50 Вт</strong> (если в комнате прохладно) или <strong>75 Вт</strong> (с запасом). Правило простое: 1 Вт на 1 литр. На 60 литров — 60 Вт. Главное — с терморегулятором, чтобы он сам выключался, когда вода нагреется [citation:3].</p>
+    </div>
+
     <div class="controls">
       <input type="text" class="search-input" id="searchInput" placeholder="Поиск по названию...">
       <div class="filter-buttons">
@@ -127,57 +157,76 @@
       </div>
     </div>
     
+    <!-- КАЛЬКУЛЯТОР НАСЕЛЕНИЯ -->
+    <div class="controls" style="background-color: #f9f9f9; border-color: #ddd;">
+      <span style="font-weight: 600; padding: 10px 0;">Подобрать рыбу под мой объем (л):</span>
+      <input type="number" id="volumeInput" class="search-input" style="flex-grow: 0; width: 100px;" placeholder="60">
+      <button class="filter-btn active" onclick="filterByVolume()">Подобрать</button>
+      <button class="filter-btn" onclick="resetVolume()">Сбросить</button>
+    </div>
+    
     <div class="grid" id="fishGrid"></div>
   </div>
 
-  <!-- РАСТЕНИЯ -->
   <div id="page-plants" class="page container">
     <h2 class="section-title">Живые растения</h2>
-    <p class="section-desc">Растения — это не только декор, но и естественный фильтр. Выбирайте выносливые виды.</p>
     <div class="grid" id="plantGrid"></div>
   </div>
 
-  <!-- ОБОРУДОВАНИЕ (КАРТОЧКИ) -->
   <div id="page-equipment" class="page container">
-    <h2 class="section-title">Оборудование</h2>
-    <p class="section-desc">Как правильно подобрать технику под свой аквариум.</p>
+    <h2 class="section-title">Как подобрать оборудование</h2>
+    <p class="section-desc">Правила подбора и проверенные бренды.</p>
     
-    <div class="grid">
-      <article class="card" style="cursor: default; border-color: #087f8c;">
-        <div class="card-img" style="font-size:4rem; position:static; display:flex;">⚙️</div>
-        <div class="card-body">
-          <div class="card-title">Фильтры</div>
-          <p><strong>Правило:</strong> 5–6 объемов в час для небольших банок. На 100 л — фильтр на 500–600 л/ч.</p>
-          <p><strong>Бренды:</strong> Aquael (aquael.com), Fluval (fluvalaquatics.com).</p>
-        </div>
-      </article>
+    <div class="info-block">
+      <h3>Фильтры</h3>
+      <p><strong>Как подобрать:</strong> 5–6 объемов в час для небольших банок. На 100 л — фильтр на 500–600 л/ч. Обязательно с регулятором потока.</p>
+      <p><strong>Бренды:</strong> Aquael (aquael.com), Fluval (fluvalaquatics.com).</p>
+    </div>
+    <div class="info-block">
+      <h3>Освещение</h3>
+      <p><strong>Как подобрать:</strong> Свет 8–10 часов. Для простых растений хватит штатной LED-лампы.</p>
+      <p><strong>Бренды:</strong> Chihiros (chihirosaquatic.com), Twinstar (twinstaraqua.com).</p>
+    </div>
+    <div class="info-block">
+      <h3>Обогреватели</h3>
+      <p><strong>Как подобрать:</strong> 1 Ватт на 1 литр. На 50 л — 50 Вт, на 100 л — 100 Вт. С терморегулятором.</p>
+      <p><strong>Бренды:</strong> Eheim Jäger (eheim.com), Tetra (tetra-fish.com).</p>
+    </div>
+    <div class="info-block">
+      <h3>Аэрация</h3>
+      <p><strong>Как подобрать:</strong> Для травников обязательна ночью. Можно взять помпу с аэрацией или отдельный компрессор.</p>
+      <p><strong>Бренды:</strong> Barbus, JBL (jbl.de).</p>
+    </div>
 
-      <article class="card" style="cursor: default; border-color: #087f8c;">
-        <div class="card-img" style="font-size:4rem; position:static; display:flex;">💡</div>
-        <div class="card-body">
-          <div class="card-title">Освещение</div>
-          <p><strong>Правило:</strong> Свет 6-8 часов. Для простых растений хватит штатной LED-лампы.</p>
-          <p><strong>Бренды:</strong> Chihiros (chihirosaquatic.com), Twinstar (twinstaraqua.com).</p>
-        </div>
-      </article>
+    <div class="info-block" style="margin-top: 30px;">
+      <h3>Сравнение фильтров (Tetra, Barbus, JBL)</h3>
+      <h4 style="color: var(--ocean);">Внутренние фильтры</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Бренд</th><th>Модель</th><th>Объем</th><th>Производительность</th><th>Особенности</th></tr></thead>
+          <tbody>
+            <tr><td>Tetra</td><td>Tetratec IN300</td><td>до 40 л</td><td>~300 л/ч</td><td>Простой, надежный</td></tr>
+            <tr><td>Tetra</td><td>Tetratec IN600</td><td>до 100 л</td><td>~600 л/ч</td><td>Оптимал для 60-100 л</td></tr>
+            <tr><td>Barbus</td><td>Filter 036 (Био-бокс)</td><td>80–160 л</td><td>900 л/ч</td><td>Био-шарики, аэрация, флейта</td></tr>
+            <tr><td>JBL</td><td>CristalProfi i60</td><td>до 60 л</td><td>300–800 л/ч</td><td>Регулировка потока, магнитные держатели</td></tr>
+            <tr><td>JBL</td><td>CristalProfi i80</td><td>до 80 л</td><td>~600 л/ч</td><td>Модульный, расширяемый</td></tr>
+          </tbody>
+        </table>
+      </div>
 
-      <article class="card" style="cursor: default; border-color: #087f8c;">
-        <div class="card-img" style="font-size:4rem; position:static; display:flex;">🔥</div>
-        <div class="card-body">
-          <div class="card-title">Обогреватели</div>
-          <p><strong>Правило:</strong> 1 Ватт на 1 литр. На 50 л — 50 Вт, на 100 л — 100 Вт.</p>
-          <p><strong>Бренды:</strong> Eheim Jäger (eheim.com), Tetra (tetra-fish.com).</p>
-        </div>
-      </article>
-
-      <article class="card" style="cursor: default; border-color: #087f8c;">
-        <div class="card-img" style="font-size:4rem; position:static; display:flex;">💨</div>
-        <div class="card-body">
-          <div class="card-title">Аэрация</div>
-          <p><strong>Правило:</strong> Для травников обязательна ночью. Можно взять помпу с аэрацией или отдельный компрессор.</p>
-          <p><strong>Бренды:</strong> Barbus, JBL (jbl.de).</p>
-        </div>
-      </article>
+      <h4 style="color: var(--ocean); margin-top: 20px;">Внешние фильтры</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Бренд</th><th>Модель</th><th>Объем</th><th>Производительность</th><th>Особенности</th></tr></thead>
+          <tbody>
+            <tr><td>Tetra</td><td>EX 600 Plus</td><td>до 120 л</td><td>600 л/ч</td><td>Самая популярная</td></tr>
+            <tr><td>Tetra</td><td>EX 800 Plus</td><td>120–300 л</td><td>800 л/ч</td><td>Для средних банок</td></tr>
+            <tr><td>Barbus</td><td>Filter 102</td><td>до 200 л</td><td>850 л/ч</td><td>Для 100-200 л</td></tr>
+            <tr><td>JBL</td><td>CristalProfi e702</td><td>60–200 л</td><td>700 л/ч</td><td>Средний класс</td></tr>
+            <tr><td>JBL</td><td>CristalProfi e902</td><td>90–300 л</td><td>900 л/ч</td><td>Для 100-300 л</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div class="info-block" style="margin-top: 30px;">
@@ -192,28 +241,15 @@
     </div>
   </div>
 
-  <!-- ГРУНТ И ДЕКОР -->
   <div id="page-ground" class="page container">
     <h2 class="section-title">Грунт и декор</h2>
-    <p class="section-desc">Оформление — это не только красота, но и здоровье рыб. Не делай из аквариума игрушку.</p>
-    
-    <div class="info-block">
-      <h3>Грунт</h3>
-      <p>Для сомов (коридорасы, анциструсы) нужен <strong>мягкий песок</strong> или окатанный гравий без острых краев, чтобы они не поранили усы и брюшко.</p>
-      <p>Для растений — питательный грунт (например, Tetra CompleteSubstrate, JBL Manado). Слой 3-5 см.</p>
-    </div>
-
-    <div class="info-block">
-      <h3>Камни</h3>
-      <p>Проверяем уксусом: если шипит — не подходит, повышает жесткость. Безопасные породы: сланец, базальт, гранит.</p>
-    </div>
-
+    <p class="section-desc">Оформление — это не только красота, но и здоровье рыб.</p>
+    <div class="info-block"><h3>Грунт</h3><p>Для сомов — мягкий песок. Для растений — питательный грунт (Tetra, JBL).</p></div>
+    <div class="info-block"><h3>Камни</h3><p>Проверять уксусом. Безопасные: сланец, базальт.</p></div>
     <div class="info-block">
       <h3>Живые растения вместо пластика</h3>
-      <p>Короче, новички, слушайте сюда. <strong>Не превращайте аквариум в пластиковую помойку.</strong> Вместо искусственных растений (особенно ярких кислотных цветов — красных, розовых, голубых) сажайте <strong>живые</strong>.</p>
-      <p>Живые растения — это не только красиво, но и полезно: они выделяют кислород, служат укрытием для рыб и естественным фильтром. Им не нужен CO2 и сложный свет, чтобы просто выжить.</p>
-      <p><strong>Любые быстрорастущие, выносливые, длинные:</strong> Валлиснерия, Роголистник, Элодея, Лимнофила, Бакопа. Они растут сами, быстро набирают зелёную массу и неприхотливы.</p>
-      <p><strong>В чём проблема пластика?</strong> Яркие пластиковые растения становятся источником <strong>стресса</strong> для рыб (они выглядят как что-то неестественное и пугающее). А сами пластиковые декорации могут выделять <strong>вредные токсины</strong>, которые медленно и мучительно будут убивать ваших рыб.</p>
+      <p>Не превращайте аквариум в пластиковую помойку. Вместо искусственных растений (особенно кислотных цветов) сажайте живые. Они выделяют кислород и служат укрытием. Любые быстрорастущие: Валлиснерия, Роголистник, Элодея.</p>
+      <p>Яркие пластиковые растения вызывают стресс у рыб. А пластиковые декорации могут выделять токсины.</p>
     </div>
   </div>
 
@@ -230,37 +266,11 @@
     <div class="table-wrap"><table><thead><tr><th>Вид</th><th>С кем можно</th><th>С кем нельзя</th></tr></thead><tbody>
       <tr><td>Гуппи</td><td>Неоны, коридорасы, данио, пецилии, моллинезии, мелкие тетры</td><td>Крупные цихлиды, барбусы, любые хищники</td></tr>
       <tr><td>Пецилия</td><td>Гуппи, меченосцы, моллинезии, данио, коридорасы</td><td>Крупные цихлиды, хищники</td></tr>
-      <tr><td>Моллинезия</td><td>Гуппи, пецилии, меченосцы, данио</td><td>Агрессивные цихлиды, барбусы</td></tr>
-      <tr><td>Меченосец</td><td>Гуппи, пецилии, моллинезии, тетры</td><td>Крупные хищники, агрессивные цихлиды</td></tr>
       <tr><td>Неон</td><td>Гуппи, мелкие тетры, коридорасы, расборы, данио</td><td>Крупные цихлиды (астронотус, скалярия), хищники</td></tr>
       <tr><td>Тернеция</td><td>Неоны, гуппи, данио, коридорасы</td><td>Крупные хищники, агрессивные цихлиды</td></tr>
-      <tr><td>Расбора</td><td>Неоны, мелкие тетры, данио, гуппи</td><td>Крупные рыбы, хищники</td></tr>
-      <tr><td>Барбус (суматранский)</td><td>Быстрые рыбы (данио, крупные тетры), сомы</td><td>Медленные рыбы с длинными плавниками (петушки, гурами, скалярии)</td></tr>
-      <tr><td>Вишнёвый барбус</td><td>Мирные рыбы, сомы, неоны</td><td>Крупные хищники</td></tr>
-      <tr><td>Данио</td><td>Неоны, гуппи, расборы, коридорасы, вишнёвые барбусы</td><td>Медленные рыбы, крупные хищники</td></tr>
-      <tr><td>Петушок</td><td>Коридорасы, сомы-присоски (анциструсы), улитки</td><td>Другие самцы петушков, барбусы (кусают плавники), гурами, крупные рыбы</td></tr>
-      <tr><td>Гурами мраморный</td><td>Мирные рыбы (неоны, расборы, данио), сомы</td><td>Агрессивные цихлиды, барбусы (могут кусать), крупные хищники</td></tr>
-      <tr><td>Лялиус</td><td>Мирные рыбы, сомы, неоны</td><td>Барбусы, агрессивные цихлиды</td></tr>
-      <tr><td>Гурами жемчужный</td><td>Скалярии, крупные тетры, сомы</td><td>Мелкие рыбы (съест), агрессивные цихлиды</td></tr>
-      <tr><td>Скалярия</td><td>Гурами, крупные тетры, сомы (анциструсы, коридорасы)</td><td>Мелкие неоны (съест), барбусы (кусают плавники), петушки</td></tr>
-      <tr><td>Апистограмма</td><td>Мирные тетры, сомы, небольшие гурами</td><td>Крупные цихлиды, хищники</td></tr>
-      <tr><td>Дискус</td><td>Скалярии, крупные тетры, сомы</td><td>Агрессивные цихлиды, быстрые рыбы (стресс)</td></tr>
-      <tr><td>Коридорас</td><td>Мирные рыбы (гуппи, неоны, тетры), креветки</td><td>Крупные хищные цихлиды</td></tr>
-      <tr><td>Анциструс</td><td>Мирные рыбы, цихлиды, крупные тетры</td><td>Агрессивные хищники</td></tr>
-      <tr><td>Отоцинклюс</td><td>Мирные мелкие рыбы (неоны, гуппи, расборы)</td><td>Крупные хищники</td></tr>
-      <tr><td>Торакатум</td><td>Мирные рыбы, цихлиды, крупные тетры</td><td>Очень агрессивные хищники</td></tr>
-      <tr><td>Платидорас</td><td>Мирные рыбы, крупные цихлиды, тетры</td><td>Мелкие рыбы (съест ночью), агрессивные хищники</td></tr>
-      <tr><td>Боция Клоун</td><td>Мирные рыбы, цихлиды, сомы</td><td>Агрессивные хищники</td></tr>
-      <tr><td>Макрогнатус</td><td>Мирные рыбы, сомы</td><td>Мелкие рыбы (съест ночью), агрессивные хищники</td></tr>
-      <tr><td>Астронотус</td><td>Только крупные рыбы (паку, арованы) или один</td><td>Все, кто меньше 10 см (съест)</td></tr>
-      <tr><td>Пиранья обыкновенная</td><td>Только своих (стая пираний)</td><td>Все остальные (съедят)</td></tr>
-      <tr><td>Пиранья чёрная</td><td>Только один</td><td>Все остальные</td></tr>
-      <tr><td>Ктенопома леопардовая</td><td>Крупные рыбы, сомы</td><td>Мелкие рыбы (съест)</td></tr>
-      <tr><td>Краснохвостый сом</td><td>Очень крупные рыбы (арованы, паку) или один</td><td>Все, кто помещается в рот</td></tr>
-      <tr><td>Панцирная щука</td><td>Только крупные хищники</td><td>Мелкие и средние рыбы</td></tr>
-      <tr><td>Индийский нож</td><td>Крупные рыбы</td><td>Все, кто меньше 15 см</td></tr>
-      <tr><td>Аксолотль</td><td>Только один</td><td>Всех рыб</td></tr>
-      <tr><td>Тритон</td><td>Только один</td><td>Всех рыб</td></tr>
+      <tr><td>Петушок</td><td>Коридорасы, сомы-присоски, улитки</td><td>Другие самцы петушков, барбусы, гурами</td></tr>
+      <tr><td>Скалярия</td><td>Гурами, крупные тетры, сомы</td><td>Мелкие неоны (съест), барбусы</td></tr>
+      <tr><td>Астронотус</td><td>Только крупные рыбы или один</td><td>Все, кто меньше 10 см (съест)</td></tr>
     </tbody></table></div>
   </div>
 
@@ -285,8 +295,17 @@
         <div class="info-box"><strong>pH / GH</strong><span id="modalWater"></span></div>
         <div class="info-box"><strong>Сложность</strong><span id="modalDiff"></span></div>
       </div>
+      <div class="setup-box" id="modalSetupBox">
+        <h4>🛠 Как обустроить</h4>
+        <div class="setup-item"><strong>Грунт:</strong> <span id="setupGround"></span></div>
+        <div class="setup-item"><strong>Растения:</strong> <span id="setupPlants"></span></div>
+        <div class="setup-item"><strong>Декор:</strong> <span id="setupDecor"></span></div>
+        <div class="setup-item"><strong>Оборудование:</strong> <span id="setupTech"></span></div>
+      </div>
     </div>
   </div>
+
+  <button id="scrollTopBtn" onclick="scrollToTop()" title="Наверх">↑</button>
 
   <script>
     const fishSVGs = [
@@ -391,91 +410,91 @@
     }
 
     const fishData = [
-      { name: "Гуппи", latin: "Poecilia reticulata", desc: "Живородящая рыбка.", category: "peaceful", difficulty: "Новичкам", minVolume: "30 л", temp: "22–26°C", water: "pH 6.5–7.5", size: "до 5 см" },
-      { name: "Неон", latin: "Paracheirodon innesi", desc: "Стайная рыбка. Держать от 10 особей в объеме от 80 л.", category: "peaceful", difficulty: "Новичкам", minVolume: "80 л", temp: "20–26°C", water: "pH 6.8–7.2, gH 4–10", size: "до 4 см" },
-      { name: "Петушок", latin: "Betta splendens", desc: "Одиночная рыбка.", category: "peaceful", difficulty: "Новичкам", minVolume: "20 л", temp: "26–30°C", water: "pH 6.0–7.5", size: "до 6 см" },
-      { name: "Пецилия", latin: "Xiphophorus maculatus", desc: "Пецилия (она же Плата). Живородящая, неприхотливая.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 7.0–8.0", size: "до 6 см" },
-      { name: "Гурами мраморный", latin: "Trichopodus trichopterus", desc: "Мирный гурами. Вырастает до 13 см, лучше селить парами.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 13 см" },
-      { name: "Краснохвостая расбора", latin: "Rasbora borapetensis", desc: "Стайная, любит заросли. Вырастает до 4 см.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см" },
-      { name: "Вишнёвый барбус", latin: "Puntius titteya", desc: "Спокойный барбус, не кусает плавники. Стайный (5-7 особей), до 5 см.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 5 см" },
-      { name: "Скалярия", latin: "Pterophyllum scalare", desc: "Величественная цихлида.", category: "peaceful", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 15 см" },
-      { name: "Барбус", latin: "Puntigrus tetrazona", desc: "Активная рыбка.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 7 см" },
-      { name: "Данио", latin: "Danio rerio", desc: "Активная рыбка, стая из 6-8 особей. Вырастают до 5 см.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "18–24°C", water: "pH 6.0–7.5", size: "до 5 см" },
-      { name: "Тернеция", latin: "Gymnocorymbus ternetzi", desc: "Стайная.", category: "peaceful", difficulty: "Новичкам", minVolume: "60 л", temp: "22–26°C", water: "pH 5.7–7.0", size: "до 5 см" },
-      { name: "Моллинезия", latin: "Poecilia sphenops", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "24–28°C", water: "pH 7.0–8.0", size: "до 10 см" },
-      { name: "Меченосец", latin: "Xiphophorus hellerii", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 7.0–8.0", size: "до 12 см" },
-      { name: "Расбора", latin: "Trigonostigma heteromorpha", desc: "Стайная.", category: "peaceful", difficulty: "Новичкам", minVolume: "20 л", temp: "24–26°C", water: "pH 5.0–7.5", size: "до 4 см" },
-      { name: "Лялиус", latin: "Colisa lalia", desc: "Красивый гурами.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 5 см" },
-      { name: "Гурами жемчужный", latin: "Trichopodus leerii", desc: "Спокойный.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "23–28°C", water: "pH 6.0–8.0", size: "до 11 см" },
-      { name: "Апистограмма", latin: "Apistogramma cacatuoides", desc: "Карликовая цихлида.", category: "peaceful", difficulty: "Средне", minVolume: "54 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 7 см" },
-      { name: "Дискус", latin: "Symphysodon", desc: "Королевская цихлида.", category: "peaceful", difficulty: "Профи", minVolume: "300 л", temp: "26–30°C", water: "pH 6.0–7.0", size: "до 20 см" },
-      { name: "Акулий Балу", latin: "Balantiocheilos melanopterus", desc: "Крупная стайная.", category: "peaceful", difficulty: "Средне", minVolume: "300 л", temp: "22–26°C", water: "pH 6.5–7.5", size: "до 35 см" },
-      { name: "Коридорас", latin: "Corydoras panda", desc: "Донный сомик.", category: "bottom", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.0", size: "до 5 см" },
-      { name: "Анциструс", latin: "Ancistrus", desc: "Сом-присоска.", category: "bottom", difficulty: "Новичкам", minVolume: "90 л", temp: "24–28°C", water: "pH 6.0–8.0", size: "до 15 см" },
-      { name: "Отоцинклюс", latin: "Otocinclus affinis", desc: "Маленький сомик.", category: "bottom", difficulty: "Новичкам", minVolume: "30 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см" },
-      { name: "Торакатум", latin: "Hoplosternum thoracatum", desc: "Мирный сомик.", category: "bottom", difficulty: "Средне", minVolume: "80 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 18 см" },
-      { name: "Платидорас", latin: "Platydoras armatulus", desc: "Полосатый сомик.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 20 см" },
-      { name: "Боция Клоун", latin: "Chromobotia macracanthus", desc: "Активная рыбка.", category: "bottom", difficulty: "Средне", minVolume: "300 л", temp: "24–26°C", water: "pH 6.0–7.0", size: "до 30 см" },
-      { name: "Макрогнатус", latin: "Macrognathus", desc: "Аквариумный угорь.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "22–26°C", water: "pH 6.5–7.0", size: "до 40 см" },
-      { name: "Астронотус", latin: "Astronotus ocellatus", desc: "Крупная цихлида.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 35 см" },
-      { name: "Пиранья обыкновенная", latin: "Pygocentrus nattereri", desc: "Стайный хищник.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 30 см" },
-      { name: "Пиранья чёрная", latin: "Serrasalmus rhombeus", desc: "Одиночный хищник.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 40 см" },
-      { name: "Ктенопома леопардовая", latin: "Ctenopoma acutirostre", desc: "Африканская цихлида.", category: "predator", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 15 см" },
-      { name: "Краснохвостый сом", latin: "Phractocephalus hemioliopterus", desc: "Гигант с красным хвостом.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "21–26°C", water: "pH 6.0–7.5", size: "до 130 см" },
-      { name: "Панцирная щука", latin: "Lepisosteus", desc: "Древний хищник.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "20–26°C", water: "pH 6.5–8.0", size: "до 100 см" },
-      { name: "Индийский нож", latin: "Chitala chitala", desc: "Ночной хищник.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 100 см" },
-      { name: "Аксолотль", latin: "Ambystoma mexicanum", desc: "Амфибия.", category: "peaceful", difficulty: "Профи", minVolume: "40–50 л", temp: "16–20°C", water: "pH 6.5–7.5", size: "до 30 см" },
-      { name: "Тритон", latin: "Triturus", desc: "Амфибия.", category: "peaceful", difficulty: "Профи", minVolume: "60+ л", temp: "18–22°C", water: "pH 6.5–7.5", size: "до 15 см" },
-      { name: "Тетра кардинал", latin: "Paracheirodon axelrodi", desc: "Яркая стайная тетра, красная полоса по всему телу.", category: "peaceful", difficulty: "Средне", minVolume: "60 л", temp: "23–28°C", water: "pH 5.5–6.5", size: "до 5 см" },
-      { name: "Расбора галактика", latin: "Danio margaritatus", desc: "Миниатюрная, спокойная, тёмное тело в золотых звёздах.", category: "peaceful", difficulty: "Средне", minVolume: "30 л", temp: "20–24°C", water: "pH 6.5–7.5", size: "до 3 см" },
-      { name: "Апистограмма Рамирези", latin: "Mikrogeophagus ramirezi", desc: "Мирная карликовая цихлида невероятной окраски.", category: "peaceful", difficulty: "Средне", minVolume: "40 л", temp: "25–29°C", water: "pH 6.0–7.0", size: "до 5 см" },
-      { name: "Радужница неоновая", latin: "Melanotaenia praecox", desc: "Переливается голубым и оранжевым, подвижная и мирная.", category: "peaceful", difficulty: "Новичкам", minVolume: "80 л", temp: "22–26°C", water: "pH 6.5–7.5", size: "до 8 см" },
-      { name: "Тетра конго", latin: "Phenacogrammus interruptus", desc: "Крупная тетра с радужным телом и вуалевыми плавниками.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "23–27°C", water: "pH 6.0–7.5", size: "до 8 см" },
-      { name: "Орнатус", latin: "Hyphessobrycon ornatus", desc: "Изящная тетра с красноватым телом и чёрно-белыми плавниками.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см" },
-      { name: "Гуппи Эндлера", latin: "Poecilia wingei", desc: "Близкий родственник гуппи, меньше и ярче. Не скрещивать с обычными гуппи.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–28°C", water: "pH 6.5–7.5", size: "до 3.5 см" },
-      { name: "Барбус огненный", latin: "Puntius conchonius", desc: "Яркий барбус, но может пощипывать плавники медленным рыбам.", category: "peaceful", difficulty: "Новичкам", minVolume: "60 л", temp: "18–25°C", water: "pH 6.0–7.5", size: "до 8 см" },
-      { name: "Тетра фон рио", latin: "Hyphessobrycon flammeus", desc: "Мирная стайная тетра, красноватая окраска.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см" },
-      { name: "Микрорасбора", latin: "Boraras brigittae", desc: "Крошечная стайная рыбка для нано-аквариумов.", category: "peaceful", difficulty: "Новичкам", minVolume: "20 л", temp: "23–28°C", water: "pH 5.5–6.8", size: "до 2.5 см" },
-      { name: "Псевдомугил", latin: "Pseudomugil furcatus", desc: "Небольшая активная рыбка с вильчатым хвостом.", category: "peaceful", difficulty: "Средне", minVolume: "40 л", temp: "23–27°C", water: "pH 6.5–7.5", size: "до 5 см" },
-      { name: "Ириатерина Вернера", latin: "Iriatherina werneri", desc: "Крошечная радужница с длинными плавниками.", category: "peaceful", difficulty: "Средне", minVolume: "40 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 4 см" },
-      { name: "Меланотения", latin: "Melanotaenia boesemani", desc: "Крупная радужница с сине-оранжевым телом.", category: "peaceful", difficulty: "Средне", minVolume: "150 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 10 см" },
-      { name: "Гирардинус", latin: "Girardinus metallicus", desc: "Живородящая, спокойная рыбка.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 7.0–8.0", size: "до 5 см" },
-      { name: "Гамбузия", latin: "Gambusia affinis", desc: "Живородящая, но может быть агрессивной.", category: "peaceful", difficulty: "Новичкам", minVolume: "30 л", temp: "18–24°C", water: "pH 6.5–8.0", size: "до 5 см" },
-      { name: "Формоза", latin: "Xiphophorus variatus", desc: "Живородящая, вариативная окраска.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "20–26°C", water: "pH 7.0–8.0", size: "до 6 см" },
-      { name: "Боция зебра", latin: "Botia striata", desc: "Полосатая боция, активная, живёт стайкой.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "23–27°C", water: "pH 6.0–7.5", size: "до 10 см" },
-      { name: "Акантофтальмус", latin: "Pangio kuhlii", desc: "Угревидный вьюн, любит зарываться в песок.", category: "bottom", difficulty: "Средне", minVolume: "60 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 10 см" },
-      { name: "Сом таракатум", latin: "Hoplosternum thoracatum", desc: "Мирный сомик с бронёй.", category: "bottom", difficulty: "Средне", minVolume: "80 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 18 см" },
-      { name: "Сом птеригоплихт", latin: "Pterygoplichthys pardalis", desc: "Крупный сом-присоска, чистит стёкла.", category: "bottom", difficulty: "Средне", minVolume: "200 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 40 см" },
-      { name: "Сом синодонтис", latin: "Synodontis eupterus", desc: "Пёстрый сомик, активный ночью.", category: "bottom", difficulty: "Средне", minVolume: "150 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 20 см" },
-      { name: "Сом стеклянный", latin: "Kryptopterus vitreatus", desc: "Прозрачный сомик, стайный, чувствителен к воде.", category: "bottom", difficulty: "Средне", minVolume: "80 л", temp: "22–26°C", water: "pH 6.0–7.0", size: "до 8 см" },
-      { name: "Сом аспидор", latin: "Aspidoras pauciradiatus", desc: "Маленький стайный сомик.", category: "bottom", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.0", size: "до 4 см" },
-      { name: "Сом лорикария", latin: "Otocinclus vittatus", desc: "Сомик-присоска, чистит растения.", category: "bottom", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 5 см" },
-      { name: "Сом фарлоуэлла", latin: "Farlowella acutus", desc: "Сом-палочка, маскируется под ветку.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 15 см" },
-      { name: "Сом леопардовый", latin: "Corydoras leopardus", desc: "Пятнистый коридорас.", category: "bottom", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 6.0–7.0", size: "до 6 см" },
-      { name: "Аравана", latin: "Osteoglossum bicirrhosum", desc: "Крупный хищник, выпрыгивает из воды.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "24–30°C", water: "pH 6.0–7.5", size: "до 120 см" },
-      { name: "Рыба-нож", latin: "Apteronotus albifrons", desc: "Ночной хищник, плавает задом наперёд.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "23–28°C", water: "pH 6.0–7.0", size: "до 50 см" },
-      { name: "Харацинка", latin: "Hemigrammus rhodostomus", desc: "Стайная тетра с красной головой.", category: "peaceful", difficulty: "Средне", minVolume: "60 л", temp: "23–28°C", water: "pH 5.5–6.5", size: "до 4 см" },
-      { name: "Слепая рыба", latin: "Astyanax mexicanus", desc: "Пещерная форма, без глаз.", category: "peaceful", difficulty: "Средне", minVolume: "60 л", temp: "20–25°C", water: "pH 6.5–7.5", size: "до 8 см" },
-      { name: "Тетра медная", latin: "Hasemania nana", desc: "Мирная стайная тетра.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см" },
-      { name: "Тетра лимонная", latin: "Hyphessobrycon pulchripinnis", desc: "Жёлтая стайная тетра.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см" },
-      { name: "Тетра серебристая", latin: "Gasteropelecus sternicla", desc: "Стайная, держится у поверхности.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "23–27°C", water: "pH 6.0–7.0", size: "до 6 см" },
-      { name: "Тетра пальмери", latin: "Hyphessobrycon palmeri", desc: "Мирная, с красноватыми плавниками.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 5 см" },
-      { name: "Тетра императорская", latin: "Nematobrycon palmeri", desc: "Крупная тетра с фиолетовым отливом.", category: "peaceful", difficulty: "Средне", minVolume: "60 л", temp: "23–27°C", water: "pH 6.0–7.0", size: "до 5 см" },
-      { name: "Тетра светлячок", latin: "Hemigrammus erythrozonus", desc: "Стайная, с яркой полосой.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 4 см" },
-      { name: "Нанностомус", latin: "Nannostomus marginatus", desc: "Крошечная стайная рыбка.", category: "peaceful", difficulty: "Средне", minVolume: "30 л", temp: "23–27°C", water: "pH 5.5–6.5", size: "до 3 см" },
-      { name: "Копеина", latin: "Copella arnoldi", desc: "Активная, выпрыгивает из воды.", category: "peaceful", difficulty: "Средне", minVolume: "50 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 5 см" },
-      { name: "Пиранья паку", latin: "Piaractus brachypomus", desc: "Травоядная, но крупная (до 60 см).", category: "predator", difficulty: "Профи", minVolume: "500 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 60 см" },
-      { name: "Пиранья красная", latin: "Pygocentrus nattereri", desc: "Стайный хищник.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 30 см" },
-      { name: "Рыба-попугай", latin: "Amphilophus citrinellus", desc: "Крупная цихлида, территориальная.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 7.0–8.0", size: "до 30 см" },
-      { name: "Цихлида дельфин", latin: "Cyrtocara moorii", desc: "Голубая цихлида с жировым наростом.", category: "peaceful", difficulty: "Средне", minVolume: "200 л", temp: "24–28°C", water: "pH 7.5–8.5", size: "до 20 см" },
-      { name: "Цихлида фронтоза", latin: "Cyphotilapia frontosa", desc: "Крупная цихлида, стайная.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 8.0–9.0", size: "до 30 см" }
+      { name: "Гуппи", latin: "Poecilia reticulata", desc: "Живородящая рыбка.", category: "peaceful", difficulty: "Новичкам", minVolume: "30 л", temp: "22–26°C", water: "pH 6.5–7.5", size: "до 5 см", compat: "С мирными рыбами", food: "Хлопья, микрочервь", layer: "Средний и верхний", setupGround: "Мелкий темный гравий", setupPlants: "Валлиснерия, роголистник", setupDecor: "Коряги, гроты", setupTech: "Свет 8 ч, слабый внутренний фильтр" },
+      { name: "Неон", latin: "Paracheirodon innesi", desc: "Стайная рыбка. Держать от 10 особей в объеме от 80 л.", category: "peaceful", difficulty: "Новичкам", minVolume: "80 л", temp: "20–26°C", water: "pH 6.8–7.2, gH 4–10", size: "до 4 см", compat: "С мирными тетрами", food: "Мелкие хлопья, циклоп", layer: "Средний", setupGround: "Темный песок", setupPlants: "Криптокорины, папоротники", setupDecor: "Коряги, создающие тень", setupTech: "Приглушенный свет" },
+      { name: "Петушок", latin: "Betta splendens", desc: "Одиночная рыбка.", category: "peaceful", difficulty: "Новичкам", minVolume: "20 л", temp: "26–30°C", water: "pH 6.0–7.5", size: "до 6 см", compat: "Только один самец", food: "Гранулы, мотыль", layer: "Средний и верхний", setupGround: "Темный нейтральный грунт", setupPlants: "Анубиасы, мох", setupDecor: "Гроты, горшки", setupTech: "Слабый фильтр, обогреватель" },
+      { name: "Пецилия", latin: "Xiphophorus maculatus", desc: "Пецилия (она же Плата). Живородящая, неприхотливая.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 7.0–8.0", size: "до 6 см", compat: "С гуппи, меченосцами", food: "Хлопья, овощи", layer: "Средний", setupGround: "Гравий", setupPlants: "Валлиснерия, роголистник", setupDecor: "Коряги, камни", setupTech: "Стандартный фильтр" },
+      { name: "Гурами мраморный", latin: "Trichopodus trichopterus", desc: "Мирный гурами. Вырастает до 13 см, лучше селить парами.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 13 см", compat: "С мирными рыбами", food: "Хлопья, мотыль", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет, крышка" },
+      { name: "Краснохвостая расбора", latin: "Rasbora borapetensis", desc: "Стайная, любит заросли. Вырастает до 4 см.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см", compat: "С мирными рыбами", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения по бокам", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Вишнёвый барбус", latin: "Puntius titteya", desc: "Спокойный барбус, не кусает плавники. Стайный (5-7 особей), до 5 см.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 5 см", compat: "С мирными рыбами", food: "Хлопья, микрочервь", layer: "Средний", setupGround: "Темный гравий", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
+      { name: "Скалярия", latin: "Pterophyllum scalare", desc: "Величественная цихлида.", category: "peaceful", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 15 см", compat: "С гурами, крупными тетрами", food: "Гранулы, мотыль", layer: "Средний", setupGround: "Мелкий песок", setupPlants: "Эхинодорусы, криптокорины", setupDecor: "Вертикальные коряги", setupTech: "Высокий аквариум (от 50 см)" },
+      { name: "Барбус", latin: "Puntigrus tetrazona", desc: "Активная рыбка.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 7 см", compat: "С крупными и быстрыми рыбами", food: "Хлопья, мотыль", layer: "Средний", setupGround: "Гравий", setupPlants: "Жесткие растения", setupDecor: "Коряги", setupTech: "Фильтр с течением" },
+      { name: "Данио", latin: "Danio rerio", desc: "Активная рыбка, стая из 6-8 особей. Вырастают до 5 см.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "18–24°C", water: "pH 6.0–7.5", size: "до 5 см", compat: "С мирными рыбами", food: "Хлопья, микрочервь", layer: "Верхний и средний", setupGround: "Гравий", setupPlants: "Растения по бокам", setupDecor: "Камни", setupTech: "Создай течение фильтром" },
+      { name: "Тернеция", latin: "Gymnocorymbus ternetzi", desc: "Стайная.", category: "peaceful", difficulty: "Новичкам", minVolume: "60 л", temp: "22–26°C", water: "pH 5.7–7.0", size: "до 5 см", compat: "С мирными рыбами", food: "Хлопья, мотыль", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Живые или искусственные", setupDecor: "Коряги", setupTech: "Свет средний" },
+      { name: "Моллинезия", latin: "Poecilia sphenops", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "24–28°C", water: "pH 7.0–8.0", size: "до 10 см", compat: "С мирными рыбами", food: "Хлопья, овощи", layer: "Средний", setupGround: "Крупный песок", setupPlants: "Валлиснерия, роголистник", setupDecor: "Камни, коряги", setupTech: "Яркий свет" },
+      { name: "Меченосец", latin: "Xiphophorus hellerii", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 7.0–8.0", size: "до 12 см", compat: "С мирными рыбами", food: "Хлопья, овощи", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения для укрытия", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
+      { name: "Расбора", latin: "Trigonostigma heteromorpha", desc: "Стайная.", category: "peaceful", difficulty: "Новичкам", minVolume: "20 л", temp: "24–26°C", water: "pH 5.0–7.5", size: "до 4 см", compat: "С мирными рыбами", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Лялиус", latin: "Colisa lalia", desc: "Красивый гурами.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 5 см", compat: "С мирными рыбами", food: "Хлопья, трубочник", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Гурами жемчужный", latin: "Trichopodus leerii", desc: "Спокойный.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "23–28°C", water: "pH 6.0–8.0", size: "до 11 см", compat: "Со скаляриями", food: "Хлопья, мотыль", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Апистограмма", latin: "Apistogramma cacatuoides", desc: "Карликовая цихлида.", category: "peaceful", difficulty: "Средне", minVolume: "54 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 7 см", compat: "С мирными рыбами", food: "Гранулы, мотыль", layer: "Средний", setupGround: "Песок", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Дискус", latin: "Symphysodon", desc: "Королевская цихлида.", category: "peaceful", difficulty: "Профи", minVolume: "300 л", temp: "26–30°C", water: "pH 6.0–7.0", size: "до 20 см", compat: "Со скаляриями", food: "Спецкорм, мотыль", layer: "Средний", setupGround: "Песок", setupPlants: "Крупные растения", setupDecor: "Коряги", setupTech: "Очень мощный фильтр" },
+      { name: "Акулий Балу", latin: "Balantiocheilos melanopterus", desc: "Крупная стайная.", category: "peaceful", difficulty: "Средне", minVolume: "300 л", temp: "22–26°C", water: "pH 6.5–7.5", size: "до 35 см", compat: "С крупными рыбами", food: "Гранулы", layer: "Средний", setupGround: "Крупный гравий", setupPlants: "Не ест", setupDecor: "Коряги", setupTech: "Мощный фильтр, крышка!" },
+      { name: "Коридорас", latin: "Corydoras panda", desc: "Донный сомик.", category: "bottom", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.0", size: "до 5 см", compat: "С мирными рыбами", food: "Таблетки, мотыль", layer: "Донный", setupGround: "Мягкий песок", setupPlants: "Укрытия", setupDecor: "Коряги, трубки", setupTech: "Стандартный фильтр" },
+      { name: "Анциструс", latin: "Ancistrus", desc: "Сом-присоска.", category: "bottom", difficulty: "Новичкам", minVolume: "90 л", temp: "24–28°C", water: "pH 6.0–8.0", size: "до 15 см", compat: "С мирными рыбами", food: "Таблетки, овощи", layer: "Донный", setupGround: "Гравий", setupPlants: "Не ест", setupDecor: "Обязательно коряга!", setupTech: "Стандартный фильтр" },
+      { name: "Отоцинклюс", latin: "Otocinclus affinis", desc: "Маленький сомик.", category: "bottom", difficulty: "Новичкам", minVolume: "30 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см", compat: "С мирными рыбами", food: "Водоросли, таблетки", layer: "Донный", setupGround: "Мелкий гравий", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Торакатум", latin: "Hoplosternum thoracatum", desc: "Мирный сомик.", category: "bottom", difficulty: "Средне", minVolume: "80 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 18 см", compat: "С мирными рыбами", food: "Таблетки, мотыль", layer: "Донный", setupGround: "Мягкий грунт", setupPlants: "Плавающие растения", setupDecor: "Коряги, укрытия", setupTech: "Стандартный фильтр" },
+      { name: "Платидорас", latin: "Platydoras armatulus", desc: "Полосатый сомик.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 20 см", compat: "С мирными рыбами", food: "Таблетки, мотыль", layer: "Донный", setupGround: "Песок", setupPlants: "Не важно", setupDecor: "Коряги, гроты", setupTech: "Стандартный фильтр" },
+      { name: "Боция Клоун", latin: "Chromobotia macracanthus", desc: "Активная рыбка.", category: "bottom", difficulty: "Средне", minVolume: "300 л", temp: "24–26°C", water: "pH 6.0–7.0", size: "до 30 см", compat: "С мирными рыбами", food: "Таблетки, мотыль", layer: "Донный", setupGround: "Мелкий песок", setupPlants: "Не ест", setupDecor: "Много укрытий", setupTech: "Хорошее течение" },
+      { name: "Макрогнатус", latin: "Macrognathus", desc: "Аквариумный угорь.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "22–26°C", water: "pH 6.5–7.0", size: "до 40 см", compat: "С мирными рыбами", food: "Живой корм, таблетки", layer: "Донный", setupGround: "Мелкий песок (обязательно)", setupPlants: "Заросли", setupDecor: "Коряги, крышка!", setupTech: "Стандартный фильтр, аэрация" },
+      { name: "Астронотус", latin: "Astronotus ocellatus", desc: "Крупная цихлида.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 35 см", compat: "Только с крупными", food: "Гранулы, креветки, рыба", layer: "Средний", setupGround: "Крупный гравий", setupPlants: "Не ест, но выкапывает", setupDecor: "Крупные камни", setupTech: "Мощный фильтр!" },
+      { name: "Пиранья обыкновенная", latin: "Pygocentrus nattereri", desc: "Стайный хищник.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 30 см", compat: "Только своих", food: "Мясо, рыба", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
+      { name: "Пиранья чёрная", latin: "Serrasalmus rhombeus", desc: "Одиночный хищник.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 40 см", compat: "Только один", food: "Рыба", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
+      { name: "Ктенопома леопардовая", latin: "Ctenopoma acutirostre", desc: "Африканская цихлида.", category: "predator", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 15 см", compat: "С крупными рыбами", food: "Живой корм, мотыль", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Густые заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Краснохвостый сом", latin: "Phractocephalus hemioliopterus", desc: "Гигант с красным хвостом.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "21–26°C", water: "pH 6.0–7.5", size: "до 130 см", compat: "Только очень крупные", food: "Рыба, креветки", layer: "Донный", setupGround: "Крупные камни", setupPlants: "Нет", setupDecor: "Массивные коряги", setupTech: "Мощный внешний фильтр" },
+      { name: "Панцирная щука", latin: "Lepisosteus", desc: "Древний хищник.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "20–26°C", water: "pH 6.5–8.0", size: "до 100 см", compat: "Только крупные", food: "Рыба", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
+      { name: "Индийский нож", latin: "Chitala chitala", desc: "Ночной хищник.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 100 см", compat: "Только крупные", food: "Мясо", layer: "Средний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Аксолотль", latin: "Ambystoma mexicanum", desc: "Амфибия.", category: "peaceful", difficulty: "Профи", minVolume: "40–50 л", temp: "16–20°C", water: "pH 6.5–7.5", size: "до 30 см", compat: "Один", food: "Черви", layer: "Донный", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Гроты", setupTech: "Охладитель воды!" },
+      { name: "Тритон", latin: "Triturus", desc: "Амфибия.", category: "peaceful", difficulty: "Профи", minVolume: "60+ л", temp: "18–22°C", water: "pH 6.5–7.5", size: "до 15 см", compat: "Только один", food: "Черви", layer: "Донный", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Суша/вода" },
+      { name: "Тетра кардинал", latin: "Paracheirodon axelrodi", desc: "Яркая стайная тетра.", category: "peaceful", difficulty: "Средне", minVolume: "60 л", temp: "23–28°C", water: "pH 5.5–6.5", size: "до 5 см", compat: "С мирными", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный песок", setupPlants: "Заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Расбора галактика", latin: "Danio margaritatus", desc: "Миниатюрная, спокойная.", category: "peaceful", difficulty: "Средне", minVolume: "30 л", temp: "20–24°C", water: "pH 6.5–7.5", size: "до 3 см", compat: "С мирными", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Мох", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Апистограмма Рамирези", latin: "Mikrogeophagus ramirezi", desc: "Мирная карликовая цихлида.", category: "peaceful", difficulty: "Средне", minVolume: "40 л", temp: "25–29°C", water: "pH 6.0–7.0", size: "до 5 см", compat: "С мирными", food: "Гранулы", layer: "Средний", setupGround: "Песок", setupPlants: "Заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Радужница неоновая", latin: "Melanotaenia praecox", desc: "Переливается голубым.", category: "peaceful", difficulty: "Новичкам", minVolume: "80 л", temp: "22–26°C", water: "pH 6.5–7.5", size: "до 8 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
+      { name: "Тетра конго", latin: "Phenacogrammus interruptus", desc: "Крупная тетра.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "23–27°C", water: "pH 6.0–7.5", size: "до 8 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Орнатус", latin: "Hyphessobrycon ornatus", desc: "Изящная тетра.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см", compat: "С мирными", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Гуппи Эндлера", latin: "Poecilia wingei", desc: "Родственник гуппи, меньше и ярче.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–28°C", water: "pH 6.5–7.5", size: "до 3.5 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
+      { name: "Барбус огненный", latin: "Puntius conchonius", desc: "Яркий барбус.", category: "peaceful", difficulty: "Новичкам", minVolume: "60 л", temp: "18–25°C", water: "pH 6.0–7.5", size: "до 8 см", compat: "С крупными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Течение" },
+      { name: "Тетра фон рио", latin: "Hyphessobrycon flammeus", desc: "Мирная стайная тетра.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Микрорасбора", latin: "Boraras brigittae", desc: "Крошечная стайная.", category: "peaceful", difficulty: "Новичкам", minVolume: "20 л", temp: "23–28°C", water: "pH 5.5–6.8", size: "до 2.5 см", compat: "С мирными", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Мох", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Псевдомугил", latin: "Pseudomugil furcatus", desc: "Активная рыбка.", category: "peaceful", difficulty: "Средне", minVolume: "40 л", temp: "23–27°C", water: "pH 6.5–7.5", size: "до 5 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
+      { name: "Ириатерина Вернера", latin: "Iriatherina werneri", desc: "Крошечная радужница.", category: "peaceful", difficulty: "Средне", minVolume: "40 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 4 см", compat: "С мирными", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Меланотения", latin: "Melanotaenia boesemani", desc: "Крупная радужница.", category: "peaceful", difficulty: "Средне", minVolume: "150 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 10 см", compat: "С крупными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
+      { name: "Гирардинус", latin: "Girardinus metallicus", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 7.0–8.0", size: "до 5 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
+      { name: "Гамбузия", latin: "Gambusia affinis", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "30 л", temp: "18–24°C", water: "pH 6.5–8.0", size: "до 5 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
+      { name: "Формоза", latin: "Xiphophorus variatus", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "20–26°C", water: "pH 7.0–8.0", size: "до 6 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
+      { name: "Боция зебра", latin: "Botia striata", desc: "Полосатая боция.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "23–27°C", water: "pH 6.0–7.5", size: "до 10 см", compat: "С мирными", food: "Таблетки", layer: "Донный", setupGround: "Песок", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Течение" },
+      { name: "Акантофтальмус", latin: "Pangio kuhlii", desc: "Угревидный вьюн.", category: "bottom", difficulty: "Средне", minVolume: "60 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 10 см", compat: "С мирными", food: "Таблетки", layer: "Донный", setupGround: "Песок", setupPlants: "Заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Сом таракатум", latin: "Hoplosternum thoracatum", desc: "Мирный сомик.", category: "bottom", difficulty: "Средне", minVolume: "80 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 18 см", compat: "С мирными", food: "Таблетки", layer: "Донный", setupGround: "Мягкий грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
+      { name: "Сом птеригоплихт", latin: "Pterygoplichthys pardalis", desc: "Крупный сом-присоска.", category: "bottom", difficulty: "Средне", minVolume: "200 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 40 см", compat: "С крупными", food: "Таблетки", layer: "Донный", setupGround: "Гравий", setupPlants: "Не ест", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
+      { name: "Сом синодонтис", latin: "Synodontis eupterus", desc: "Пёстрый сомик.", category: "bottom", difficulty: "Средне", minVolume: "150 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 20 см", compat: "С крупными", food: "Таблетки", layer: "Донный", setupGround: "Песок", setupPlants: "Не важно", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
+      { name: "Сом стеклянный", latin: "Kryptopterus vitreatus", desc: "Прозрачный сомик.", category: "bottom", difficulty: "Средне", minVolume: "80 л", temp: "22–26°C", water: "pH 6.0–7.0", size: "до 8 см", compat: "С мирными", food: "Мелкий корм", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Заросли", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Сом аспидор", latin: "Aspidoras pauciradiatus", desc: "Маленький стайный сомик.", category: "bottom", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.0", size: "до 4 см", compat: "С мирными", food: "Таблетки", layer: "Донный", setupGround: "Песок", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
+      { name: "Сом лорикария", latin: "Otocinclus vittatus", desc: "Сомик-присоска.", category: "bottom", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 5 см", compat: "С мирными", food: "Водоросли", layer: "Донный", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Сом фарлоуэлла", latin: "Farlowella acutus", desc: "Сом-палочка.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 15 см", compat: "С мирными", food: "Водоросли", layer: "Донный", setupGround: "Песок", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Сом леопардовый", latin: "Corydoras leopardus", desc: "Пятнистый коридорас.", category: "bottom", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 6.0–7.0", size: "до 6 см", compat: "С мирными", food: "Таблетки", layer: "Донный", setupGround: "Песок", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Стандартный фильтр" },
+      { name: "Аравана", latin: "Osteoglossum bicirrhosum", desc: "Крупный хищник.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "24–30°C", water: "pH 6.0–7.5", size: "до 120 см", compat: "Только крупные", food: "Рыба", layer: "Верхний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
+      { name: "Рыба-нож", latin: "Apteronotus albifrons", desc: "Ночной хищник.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "23–28°C", water: "pH 6.0–7.0", size: "до 50 см", compat: "С крупными", food: "Рыба", layer: "Средний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Харацинка", latin: "Hemigrammus rhodostomus", desc: "Стайная тетра.", category: "peaceful", difficulty: "Средне", minVolume: "60 л", temp: "23–28°C", water: "pH 5.5–6.5", size: "до 4 см", compat: "С мирными", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Слепая рыба", latin: "Astyanax mexicanus", desc: "Пещерная форма.", category: "peaceful", difficulty: "Средне", minVolume: "60 л", temp: "20–25°C", water: "pH 6.5–7.5", size: "до 8 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Гравий", setupPlants: "Не важно", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Тетра медная", latin: "Hasemania nana", desc: "Мирная стайная тетра.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Тетра лимонная", latin: "Hyphessobrycon pulchripinnis", desc: "Жёлтая стайная тетра.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Тетра серебристая", latin: "Gasteropelecus sternicla", desc: "Стайная, у поверхности.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "23–27°C", water: "pH 6.0–7.0", size: "до 6 см", compat: "С мирными", food: "Хлопья", layer: "Верхний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Тетра пальмери", latin: "Hyphessobrycon palmeri", desc: "Мирная тетра.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 5 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Тетра императорская", latin: "Nematobrycon palmeri", desc: "Крупная тетра.", category: "peaceful", difficulty: "Средне", minVolume: "60 л", temp: "23–27°C", water: "pH 6.0–7.0", size: "до 5 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Тетра светлячок", latin: "Hemigrammus erythrozonus", desc: "Стайная тетра.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 4 см", compat: "С мирными", food: "Хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Нанностомус", latin: "Nannostomus marginatus", desc: "Крошечная стайная.", category: "peaceful", difficulty: "Средне", minVolume: "30 л", temp: "23–27°C", water: "pH 5.5–6.5", size: "до 3 см", compat: "С мирными", food: "Мелкие хлопья", layer: "Средний", setupGround: "Темный грунт", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Копеина", latin: "Copella arnoldi", desc: "Активная рыбка.", category: "peaceful", difficulty: "Средне", minVolume: "50 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 5 см", compat: "С мирными", food: "Хлопья", layer: "Верхний", setupGround: "Гравий", setupPlants: "Растения", setupDecor: "Коряги", setupTech: "Слабый свет" },
+      { name: "Пиранья паку", latin: "Piaractus brachypomus", desc: "Травоядная, крупная.", category: "predator", difficulty: "Профи", minVolume: "500 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 60 см", compat: "Только крупные", food: "Овощи", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
+      { name: "Пиранья красная", latin: "Pygocentrus nattereri", desc: "Стайный хищник.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 30 см", compat: "Только своих", food: "Мясо", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Коряги", setupTech: "Мощный фильтр" },
+      { name: "Рыба-попугай", latin: "Amphilophus citrinellus", desc: "Крупная цихлида.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 7.0–8.0", size: "до 30 см", compat: "Только крупные", food: "Гранулы", layer: "Средний", setupGround: "Гравий", setupPlants: "Нет", setupDecor: "Камни", setupTech: "Мощный фильтр" },
+      { name: "Цихлида дельфин", latin: "Cyrtocara moorii", desc: "Голубая цихлида.", category: "peaceful", difficulty: "Средне", minVolume: "200 л", temp: "24–28°C", water: "pH 7.5–8.5", size: "до 20 см", compat: "С крупными", food: "Гранулы", layer: "Средний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Камни", setupTech: "Мощный фильтр" },
+      { name: "Цихлида фронтоза", latin: "Cyphotilapia frontosa", desc: "Крупная цихлида.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 8.0–9.0", size: "до 30 см", compat: "С крупными", food: "Гранулы", layer: "Средний", setupGround: "Песок", setupPlants: "Нет", setupDecor: "Камни", setupTech: "Мощный фильтр" }
     ];
 
     const plantData = [
       { name: "Валлиснерия", desc: "Быстрорастущая, длинная. Отлично подходит для заднего плана. Выносливая, не требует CO2 и мощного света." },
-      { name: "Роголистник", desc: "Быстрорастущий, плавает в толще воды. Отличный естественный фильтр, укрытие для мальков. Не требует укоренения." },
+      { name: "Роголистник", desc: "Быстрорастущий, плавает в толще воды. Отличный естественный фильтр, укрытие для мальков." },
       { name: "Элодея", desc: "Быстрорастущая, длинная. Неприхотлива, отлично насыщает воду кислородом." },
-      { name: "Анубиас", desc: "Медленнорастущий, для среднего плана. Не заглублять корневище в грунт (примотать к камню). Теневыносливый." },
+      { name: "Анубиас", desc: "Медленнорастущий, для среднего плана. Не заглублять корневище в грунт." },
       { name: "Мох яванский", desc: "Создает красивые шапки, укрытие для креветок. Нуждается в фильтрации и стрижке." },
       { name: "Людвигия", desc: "Красноватые листья. Предпочитает яркий свет и незаиленный грунт." },
       { name: "Бакопа Монье", desc: "Неприхотливая, растет даже в тени. Хорошо смотрится на заднем плане." },
@@ -529,9 +548,10 @@
     let currentFilter = "all";
     let currentDifficulty = "all";
     let currentSearch = "";
+    let currentVolume = null;
 
     function renderFish() {
-      const filtered = fishData.filter(function(f) {
+      let filtered = fishData.filter(function(f) {
         const matchSearch = f.name.toLowerCase().indexOf(currentSearch.toLowerCase()) !== -1;
         const matchFilter = currentFilter === "all" || f.category === currentFilter;
         let matchDiff = true;
@@ -540,6 +560,13 @@
         }
         return matchSearch && matchFilter && matchDiff;
       });
+
+      if (currentVolume !== null) {
+        filtered = filtered.filter(function(f) {
+          const minVol = parseInt(f.minVolume);
+          return !isNaN(minVol) && minVol <= currentVolume;
+        });
+      }
 
       fishGrid.innerHTML = filtered.map(function(fish) {
         const idx = fishData.indexOf(fish);
@@ -552,6 +579,18 @@
             '<button class="btn-view">Подробнее</button>' +
           '</div></article>';
       }).join("");
+    }
+
+    function filterByVolume() {
+      const val = document.getElementById("volumeInput").value;
+      currentVolume = val ? parseInt(val) : null;
+      renderFish();
+    }
+
+    function resetVolume() {
+      document.getElementById("volumeInput").value = "";
+      currentVolume = null;
+      renderFish();
     }
 
     function renderPlants() {
@@ -620,6 +659,18 @@
       currentSearch = e.target.value;
       renderFish();
     });
+
+    window.onscroll = function() {
+      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        document.getElementById("scrollTopBtn").style.display = "block";
+      } else {
+        document.getElementById("scrollTopBtn").style.display = "none";
+      }
+    };
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     renderFish();
     renderPlants();
