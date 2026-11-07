@@ -42,28 +42,9 @@
     .card { background: white; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: 0.2s; }
     .card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--red); }
     
-    /* ЖЕСТКИЕ ПРАВИЛА ДЛЯ КАРТИНОК */
-    .card-img { 
-      height: 180px; 
-      background: #f0f0f0; 
-      position: relative; 
-      overflow: hidden; 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .card-img img { 
-      width: 100%; 
-      height: 100%; 
-      object-fit: cover; 
-      display: block; 
-      position: absolute;
-      top: 0; left: 0;
-    }
-    .card-img svg { 
-      width: 80px; height: 80px; 
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); 
-    }
+    .card-img { height: 180px; background: #f0f0f0; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; position: absolute; top: 0; left: 0; }
+    .card-img svg { width: 80px; height: 80px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
 
     .card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
     .card-title { font-weight: 700; font-size: 1.2rem; margin-bottom: 5px; line-height: 1.3; word-break: break-word; }
@@ -347,21 +328,28 @@
       `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#aed581"/><path d="M20,50 L5,35 L5,65 Z" fill="#8bc34a"/><circle cx="65" cy="45" r="4" fill="#173b47"/></svg>`
     ];
 
-    // ================== ФОТО (Викисклад) ==================
+    // ================== ФОТО (Локальные и Викисклад) ==================
     const fishImages = {
+      // Твои локальные картинки (лежат в папке img)
+      "Краснохвостый сом": "img/som.jpg",
+      "Ктенопома леопардовая": "img/ktenopoma.jpg",
+      "Макрогнатус": "img/makrognatus.jpg",
+      "Меченосец": "img/mechenosec.jpg",
+      "Торакатум": "img/torakatum.jpg",
+      "Вишнёвый барбус": "img/barbus.jpg",
+
+      // Остальные (с Викисклада)
       "Гуппи": "Guppy_02.jpg",
       "Неон": "Neonka_obecna_paracheirodon_innesi.jpg",
       "Петушок": "Yellow_halfmoon_Betta_splendens.jpg",
       "Пецилия": "Xiphophorus_maculatus.jpg",
       "Гурами мраморный": "Trichopodus_trichopterus.jpg",
       "Краснохвостая расбора": "Rasbora_borapetensis.jpg",
-      "Вишнёвый барбус": "Puntius_titteya_male.jpg", 
       "Скалярия": "Pterophyllum_scalare.jpg",
       "Барбус": "Tigerbarbe_Puntius_tetrazona.jpg",
       "Данио": "Brachydanio_rerio.jpg",
       "Тернеция": "BlackTetras.JPG",
       "Моллинезия": "Poecilia_sphenops.jpg",
-      "Меченосец": "Xiphophorus_hellerii.jpg",
       "Расбора": "03.Trigonostigma_heteromorpha.JPG",
       "Лялиус": "Colisa_lalia.jpg",
       "Гурами жемчужный": "Trichopodus_leerii.jpg",
@@ -371,15 +359,11 @@
       "Коридорас": "Corydoras_panda2.JPG",
       "Анциструс": "Ancistrus_sp.jpg",
       "Отоцинклюс": "Otocinclus_affinis.jpg",
-      "Торакатум": "Hoplosternum_thoracatum.jpg",
       "Платидорас": "Platydoras_armatulus.jpg",
       "Боция Клоун": "Chromobotia_macracanthus.jpg",
-      "Макрогнатус": "Macrognathus_siamensis.jpg",
       "Астронотус": "Astronotus_ocellatus.jpg",
       "Пиранья обыкновенная": "Pygocentrus_nattereri.jpg",
       "Пиранья чёрная": "BlackPirahna2010.jpg",
-      "Ктенопома леопардовая": "Ctenopoma_acutirostre.jpg",
-      "Краснохвостый сом": "Phractocephalus_hemioliopterus_(Redtail_Catfish).jpg",
       "Панцирная щука": "Lepisosteus_oculatus.jpg",
       "Индийский нож": "Chitala_chitala.jpg",
       "Аксолотль": "Ambystoma_mexicanum.jpg",
@@ -392,10 +376,16 @@
     }
 
     function fishPhotoHTML(fish, idx) {
-      const svg = fishSVGs[idx % fishSVGs.length];
       const file = fishImages[fish.name];
-      if (!file) return svg;
-      return '<img src="' + wikiUrl(file) + '" alt="' + fish.name + '" ' +
+      if (!file) return fishSVGs[idx % fishSVGs.length];
+
+      let src = file;
+      // Если это не локальный путь (не начинается с img/), то это файл с Викисклада
+      if (!file.startsWith("img/")) {
+        src = wikiUrl(file);
+      }
+
+      return '<img src="' + src + '" alt="' + fish.name + '" ' +
              'referrerpolicy="no-referrer" loading="lazy" ' +
              'onerror="imgFallback(this,' + idx + ')">';
     }
