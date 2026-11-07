@@ -329,15 +329,16 @@
     ];
 
     // ================== ФОТО ==================
-    // Прописаны точные имена твоих локальных файлов (с пробелами)
     const fishImages = {
+      // Локальные (переименованные без пробелов)
       "Краснохвостый сом": "img/krasnoschovst.jpg",
-      "Ктенопома леопардовая": "img/kteopoma leoard.jpg",
+      "Ктенопома леопардовая": "img/ktenopoma.jpg",
       "Макрогнатус": "img/macrogrnatys.jpg",
       "Меченосец": "img/meschenosec.jpg",
-      "Торакатум": "img/som tarakatym.jpg",
-      "Вишнёвый барбус": "img/Barbus vishna.jpg",
+      "Торакатум": "img/som_tarakatym.jpg",
+      "Вишнёвый барбус": "img/Barbus_vishna.jpg",
 
+      // Викисклад
       "Гуппи": "Guppy_02.jpg",
       "Неон": "Neonka_obecna_paracheirodon_innesi.jpg",
       "Петушок": "Yellow_halfmoon_Betta_splendens.jpg",
@@ -382,9 +383,6 @@
       if (!file.startsWith("img/")) {
         src = wikiUrl(file);
       }
-
-      // Кодируем пробелы, чтобы браузер не ругался
-      src = src.replace(/ /g, "%20");
 
       return '<img src="' + src + '" alt="' + fish.name + '" ' +
              'referrerpolicy="no-referrer" loading="lazy" ' +
