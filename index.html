@@ -197,13 +197,12 @@
       `<svg viewBox="0 0 100 100"><path d="M20,50 C20,30 60,20 80,50 C60,80 20,70 20,50 Z" fill="#aed581"/></svg>`
     ];
 
-    // ТВОИ ЛОКАЛЬНЫЕ КАРТИНКИ
     const fishImages = {
       "Краснохвостый сом": "img/krasnoschovst.jpg",
       "Ктенопома леопардовая": "img/kteopoma leoard.jpg",
       "Макрогнатус": "img/macrogrnatys.jpg",
       "Меченосец": "img/meschenosec.jpg",
-      "Торакатум": "img/som_tarakatym.jpg",
+      "Торакатум": "img/som tarakatym.jpg",
       "Вишнёвый барбус": "img/Barbus vishna.jpg",
       "Гуппи": "Guppy_02.jpg",
       "Неон": "Neonka_obecna_paracheirodon_innesi.jpg",
@@ -240,7 +239,7 @@
       const file = fishImages[fish.name];
       if (!file) return fishSVGs[idx % fishSVGs.length];
       let src = file.startsWith("img/") ? file : "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(file) + "?width=400";
-      src = src.replace(/ /g, "%20"); // Фикс для пробелов в названиях!
+      src = src.replace(/ /g, "%20");
       return '<img src="' + src + '" alt="' + fish.name + '" referrerpolicy="no-referrer" loading="lazy" onerror="imgFallback(this,' + idx + ')">';
     }
 
@@ -249,44 +248,50 @@
     }
 
     const fishData = [
-      { name: "Гуппи", latin: "Poecilia reticulata", desc: "Живородящая рыбка.", category: "peaceful", difficulty: "Новичкам", minVolume: "30 л", temp: "22–26°C", water: "pH 6.5–7.5" },
-      { name: "Неон", latin: "Paracheirodon innesi", desc: "Стайная рыбка.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "24–28°C", water: "pH 5.5–6.8" },
-      { name: "Петушок", latin: "Betta splendens", desc: "Одиночная рыбка.", category: "peaceful", difficulty: "Новичкам", minVolume: "20 л", temp: "26–30°C", water: "pH 6.0–7.5" },
-      { name: "Пецилия", latin: "Xiphophorus maculatus", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 7.0–8.0" },
-      { name: "Гурами мраморный", latin: "Trichopodus trichopterus", desc: "Мирный гурами.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "24–28°C", water: "pH 6.5–7.5" },
-      { name: "Краснохвостая расбора", latin: "Rasbora borapetensis", desc: "Стайная.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5" },
-      { name: "Вишнёвый барбус", latin: "Puntius titteya", desc: "Спокойный барбус.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5" },
-      { name: "Скалярия", latin: "Pterophyllum scalare", desc: "Величественная цихлида.", category: "peaceful", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5" },
-      { name: "Барбус", latin: "Puntigrus tetrazona", desc: "Активная рыбка.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "22–26°C", water: "pH 6.0–7.5" },
-      { name: "Данио", latin: "Danio rerio", desc: "Активная рыбка.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "18–24°C", water: "pH 6.0–7.5" },
-      { name: "Тернеция", latin: "Gymnocorymbus ternetzi", desc: "Стайная.", category: "peaceful", difficulty: "Новичкам", minVolume: "60 л", temp: "22–26°C", water: "pH 5.7–7.0" },
-      { name: "Моллинезия", latin: "Poecilia sphenops", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "24–28°C", water: "pH 7.0–8.0" },
-      { name: "Меченосец", latin: "Xiphophorus hellerii", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 7.0–8.0" },
-      { name: "Расбора", latin: "Trigonostigma heteromorpha", desc: "Стайная.", category: "peaceful", difficulty: "Новичкам", minVolume: "20 л", temp: "24–26°C", water: "pH 5.0–7.5" },
-      { name: "Лялиус", latin: "Colisa lalia", desc: "Красивый гурами.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "24–28°C", water: "pH 6.5–7.5" },
-      { name: "Гурами жемчужный", latin: "Trichopodus leerii", desc: "Спокойный.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "23–28°C", water: "pH 6.0–8.0" },
-      { name: "Апистограмма", latin: "Apistogramma cacatuoides", desc: "Карликовая цихлида.", category: "peaceful", difficulty: "Средне", minVolume: "54 л", temp: "24–28°C", water: "pH 6.0–7.0" },
-      { name: "Дискус", latin: "Symphysodon", desc: "Королевская цихлида.", category: "peaceful", difficulty: "Профи", minVolume: "300 л", temp: "26–30°C", water: "pH 6.0–7.0" },
-      { name: "Акулий Балу", latin: "Balantiocheilos melanopterus", desc: "Крупная стайная.", category: "peaceful", difficulty: "Средне", minVolume: "300 л", temp: "22–26°C", water: "pH 6.5–7.5" },
-      { name: "Коридорас", latin: "Corydoras panda", desc: "Донный сомик.", category: "bottom", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.0" },
-      { name: "Анциструс", latin: "Ancistrus", desc: "Сом-присоска.", category: "bottom", difficulty: "Новичкам", minVolume: "90 л", temp: "24–28°C", water: "pH 6.0–8.0" },
-      { name: "Отоцинклюс", latin: "Otocinclus affinis", desc: "Маленький сомик.", category: "bottom", difficulty: "Новичкам", minVolume: "30 л", temp: "22–26°C", water: "pH 6.0–7.5" },
-      { name: "Торакатум", latin: "Hoplosternum thoracatum", desc: "Мирный сомик.", category: "bottom", difficulty: "Средне", minVolume: "80 л", temp: "24–28°C", water: "pH 6.0–7.5" },
-      { name: "Платидорас", latin: "Platydoras armatulus", desc: "Полосатый сомик.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5" },
-      { name: "Боция Клоун", latin: "Chromobotia macracanthus", desc: "Активная рыбка.", category: "bottom", difficulty: "Средне", minVolume: "300 л", temp: "24–26°C", water: "pH 6.0–7.0" },
-      { name: "Макрогнатус", latin: "Macrognathus", desc: "Аквариумный угорь.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "22–26°C", water: "pH 6.5–7.0" },
-      { name: "Астронотус", latin: "Astronotus ocellatus", desc: "Крупная цихлида.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5" },
-      { name: "Пиранья обыкновенная", latin: "Pygocentrus nattereri", desc: "Стайный хищник.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5" },
-      { name: "Пиранья чёрная", latin: "Serrasalmus rhombeus", desc: "Одиночный хищник.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5" },
-      { name: "Ктенопома леопардовая", latin: "Ctenopoma acutirostre", desc: "Африканская цихлида.", category: "predator", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5" },
-      { name: "Краснохвостый сом", latin: "Phractocephalus hemioliopterus", desc: "Гигант с красным хвостом.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "21–26°C", water: "pH 6.0–7.5" },
-      { name: "Панцирная щука", latin: "Lepisosteus", desc: "Древний хищник.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "20–26°C", water: "pH 6.5–8.0" },
-      { name: "Индийский нож", latin: "Chitala chitala", desc: "Ночной хищник.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "24–28°C", water: "pH 6.5–7.5" },
-      { name: "Аксолотль", latin: "Ambystoma mexicanum", desc: "Амфибия.", category: "peaceful", difficulty: "Профи", minVolume: "40–50 л", temp: "16–20°C", water: "pH 6.5–7.5" },
-      { name: "Тритон", latin: "Triturus", desc: "Амфибия.", category: "peaceful", difficulty: "Профи", minVolume: "60+ л", temp: "18–22°C", water: "pH 6.5–7.5" }
+      { name: "Гуппи", latin: "Poecilia reticulata", desc: "Живородящая рыбка.", category: "peaceful", difficulty: "Новичкам", minVolume: "30 л", temp: "22–26°C", water: "pH 6.5–7.5", size: "до 5 см" },
+      { name: "Неон", latin: "Paracheirodon innesi", desc: "Стайная рыбка. Держать от 10 особей в объеме от 80 л.", category: "peaceful", difficulty: "Новичкам", minVolume: "80 л", temp: "20–26°C", water: "pH 6.8–7.2, gH 4–10", size: "до 4 см" },
+      { name: "Петушок", latin: "Betta splendens", desc: "Одиночная рыбка.", category: "peaceful", difficulty: "Новичкам", minVolume: "20 л", temp: "26–30°C", water: "pH 6.0–7.5", size: "до 6 см" },
+      { name: "Пецилия", latin: "Xiphophorus maculatus", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 7.0–8.0", size: "до 6 см" },
+      { name: "Гурами мраморный", latin: "Trichopodus trichopterus", desc: "Мирный гурами. Вырастает до 13 см, лучше селить парами.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 13 см" },
+      { name: "Краснохвостая расбора", latin: "Rasbora borapetensis", desc: "Стайная, любит заросли. Вырастает до 4 см.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см" },
+      { name: "Вишнёвый барбус", latin: "Puntius titteya", desc: "Спокойный барбус, не кусает плавники. Стайный (5-7 особей), до 5 см.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 5 см" },
+      { name: "Скалярия", latin: "Pterophyllum scalare", desc: "Величественная цихлида.", category: "peaceful", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 15 см" },
+      { name: "Барбус", latin: "Puntigrus tetrazona", desc: "Активная рыбка.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 7 см" },
+      { name: "Данио", latin: "Danio rerio", desc: "Активная рыбка, стая из 6-8 особей. Вырастают до 5 см.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "18–24°C", water: "pH 6.0–7.5", size: "до 5 см" },
+      { name: "Тернеция", latin: "Gymnocorymbus ternetzi", desc: "Стайная.", category: "peaceful", difficulty: "Новичкам", minVolume: "60 л", temp: "22–26°C", water: "pH 5.7–7.0", size: "до 5 см" },
+      { name: "Моллинезия", latin: "Poecilia sphenops", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "24–28°C", water: "pH 7.0–8.0", size: "до 10 см" },
+      { name: "Меченосец", latin: "Xiphophorus hellerii", desc: "Живородящая.", category: "peaceful", difficulty: "Новичкам", minVolume: "50 л", temp: "22–26°C", water: "pH 7.0–8.0", size: "до 12 см" },
+      { name: "Расбора", latin: "Trigonostigma heteromorpha", desc: "Стайная.", category: "peaceful", difficulty: "Новичкам", minVolume: "20 л", temp: "24–26°C", water: "pH 5.0–7.5", size: "до 4 см" },
+      { name: "Лялиус", latin: "Colisa lalia", desc: "Красивый гурами.", category: "peaceful", difficulty: "Новичкам", minVolume: "40 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 5 см" },
+      { name: "Гурами жемчужный", latin: "Trichopodus leerii", desc: "Спокойный.", category: "peaceful", difficulty: "Средне", minVolume: "80 л", temp: "23–28°C", water: "pH 6.0–8.0", size: "до 11 см" },
+      { name: "Апистограмма", latin: "Apistogramma cacatuoides", desc: "Карликовая цихлида.", category: "peaceful", difficulty: "Средне", minVolume: "54 л", temp: "24–28°C", water: "pH 6.0–7.0", size: "до 7 см" },
+      { name: "Дискус", latin: "Symphysodon", desc: "Королевская цихлида.", category: "peaceful", difficulty: "Профи", minVolume: "300 л", temp: "26–30°C", water: "pH 6.0–7.0", size: "до 20 см" },
+      { name: "Акулий Балу", latin: "Balantiocheilos melanopterus", desc: "Крупная стайная.", category: "peaceful", difficulty: "Средне", minVolume: "300 л", temp: "22–26°C", water: "pH 6.5–7.5", size: "до 35 см" },
+      { name: "Коридорас", latin: "Corydoras panda", desc: "Донный сомик.", category: "bottom", difficulty: "Новичкам", minVolume: "40 л", temp: "22–26°C", water: "pH 6.0–7.0", size: "до 5 см" },
+      { name: "Анциструс", latin: "Ancistrus", desc: "Сом-присоска.", category: "bottom", difficulty: "Новичкам", minVolume: "90 л", temp: "24–28°C", water: "pH 6.0–8.0", size: "до 15 см" },
+      { name: "Отоцинклюс", latin: "Otocinclus affinis", desc: "Маленький сомик.", category: "bottom", difficulty: "Новичкам", minVolume: "30 л", temp: "22–26°C", water: "pH 6.0–7.5", size: "до 4 см" },
+      { name: "Торакатум", latin: "Hoplosternum thoracatum", desc: "Мирный сомик.", category: "bottom", difficulty: "Средне", minVolume: "80 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 18 см" },
+      { name: "Платидорас", latin: "Platydoras armatulus", desc: "Полосатый сомик.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 20 см" },
+      { name: "Боция Клоун", latin: "Chromobotia macracanthus", desc: "Активная рыбка.", category: "bottom", difficulty: "Средне", minVolume: "300 л", temp: "24–26°C", water: "pH 6.0–7.0", size: "до 30 см" },
+      { name: "Макрогнатус", latin: "Macrognathus", desc: "Аквариумный угорь.", category: "bottom", difficulty: "Средне", minVolume: "100 л", temp: "22–26°C", water: "pH 6.5–7.0", size: "до 40 см" },
+      { name: "Астронотус", latin: "Astronotus ocellatus", desc: "Крупная цихлида.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 35 см" },
+      { name: "Пиранья обыкновенная", latin: "Pygocentrus nattereri", desc: "Стайный хищник.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 30 см" },
+      { name: "Пиранья чёрная", latin: "Serrasalmus rhombeus", desc: "Одиночный хищник.", category: "predator", difficulty: "Профи", minVolume: "300 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 40 см" },
+      { name: "Ктенопома леопардовая", latin: "Ctenopoma acutirostre", desc: "Африканская цихлида.", category: "predator", difficulty: "Средне", minVolume: "100 л", temp: "24–28°C", water: "pH 6.0–7.5", size: "до 15 см" },
+      { name: "Краснохвостый сом", latin: "Phractocephalus hemioliopterus", desc: "Гигант с красным хвостом.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "21–26°C", water: "pH 6.0–7.5", size: "до 130 см" },
+      { name: "Панцирная щука", latin: "Lepisosteus", desc: "Древний хищник.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "20–26°C", water: "pH 6.5–8.0", size: "до 100 см" },
+      { name: "Индийский нож", latin: "Chitala chitala", desc: "Ночной хищник.", category: "predator", difficulty: "Профи", minVolume: "1000 л", temp: "24–28°C", water: "pH 6.5–7.5", size: "до 100 см" },
+      { name: "Аксолотль", latin: "Ambystoma mexicanum", desc: "Амфибия.", category: "peaceful", difficulty: "Профи", minVolume: "40–50 л", temp: "16–20°C", water: "pH 6.5–7.5", size: "до 30 см" },
+      { name: "Тритон", latin: "Triturus", desc: "Амфибия.", category: "peaceful", difficulty: "Профи", minVolume: "60+ л", temp: "18–22°C", water: "pH 6.5–7.5", size: "до 15 см" }
     ];
 
-    const plantData = [{ name: "Анубиас", desc: "Прирастает к камням." }, { name: "Криптокорина", desc: "Любит тень." }];
+    const plantData = [
+      { name: "Анубиас", desc: "Медленнорастущий, для среднего плана. Не заглублять корневище в грунт (иначе загниет), примотать леской к камню/коряге. Теневыносливый." },
+      { name: "Валлиснерия", desc: "Быстрорастущее, для этапа запуска. Хорошо смотрится на заднем плане." },
+      { name: "Мхи", desc: "Создают красивые шапки, но нуждаются в хорошей фильтрации и стрижке." },
+      { name: "Папоротник тайландский", desc: "Лучше высаживать через 3-4 месяца после запуска (не в свежую банку)." },
+      { name: "Людвигия", desc: "Предпочитает яркий свет и незаиленный грунт." }
+    ];
 
     const diseaseData = [
       { name: "Ихтиофтириоз (Манка)", symptoms: "белые точки, крупинки, налет, белые пятна", treat: "28-30°C + Sera Omnipur" },
@@ -351,7 +356,7 @@
           '<div class="card-body">' +
             '<div class="card-title">' + fish.name + '</div>' +
             '<div class="card-desc">' + fish.latin + '</div>' +
-            '<div class="card-desc" style="color:#e63946; font-weight:bold; font-size:0.8rem; margin-bottom:10px;">' + (fish.difficulty || '') + '</div>' +
+            '<div class="card-desc" style="color:#e63946; font-weight:bold; font-size:0.8rem; margin-bottom:10px;">' + (fish.difficulty || '') + ' • ' + (fish.size || '') + '</div>' +
             '<button class="btn-view">Подробнее</button>' +
           '</div></article>';
       }).join("");
@@ -399,7 +404,7 @@
       document.getElementById("modalPhoto").innerHTML = fishPhotoHTML(f, index);
       document.getElementById("modalName").textContent = f.name;
       document.getElementById("modalLatin").textContent = f.latin;
-      document.getElementById("modalDesc").textContent = f.desc;
+      document.getElementById("modalDesc").textContent = f.desc + (f.size ? " (Размер: " + f.size + ")" : "");
       document.getElementById("modalMinVol").textContent = f.minVolume || "—";
       document.getElementById("modalTemp").textContent = f.temp;
       document.getElementById("modalWater").textContent = f.water;
