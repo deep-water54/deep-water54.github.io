@@ -42,23 +42,25 @@
     .card { background: white; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: 0.2s; }
     .card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--red); }
     
-    /* ЖЕСТКИЕ ПРАВИЛА ДЛЯ КАРТИНОК, ЧТОБЫ НИЧЕГО НЕ СЪЕЗЖАЛО */
+    /* ЖЕСТКИЕ ПРАВИЛА ДЛЯ КАРТИНОК */
     .card-img { 
       height: 180px; 
       background: #f0f0f0; 
       position: relative; 
       overflow: hidden; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .card-img img { 
       width: 100%; 
       height: 100%; 
       object-fit: cover; 
       display: block; 
+      position: absolute;
+      top: 0; left: 0;
     }
     .card-img svg { 
-      position: absolute; 
-      top: 50%; left: 50%; 
-      transform: translate(-50%, -50%); 
       width: 80px; height: 80px; 
       filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); 
     }
@@ -70,7 +72,6 @@
 
     .info-block { background: white; border: 1px solid var(--line); border-radius: var(--radius); padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,.02); }
     .info-block h3 { margin-top: 0; color: var(--ocean); border-bottom: 2px solid var(--aqua); padding-bottom: 10px; display: inline-block; font-size: 1.4rem; }
-    .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 4px; margin: 15px 0; }
     
     .calc-box { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; background: #eaf6f3; padding: 20px; border-radius: var(--radius); border: 1px solid #ccebe2; margin-top: 20px; }
     .calc-box input { padding: 10px; border: 1px solid var(--line); border-radius: 8px; width: 100px; font-size: 1rem; }
@@ -90,9 +91,9 @@
     .modal-overlay.open .modal { transform: translateY(0); }
     .modal-close { position: absolute; top: 20px; right: 20px; border: 0; background: #eee; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; }
     .modal-head { display: flex; gap: 20px; align-items: center; margin-bottom: 20px; }
-    .modal-head-img { width: 100px; height: 100px; background: #f0f0f0; border-radius: 12px; display: grid; place-items: center; overflow: hidden; }
+    .modal-head-img { width: 100px; height: 100px; background: #f0f0f0; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
     .modal-head-img svg { width: 70px; height: 70px; }
-    .modal-head-img img { width: 100%; height: 100%; object-fit: cover; }
+    .modal-head-img img { width: 100%; height: 100%; object-fit: cover; position: absolute; top:0; left:0; }
     .modal-head-text h2 { margin: 0; font-size: 1.8rem; word-break: break-word; }
     .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
     .info-box { background: #f9f9f9; padding: 15px; border-radius: 12px; }
@@ -187,7 +188,7 @@
     
     <div class="grid">
       <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img" style="font-size:4rem; position:static; display:grid;">🦠</div>
+        <div class="card-img" style="font-size:4rem; position:static; display:flex;">🦠</div>
         <div class="card-body">
           <div class="card-title">Ихтиофтириоз (Манка)</div>
           <p><strong>Кто болеет:</strong> Неоны, тетры, петушки.</p>
@@ -195,7 +196,7 @@
         </div>
       </div>
       <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img" style="font-size:4rem; position:static; display:grid;">🍂</div>
+        <div class="card-img" style="font-size:4rem; position:static; display:flex;">🍂</div>
         <div class="card-body">
           <div class="card-title">Плавниковая гниль</div>
           <p><strong>Кто болеет:</strong> Петушки, гурами.</p>
@@ -203,7 +204,7 @@
         </div>
       </div>
       <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img" style="font-size:4rem; position:static; display:grid;">🌫️</div>
+        <div class="card-img" style="font-size:4rem; position:static; display:flex;">🌫️</div>
         <div class="card-body">
           <div class="card-title">Оодиниоз («Бархатная»)</div>
           <p><strong>Кто болеет:</strong> Гуппи, меченосцы.</p>
@@ -211,7 +212,7 @@
         </div>
       </div>
       <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img" style="font-size:4rem; position:static; display:grid;">👁️</div>
+        <div class="card-img" style="font-size:4rem; position:static; display:flex;">👁️</div>
         <div class="card-body">
           <div class="card-title">Помутнение глаз</div>
           <p><strong>Причина:</strong> Бактериальная инфекция.</p>
@@ -219,7 +220,7 @@
         </div>
       </div>
       <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img" style="font-size:4rem; position:static; display:grid;">☠️</div>
+        <div class="card-img" style="font-size:4rem; position:static; display:flex;">☠️</div>
         <div class="card-body">
           <div class="card-title">Аммиачное отравление</div>
           <p><strong>Кто болеет:</strong> Любые рыбы в новом аквариуме.</p>
@@ -227,7 +228,7 @@
         </div>
       </div>
       <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img" style="font-size:4rem; position:static; display:grid;">🫧</div>
+        <div class="card-img" style="font-size:4rem; position:static; display:flex;">🫧</div>
         <div class="card-body">
           <div class="card-title">Грибок</div>
           <p><strong>Кто болеет:</strong> Рыбы с травмами.</p>
@@ -235,7 +236,7 @@
         </div>
       </div>
       <div class="card" style="cursor: default; border-color: #e63946;">
-        <div class="card-img" style="font-size:4rem; position:static; display:grid;">💚</div>
+        <div class="card-img" style="font-size:4rem; position:static; display:flex;">💚</div>
         <div class="card-body">
           <div class="card-title">Цветение воды</div>
           <p><strong>Причина:</strong> Избыток света.</p>
@@ -243,7 +244,7 @@
         </div>
       </div>
       <div class="card" style="cursor: default; border-color: #2a9d8f;">
-        <div class="card-img" style="font-size:4rem; position:static; display:grid;">🌱</div>
+        <div class="card-img" style="font-size:4rem; position:static; display:flex;">🌱</div>
         <div class="card-body">
           <div class="card-title">Черные пятна на листьях</div>
           <p><strong>Причина:</strong> Повреждение корней.</p>
@@ -251,7 +252,7 @@
         </div>
       </div>
       <div class="card" style="cursor: default; border-color: #2a9d8f;">
-        <div class="card-img" style="font-size:4rem; position:static; display:grid;">🌿</div>
+        <div class="card-img" style="font-size:4rem; position:static; display:flex;">🌿</div>
         <div class="card-body">
           <div class="card-title">Черная борода</div>
           <p><strong>Причина:</strong> Органика + течение.</p>
@@ -396,7 +397,6 @@
       if (!file) return svg;
       return '<img src="' + wikiUrl(file) + '" alt="' + fish.name + '" ' +
              'referrerpolicy="no-referrer" loading="lazy" ' +
-             'style="width:100%;height:100%;object-fit:cover;display:block" ' +
              'onerror="imgFallback(this,' + idx + ')">';
     }
 
@@ -517,7 +517,7 @@
     function renderPlants() {
       plantGrid.innerHTML = plantData.map(function(plant, i) {
         return '<article class="card" onclick="openPlantModal(' + i + ')">' +
-          '<div class="card-img" style="font-size:4rem; position:static; display:grid;">🌿</div>' +
+          '<div class="card-img" style="font-size:4rem; position:static; display:flex;">🌿</div>' +
           '<div class="card-body">' +
             '<div class="card-title">' + plant.name + '</div>' +
             '<div class="card-desc">' + plant.desc + '</div>' +
